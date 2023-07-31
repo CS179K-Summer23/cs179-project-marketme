@@ -1,0 +1,7 @@
+This folder houses all the historical burndown charts.
+
+The versioning protocol is as follows:
+
+V X.Y
+
+Where 'X' represents the current week and 'Y' denotes the current day.
