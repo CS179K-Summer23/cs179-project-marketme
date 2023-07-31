@@ -1,0 +1,4 @@
+Test Case:
+The initial stage of the test involves initiating the tool and commencing the process of data manipulation - the inclusion of new elements, followed by their deletion. Subsequently, we verify if the newly removed items have indeed been eliminated and proceed to make updates before executing another verification.
+The core aspect of this test involves ensuring the successful operation of CRUD (Create, Read, Update, Delete) functionalities. Upon confirming this, we then conduct an edge test case. This part of the test is designed to investigate system responses when faced with invalid input scenarios, such as the insertion of empty strings or attempting to search for a product that is not available in the database.
+Finally, to test the system's data retention and recovery capacity, we terminate the application, and then re-initiate it. This is done to verify if the data manipulated during the session remains intact after a system restart.
