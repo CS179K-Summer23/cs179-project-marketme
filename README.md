@@ -54,6 +54,52 @@ MarketMe's IMS is a terminal software offering several essential features:
 8. **Inventory Filtering 🔍**: Sort inventory based on popularity, alphabetical order, etc.
 9. **Sale Restrictions ⛔**: Prohibit sales on certain items based on location, customer age, etc.
 
+# user stories
+
+1. **eCommerce API Integration 🌐**
+   - User Story: As a manager, I need to use the eCommerce API to fetch product information for testing the software features.
+   - Priority: High 10
+   - Estimated Cost: 3
+
+2. **Product Management 🛠️**
+   - User Story: As a manager, I want to manually input, delete, and update product information in our system.
+   - Priority: High 10
+   - Estimated Cost: 2
+
+3. **Barcode Integration 📸**
+   - User Story: As a store employee, I need to scan a product's barcode to quickly input or verify product information.
+   - Priority: High 8
+   - Estimated Cost: 3
+
+4. **Checkout System 💰**
+   - User Story: As a cashier, I need the system to calculate taxes based on zip codes, allow coupon codes, and update databases accordingly during checkout.
+   - Priority: High 7
+   - Estimated Cost: 4
+
+5. **Sales Report 📊**
+   - User Story: As a manager, I want to receive daily sales reports to keep track of business performance.
+   - Priority: High 6
+   - Estimated Cost: 2
+
+6. **Alert System 🔔**
+   - User Story: As a manager, I want the system to automatically alert me via email about sales/price changes, low stock, and approaching product expiration dates.
+   - Priority: Medium 5
+   - Estimated Cost: 2
+
+7. **Inventory Filtering 🔍**
+   - User Story: As a store employee, I need to filter inventory based on various criteria to easily manage and locate products.
+   - Priority: Medium 5
+   - Estimated Cost: 2
+
+8. **Sale Restrictions ⛔**
+   - User Story: As a manager, I want to set restrictions on sales of certain items based on location, customer age, etc., to comply with laws and regulations.
+   - Priority: Medium 5
+   - Estimated Cost: 3
+
+9. **Newsletter 🗞️**
+   - User Story: As a customer, I want to subscribe to a newsletter for regular updates and product recommendations.
+   - Priority: Low 2
+   - Estimated Cost: 1
 
 ## Additional Information 📌
 
