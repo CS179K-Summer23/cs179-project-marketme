@@ -30,14 +30,15 @@ Meet our fantastic team:
 
 Skills Required: 
 
-- Proficient in C++ programming language
-- Knowledge of API and UPCitemdb via HTTP request
-- Familiarity with JSON file management
+- Proficiency in C++ programming language
+- Knowledge of ESP API and UPCitemdb API via HTTP request
+- Familiarity with JSON library and file management
 - Understanding of encryption methods
 - Database knowledge acquired from the CS166 course or equivalent
 
 **Note:** While we welcome learning and skill development, we wish to focus on perfecting and utilizing our existing skills for efficient software development. 
 
+Programming Environment: Visual Studio Code
 
 ## Major features (Software Specifications) ⚙️
 
