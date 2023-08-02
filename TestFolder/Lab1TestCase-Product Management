@@ -15,14 +15,13 @@ JSON Structure Test
 
 Product Creation Function Test
 1. Test if the function correctly accepts and processes product information.
-2. Test the function with both valid and invalid inputs.
-3. Test if the function correctly adds new products to the 'database' JSON file.
+2. Test if the function does not take in duplicates.
 
 
 Product Deletion Function Test  
 1.   Test if the function correctly removes a product from the 'database' JSON file based on product ID.
 2.   Test the function with both valid and non-existing product IDs.
-3.   Test if the function leaves the database in a valid state after deleting a product.
+
 
 
 Product Update Function Test  

@@ -1,1 +1,16 @@
-
+{
+    "products": [
+        {
+            "count": 1000,
+            "description": "its a cream that is ice",
+            "name": "ice cream",
+            "price": 4.0
+        },
+        {
+            "count": 400,
+            "description": "its a dog in a hot",
+            "name": "hotdog",
+            "price": 11.0
+        }
+    ]
+}
