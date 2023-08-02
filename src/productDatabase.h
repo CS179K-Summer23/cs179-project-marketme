@@ -12,8 +12,8 @@ class productDatabase {
 public:
   productDatabase(const string &database) { _database = database; }
 
-  void addProduct(const Product &product);
-  void updateProduct(const Product &product);
+  void addProduct(Product &product);
+  void updateProduct(Product &product);
   void delProduct(const string &id);
   void viewProduct(const string &id);
 
@@ -21,7 +21,7 @@ private:
   string _database;
 };
 
-void productDatabase::addProduct(const Product &product) {
+void productDatabase::addProduct(Product &product) {
   // Validate input
   if (!product.validate()) {
     cout << "Product failed validation. Please check the input data!" << endl;
@@ -65,7 +65,7 @@ void productDatabase::addProduct(const Product &product) {
   outputFile << inventory.dump(4);
 }
 
-void productDatabase::updateProduct(const Product & product) {
+void productDatabase::updateProduct(Product & product) {
     // Validate input  
     if (!product.validate()) {
         cout << "Product failed validation. Please check the input data!" << endl;
