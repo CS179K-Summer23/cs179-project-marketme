@@ -5,6 +5,9 @@
 #include <fstream>
 #include "product.h"
 
+using namespace std;
+using json = nlohmann::json;
+
 class productDatabase{
 public:
     productDatabase(const string& database){
@@ -67,13 +70,14 @@ void productDatabase::delProduct(const string& name){
 
     bool foundProduct = false;
 
-    for(auto& product : inventory["products"]){
-        if(product["name"] == name){
+    for (auto it = inventory["products"].begin(); it != inventory["products"].end(); it++) {
+        if ((*it)["name"] == name) {
             foundProduct = true;
-            inventory["products"].erase(product);
-            break;
+            it = inventory["products"].erase(it); 
+            it++; 
         }
     }
+
 
     if(foundProduct){
         cout << "Product '" << name << "' has been removed from the inventory" << endl;
