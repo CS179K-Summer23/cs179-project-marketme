@@ -20,6 +20,14 @@ private:
 
 
 void productDatabase::addProduct(const Product& product){
+
+    // Validate input  
+    // FIX ME!! Should also validate the update function.
+    if (!product.validate()) {
+        cout << "Product failed validation. The product name cannot be empty, and price and count cannot be negative!" << endl;
+        return; // End Early
+    }
+    
     string inventoryPath = _database;
     
     //opens file of the products
