@@ -141,6 +141,7 @@ void productDatabase::delProduct(const string &id) {
     if ((*it)["id"] == id) {
       foundProduct = true;
       it = inventory["products"].erase(it);
+      it--;
       break;
     }
   }
