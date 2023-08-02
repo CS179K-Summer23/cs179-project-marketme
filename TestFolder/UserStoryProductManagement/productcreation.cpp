@@ -15,7 +15,7 @@ int main(){
 void correctAccept(){
     //adjust new product aasccordingly for right now
     // ID, NAME, DESCRIPTION, PRICE, QUANTITY, CATEGORY, SKU, BARCODE, EXPIRATIONDATE
-    Product newProduct("1234", "ice cream", "its a cream that is ice", 4.0, 1000, "food", "ABC123", "ABC123", "2023-12-31");
+    Product newProduct("12343", "ice cream", "its a cream that is ice", 4.0, 1000, "food", "ABC123", "ABC123", "2023-12-31");
     productDatabase manage("../../data/products.json");
 
     manage.addProduct(newProduct);
