@@ -7,14 +7,20 @@
 
 class productDatabase{
 public:
-    productDatabase(){}
-    void addProduct(const Product& product, const string& database);
+    productDatabase(const string& database){
+        _database = database;
+    }
+
+    void addProduct(const Product& product);
     void delProduct(const string& name);
+
+private:
+    string _database;
 };
 
 
-void productDatabase::addProduct(const Product& product, const string& database){
-    string inventoryPath = database;
+void productDatabase::addProduct(const Product& product){
+    string inventoryPath = _database;
     
     //opens file of the products
     ifstream inputFile(inventoryPath);
@@ -48,6 +54,36 @@ void productDatabase::addProduct(const Product& product, const string& database)
     //makes json pretty
     ofstream outputFile(inventoryPath);
     outputFile << inventory.dump(4);
+}
+
+void productDatabase::delProduct(const string& name){
+    string inventoryPath = _database;
+
+    ifstream inputFile(inventoryPath);
+
+    json inventory;
+    inputFile >> inventory;
+    inputFile.close();
+
+    bool foundProduct = false;
+
+    for(auto& product : inventory["products"]){
+        if(product["name"] == name){
+            foundProduct = true;
+            inventory["products"].erase(product);
+            break;
+        }
+    }
+
+    if(foundProduct){
+        cout << "Product '" << name << "' has been removed from the inventory" << endl;
+        ofstream outputFile(inventoryPath);
+        outputFile << inventory.dump(4);
+    }
+    else{
+        cout << "Product '" << name << "' does not exists in the inventory" << endl;
+    }
+
 }
 
 #endif

@@ -21,7 +21,7 @@ Product Creation Function Test
 Product Deletion Function Test  
 1.   Test if the function correctly removes a product from the 'database' JSON file based on product ID.
 2.   Test the function with both valid and non-existing product IDs.
-3.   Test if the function leaves the database in a valid state after deleting a product.
+
 
 
 Product Update Function Test  
