@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <fstream>
+#include <unordered_set>
 #include "../libraries/json.hpp"
 
 using namespace std;
@@ -41,7 +42,20 @@ void addProduct(const Product& product, const string& database){
     //puts json structure from file to json object
     json inventory;
     inputFile >> inventory;
+    inputFile.close();
 
+    //check to see if the product already exists in the inventory
+    unordered_set<string> existingProduct;
+
+    for (const auto& product : inventory["products"]) {
+        existingProduct.insert(product["name"]);
+    }
+
+    string productName = product._name;
+    if (existingProduct.find(productName) != existingProduct.end()) {
+        cout << "Product '" << productName << "' already exists." << endl;
+        return;
+    }
 
     //turns new product info to json
     json newProduct = product.toJson();
