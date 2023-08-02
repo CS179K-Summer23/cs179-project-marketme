@@ -62,14 +62,18 @@ void productDatabase::addProduct(const Product& product){
 void productDatabase::delProduct(const string& name){
     string inventoryPath = _database;
 
+    //opens file of the products
     ifstream inputFile(inventoryPath);
 
+    //puts json structure from file to json object
     json inventory;
     inputFile >> inventory;
     inputFile.close();
 
+
     bool foundProduct = false;
 
+    //looks for the product name and delete its object
     for (auto it = inventory["products"].begin(); it != inventory["products"].end(); it++) {
         if ((*it)["name"] == name) {
             foundProduct = true;
