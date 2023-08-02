@@ -11,20 +11,34 @@ using json = nlohmann::json;
 
 class Product {
 public: 
+    string _id;
     string _name;
-    double _price;
     string _description;
-    int _count;
+    double _price;
+    int _quantity;
+    string _category;
+    string _sku;
+    string _barcode;
+    string _expiration_date;  // Expiration date in "YYYY-MM-DD" format
 
-    Product(const string& name, double price, const string& description, int count){
+    Product(const string& id, const string& name, const string& description, double price, 
+            int quantity, const string& category, const string& sku, const string& barcode, 
+            const string& expiration_date) {
+        _id = id;
         _name = name;
-        _price = price;
         _description = description;
-        _count = count;
+        _price = price;
+        _quantity = quantity;
+        _category = category;
+        _sku = sku;
+        _barcode = barcode;
+        _expiration_date = expiration_date;
     }
 
     bool validate() const {
-        if(_name.empty() || _price < 0 || _count < 0){
+        // You may add more validations based on your business rules
+        if(_id.empty() || _name.empty() || _price < 0 || _quantity < 0 || 
+           _category.empty() || _sku.empty() || _barcode.empty() || _expiration_date.empty()) {
             return false;
         }
         if(_description.empty()){
@@ -35,10 +49,15 @@ public:
 
     json toJson() const {
         return {
+            {"id", _id},
             {"name", _name},
-            {"price", _price},
             {"description", _description},
-            {"count", _count}
+            {"price", _price},
+            {"quantity", _quantity},
+            {"category", _category},
+            {"sku", _sku},
+            {"barcode", _barcode},
+            {"expiration_date", _expiration_date}
         };
     }
 };
