@@ -12,8 +12,8 @@ class productDatabase {
 public:
   productDatabase(const string &database) { _database = database; }
 
-  void addProduct(const Product &product);
-  void updateProduct(const Product &product);
+  void addProduct(Product &product);
+  void updateProduct(Product &product);
   void delProduct(const string &name);
   void viewProduct(const string &name);
 
@@ -21,7 +21,7 @@ private:
   string _database;
 };
 
-void productDatabase::addProduct(const Product &product) {
+void productDatabase::addProduct(Product &product) {
 
   // Validate input
   if (!product.validate()) {
@@ -68,7 +68,7 @@ void productDatabase::addProduct(const Product &product) {
   outputFile << inventory.dump(4);
 }
 
-void productDatabase::updateProduct(const Product & product) {
+void productDatabase::updateProduct(Product & product) {
     // Validate input  
     if (!product.validate()) {
         cout << "Product failed validation. The product name cannot be empty, and price and count cannot be negative!" << endl;
@@ -144,6 +144,7 @@ void productDatabase::delProduct(const string &name) {
     if ((*it)["name"] == name) {
       foundProduct = true;
       it = inventory["products"].erase(it);
+      it--;
       break;
     }
   }

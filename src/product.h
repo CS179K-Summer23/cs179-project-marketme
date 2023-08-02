@@ -23,7 +23,7 @@ public:
         _count = count;
     }
 
-    bool validate() const {
+    bool validate(){
         if(_name.empty() || _price < 0 || _count < 0){
             return false;
         }
