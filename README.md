@@ -19,6 +19,7 @@ Meet our fantastic team:
 - Henry Pham: hpham096
 - Irene Wu: iwu021
 - Jason Diep: jdiep018
+- Chenlong Li: cli242
 
 
 ## Communications 📡
