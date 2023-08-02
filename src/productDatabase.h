@@ -1,97 +1,161 @@
 #ifndef PRODUCTDATABASE_H
 #define PRODUCTDATABASE_H
 
-#include <iostream>
-#include <fstream>
 #include "product.h"
+#include <fstream>
+#include <iostream>
 
 using namespace std;
 using json = nlohmann::json;
 
-class productDatabase{
+class productDatabase {
 public:
-    productDatabase(const string& database){
-        _database = database;
-    }
+  productDatabase(const string &database) { _database = database; }
 
-    void addProduct(const Product& product);
-    void delProduct(const string& name);
+  void addProduct(const Product &product);
+  void updateProduct(const Product &product);
+  void delProduct(const string &name);
+  void viewProduct(const string &name);
 
 private:
-    string _database;
+  string _database;
 };
 
+void productDatabase::addProduct(const Product &product) {
 
-void productDatabase::addProduct(const Product& product){
-    string inventoryPath = _database;
-    
-    //opens file of the products
-    ifstream inputFile(inventoryPath);
+  // Validate input
+  if (!product.validate()) {
+    cout << "Product failed validation. The product name cannot be empty, and "
+            "price and count cannot be negative!"
+         << endl;
+    return; // End Early
+  }
 
-    //puts json structure from file to json object
-    json inventory;
-    inputFile >> inventory;
-    inputFile.close();
+  string inventoryPath = _database;
 
-    //check to see if the product already exists in the inventory
-    unordered_set<string> existingProduct;
+  // opens file of the products
+  ifstream inputFile(inventoryPath);
 
-    for (const auto& product : inventory["products"]) {
-        existingProduct.insert(product["name"]);
-    }
+  // puts json structure from file to json object
+  json inventory;
+  inputFile >> inventory;
+  inputFile.close();
 
-    string productName = product._name;
-    if (existingProduct.find(productName) != existingProduct.end()) {
-        cout << "Product '" << productName << "' already exists." << endl;
-        return;
-    }
+  // check to see if the product already exists in the inventory
+  unordered_set<string> existingProduct;
 
-    //turns new product info to json
-    json newProduct = product.toJson();
+  for (const auto &product : inventory["products"]) {
+    existingProduct.insert(product["name"]);
+  }
 
-    //pushes new product into inventory json
-    inventory["products"].push_back(newProduct);
+  string productName = product._name;
+  if (existingProduct.find(productName) != existingProduct.end()) {
+    cout << "Product '" << productName << "' already exists." << endl;
+    return;
+  }
 
-    cout << "Product '" << productName << "' has been added to the inventory." << endl;
+  // turns new product info to json
+  json newProduct = product.toJson();
 
-    //makes json pretty
-    ofstream outputFile(inventoryPath);
-    outputFile << inventory.dump(4);
+  // pushes new product into inventory json
+  inventory["products"].push_back(newProduct);
+
+  cout << "Product '" << productName << "' has been added to the inventory."
+       << endl;
+
+  // makes json pretty
+  ofstream outputFile(inventoryPath);
+  outputFile << inventory.dump(4);
 }
 
-void productDatabase::delProduct(const string& name){
+void productDatabase::updateProduct(const Product & product) {
+    // Validate input  
+    if (!product.validate()) {
+        cout << "Product failed validation. The product name cannot be empty, and price and count cannot be negative!" << endl;
+        return; // End Early
+    }
+  
     string inventoryPath = _database;
 
-    //opens file of the products
     ifstream inputFile(inventoryPath);
 
-    //puts json structure from file to json object
     json inventory;
     inputFile >> inventory;
     inputFile.close();
-
 
     bool foundProduct = false;
 
-    //looks for the product name and delete its object
-    for (auto it = inventory["products"].begin(); it != inventory["products"].end(); it++) {
-        if ((*it)["name"] == name) {
+    for (auto & prod: inventory["products"]) {
+        if (prod["name"] == product._name) {
             foundProduct = true;
-            it = inventory["products"].erase(it); 
-            it--; 
+            prod["name"] = product._name;
+            prod["price"] = product._price;
+            prod["description"] = product._description;
+            prod["count"] = product._count;
+            break;
         }
     }
 
-
-    if(foundProduct){
-        cout << "Product '" << name << "' has been removed from the inventory" << endl;
+    if (foundProduct) {
+        cout << "Product '" << product._name << "' has been updated in the inventory" << endl;
         ofstream outputFile(inventoryPath);
         outputFile << inventory.dump(4);
+    } else {
+        cout << "Product '" << product._name << "' does not exist in the inventory" << endl;
     }
-    else{
-        cout << "Product '" << name << "' does not exists in the inventory" << endl;
-    }
+}
 
+
+void productDatabase::viewProduct(const string &name) {
+  string inventoryPath = _database;
+
+  ifstream inputFile(inventoryPath);
+
+  json inventory;
+  inputFile >> inventory;
+  inputFile.close();
+
+  for (const auto &product : inventory["products"]) {
+    if (product["name"] == name) {
+      cout << "Name: " << product["name"] << endl;
+      cout << "Price: " << product["price"] << endl;
+      cout << "Description: " << product["description"] << endl;
+      cout << "Count: " << product["count"] << endl;
+      return;
+    }
+  }
+
+  cout << "Product '" << name << "' does not exist in the inventory" << endl;
+}
+
+void productDatabase::delProduct(const string &name) {
+  string inventoryPath = _database;
+
+  ifstream inputFile(inventoryPath);
+
+  json inventory;
+  inputFile >> inventory;
+  inputFile.close();
+
+  bool foundProduct = false;
+
+  for (auto it = inventory["products"].begin();
+       it != inventory["products"].end(); ++it) {
+    if ((*it)["name"] == name) {
+      foundProduct = true;
+      it = inventory["products"].erase(it);
+      break;
+    }
+  }
+
+  if (foundProduct) {
+    cout << "Product '" << name << "' has been removed from the inventory"
+         << endl;
+    ofstream outputFile(inventoryPath);
+    outputFile << inventory.dump(4);
+  } else {
+    cout << "Product '" << name << "' does not exist in the inventory" << endl;
+  }
 }
 
 #endif
