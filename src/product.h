@@ -63,6 +63,8 @@ void addProduct(const Product& product, const string& database){
     //pushes new product into inventory json
     inventory["products"].push_back(newProduct);
 
+    cout << "Product '" << productName << "' has been added to the inventory." << endl;
+
     //makes json pretty
     ofstream outputFile(inventoryPath);
     outputFile << inventory.dump(4);
