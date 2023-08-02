@@ -4,21 +4,21 @@
 
 using namespace std;
 
-void removeCorrectly(const string& name);
-void invalidProductName(const string& name);
+void removeCorrectly(const string& id);
+void invalidProductName(const string& id);
 
 
 int main(){
-    removeCorrectly("hotdog");
-    invalidProductName("nothing");
+    removeCorrectly("1234");
+    invalidProductName("14124");
 }
 
-void removeCorrectly(const string& name){
+void removeCorrectly(const string& id){
     productDatabase manage("../../data/products.json");
-    manage.delProduct(name);
+    manage.delProduct(id);
 }
 
-void invalidProductName(const string& name){
+void invalidProductName(const string& id){
     productDatabase manage("../../data/products.json");
-    manage.delProduct(name);
+    manage.delProduct(id);
 }
