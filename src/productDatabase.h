@@ -13,7 +13,7 @@ public:
   productDatabase(const string &database) { _database = database; }
 
   void addProduct(Product &product);
-  void updateProduct(Product &product);
+  void updateProduct(const string&id, const string& option, const string& change);
   void delProduct(const string &id);
   void viewProduct(const string &id);
 
@@ -65,12 +65,8 @@ void productDatabase::addProduct(Product &product) {
   outputFile << inventory.dump(4);
 }
 
-void productDatabase::updateProduct(Product & product) {
+void productDatabase::updateProduct(const string&id, const string& option, const string& change) {
     // Validate input  
-    if (!product.validate()) {
-        cout << "Product failed validation. Please check the input data!" << endl;
-        return; // End Early
-    }
   
     string inventoryPath = _database;
 
@@ -83,19 +79,24 @@ void productDatabase::updateProduct(Product & product) {
     bool foundProduct = false;
 
     for (auto & prod: inventory["products"]) {
-        if (prod["id"] == product._id) {
+        if (prod["id"] == id) {
             foundProduct = true;
-            prod = product.toJson(); // update the whole product information
+            if(isdigit(prod[option])){
+                prod[option] = stoi(change);
+            }
+            else{
+                prod[option] = change;
+            }
             break;
         }
     }
 
     if (foundProduct) {
-        cout << "Product with ID '" << product._id << "' has been updated in the inventory" << endl;
+        cout << "Product with ID '" << id << "' has been updated in the inventory" << endl;
         ofstream outputFile(inventoryPath);
         outputFile << inventory.dump(4);
     } else {
-        cout << "Product with ID '" << product._id << "' does not exist in the inventory" << endl;
+        cout << "Product with ID '" << id << "' does not exist in the inventory" << endl;
     }
 }
 
