@@ -23,6 +23,16 @@ public:
         _count = count;
     }
 
+    bool validate() const {
+        if(_name.empty() || _price < 0 || _count < 0){
+            return false;
+        }
+        if(_description.empty()){
+            _description = "NA";
+        }
+        return true;
+    }
+
     json toJson() const {
         return {
             {"name", _name},
@@ -33,4 +43,4 @@ public:
     }
 };
 
-#endif //PRODUCT_H  
+#endif

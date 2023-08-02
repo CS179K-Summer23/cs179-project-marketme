@@ -16,41 +16,49 @@ class productDatabase {
   private: string _database;
 };
 
-void productDatabase::addProduct(const Product & product) {
-  string inventoryPath = _database;
+void productDatabase::addProduct(const Product& product){
 
-  //opens file of the products
-  ifstream inputFile(inventoryPath);
+    // Validate input  
+    // FIX ME!! Should also validate the update function.
+    if (!product.validate()) {
+        cout << "Product failed validation. The product name cannot be empty, and price and count cannot be negative!" << endl;
+        return; // End Early
+    }
+    
+    string inventoryPath = _database;
+    
+    //opens file of the products
+    ifstream inputFile(inventoryPath);
 
-  //puts json structure from file to json object
-  json inventory;
-  inputFile >> inventory;
-  inputFile.close();
+    //puts json structure from file to json object
+    json inventory;
+    inputFile >> inventory;
+    inputFile.close();
 
-  //check to see if the product already exists in the inventory
-  unordered_set < string > existingProduct;
+    //check to see if the product already exists in the inventory
+    unordered_set<string> existingProduct;
 
-  for (const auto & product: inventory["products"]) {
-    existingProduct.insert(product["name"]);
-  }
+    for (const auto& product : inventory["products"]) {
+        existingProduct.insert(product["name"]);
+    }
 
-  string productName = product._name;
-  if (existingProduct.find(productName) != existingProduct.end()) {
-    cout << "Product '" << productName << "' already exists." << endl;
-    return;
-  }
+    string productName = product._name;
+    if (existingProduct.find(productName) != existingProduct.end()) {
+        cout << "Product '" << productName << "' already exists." << endl;
+        return;
+    }
 
-  //turns new product info to json
-  json newProduct = product.toJson();
+    //turns new product info to json
+    json newProduct = product.toJson();
 
-  //pushes new product into inventory json
-  inventory["products"].push_back(newProduct);
+    //pushes new product into inventory json
+    inventory["products"].push_back(newProduct);
 
-  cout << "Product '" << productName << "' has been added to the inventory." << endl;
+    cout << "Product '" << productName << "' has been added to the inventory." << endl;
 
-  //makes json pretty
-  ofstream outputFile(inventoryPath);
-  outputFile << inventory.dump(4);
+    //makes json pretty
+    ofstream outputFile(inventoryPath);
+    outputFile << inventory.dump(4);
 }
 
 void productDatabase::updateProduct(const Product & product) {
