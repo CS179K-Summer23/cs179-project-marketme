@@ -96,8 +96,13 @@ MarketMe's IMS is a terminal software offering several essential features:
    - User Story: As a manager, I want to set restrictions on sales of certain items based on location, customer age, etc., to comply with laws and regulations.
    - Priority: Medium 5
    - Estimated Cost: 3
+     
+9. **User Profile**
+   - User Story: As a user, I want to be able to login as a manger or clerk to allow who can control what.
+   - Priority: Medium 4
+   - Estimated Cost: 2   
 
-9. **Newsletter 🗞️**
+10. **Newsletter 🗞️**
    - User Story: As a customer, I want to subscribe to a newsletter for regular updates and product recommendations.
    - Priority: Low 2
    - Estimated Cost: 1
