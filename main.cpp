@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include "src/mainmenuhelpers.h"
+#include "src/email.h"
 
 void displayMainMenu();
 void displayProductManagementMenu();
@@ -16,7 +17,8 @@ void handleCheckoutSystem();
 int main() {
   std::cout << "[Please be advised that all the functionalities in this system are still under development. This is day 3 since the project was established. -- MarketMe-Team]\n";
 	std::cout << "[Please interact with the system by keyboard only at the moment.]\n";
-  displayMainMenu();
+  //displayMainMenu();
+  sendEmail();
   return 0;
 }
 
