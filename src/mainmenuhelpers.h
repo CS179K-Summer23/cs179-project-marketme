@@ -8,7 +8,8 @@ void addNewProduct();
 void deleteProduct();
 void updateProduct();
 int acceptNumber(const string& prompt);
-
+void addMenu();
+void addBarcode();
 
 void addNewProduct(){
     productDatabase manage("data/products.json");
@@ -65,7 +66,6 @@ void deleteProduct(){
     manage.delProduct(productID);
 
 }
-
 
 void updateProduct(){
     string id;
@@ -151,7 +151,6 @@ void updateProduct(){
 
 }
 
-
 int acceptNumber(const string& prompt) {
     string input;
     int number;
@@ -172,4 +171,27 @@ int acceptNumber(const string& prompt) {
     }
 
     return number;
+}
+
+void addMenu(){
+    int temp = 0;
+    while(temp != 1 && temp != 2){
+        temp = acceptNumber("1. Product ID\n2. Barcode\n");
+        if(!(temp == 1 || temp == 2)){
+            cout << "Invalid option. Try again." << endl;
+        }
+    }
+    if(temp == 1){
+        addNewProduct();
+    }
+    else{
+        addBarcode();
+    }
+}
+
+void addBarcode(){
+    string barcode;
+    cout << "Please scan a barcode: ";
+    getline(cin, barcode);
+    cout << "Scanned barcode: " << barcode << endl;
 }
