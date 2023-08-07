@@ -1,15 +1,15 @@
 {
     "products": [
         {
-            "barcode": "BCD234",
+            "barcode": "123",
             "category": "food",
-            "description": "its a dog in a hot",
-            "expiration_date": "2023-12-31",
-            "id": "2345",
-            "name": "hotdog",
-            "price": 11.0,
-            "quantity": 400,
-            "sku": "BCD234"
+            "description": "123",
+            "expiration_date": "12-12-12",
+            "id": "321",
+            "name": "123",
+            "price": 123.0,
+            "quantity": 321,
+            "sku": "123"
         }
     ]
 }

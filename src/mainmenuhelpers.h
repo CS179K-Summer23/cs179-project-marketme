@@ -4,32 +4,43 @@
 
 using namespace std;
 
+void addNewProduct();
+void deleteProduct();
+void updateProduct();
+int acceptNumber(const string& prompt);
+
+
 void addNewProduct(){
+    productDatabase manage("data/products.json");
     string id, name, description, category, sku, barcode, expiration_date;
     int quantity;
     double price;
 
     cout << "ID: ";
     cin >> id;
+
+    if(manage.exists(id)){
+        cout << "ID already exists in the inventory" << endl;
+        return;
+    }
+
     cout << "Name: ";
-    cin >> name;
+    cin.ignore(); 
+    getline(cin, name);
     cout << "Description: ";
-    cin >> description;
+    getline(cin, description);
     cout << "Category: ";
-    cin >> category;
+    getline(cin, category);
     cout << "SKU: ";
     cin >> sku;
     cout << "Barcode: ";
     cin >> barcode;
     cout << "Expiration Date: ";
     cin >> expiration_date;
-    cout << "Quantity: ";
-    cin >> quantity;
-    cout << "Price: ";
-    cin >> price;
+    quantity = acceptNumber("Quantity");
+    price = acceptNumber("Price");
 
     Product newProduct(id, name, description, price, quantity, category, sku, barcode, expiration_date);
-    productDatabase manage("data/products.json");
     manage.addProduct(newProduct);
 }
 
@@ -50,7 +61,7 @@ void deleteProduct(){
     cout << "ID: ";
     cin >> productID;
 
-    productDatabase manage("data.products.json");
+    productDatabase manage("data/products.json");
     manage.delProduct(productID);
 
 }
@@ -61,59 +72,72 @@ void updateProduct(){
     int option;
     string whatoption;
     string change = "";
+    productDatabase manage("data/products.json");
 
     cout << "ID: ";
     cin >> id;
 
+    if(!manage.exists(id)){
+        cout << "ID does not exist in the inventory" << endl;
+        return;
+    }
+
     cout << "Choose an option " << endl;
     cout << "1. Name" << endl;
     cout << "2. Description" << endl;
-    cout << "3. Price" << endl;
-    cout << "4. Quantity" << endl;
-    cout << "5. SKU" << endl;
-    cout << "6. Barcode" << endl;
-    cout << "7. Expiration Date" << endl;
-    cout << "8. Cancel" << endl;
+    cout << "3. Category" << endl;
+    cout << "4. SKU" << endl;
+    cout << "5. Barcode" << endl;
+    cout << "6. Expiration Date" << endl;
+    cout << "7. Quantity" << endl;
+    cout << "8. Price" << endl;
+    cout << "9. Cancel" << endl;
     cin >> option;
 
-    switch(option){
+    switch (option) {
         case 1:
             cout << "New name: ";
-            cin >> change; 
+            cin.ignore();
+            getline(cin, change);
             whatoption = "name";
             break;
         case 2:
             cout << "New description: ";
-            cin >> change;
+            cin.ignore();
+            getline(cin, change);
             whatoption = "description";
             break;
         case 3:
-            cout << "New price: ";
-            cin >> change; 
-            whatoption = "price";
+            cout << "New category: ";
+            cin.ignore();
+            getline(cin, change);
+            whatoption = "category";
             break;
         case 4:
-            cout << "New quantity: ";
+            cout << "New SKU: ";
             cin >> change;
-            whatoption = "quantity";
+            whatoption = "SKU";
             break;
         case 5:
-            cout << "New SKU: ";
-            cin >> change; 
-            whatoption = "sku";
-            break;
-        case 6:
             cout << "New barcode: ";
             cin >> change;
             whatoption = "barcode";
             break;
-        case 7:
+        case 6:
             cout << "New expiration date: ";
-            cin >> change; 
+            cin >> change;
             whatoption = "expiration_date";
             break;
+        case 7:
+            change = to_string(acceptNumber("New quantity"));
+            whatoption = "quantity";
+            break;
         case 8:
-            cout << "Canceled";
+            change = to_string(acceptNumber("New price"));
+            whatoption = "price";
+            break;
+        case 9:
+            cout << "Canceled" << endl;
             break;
         default:
             cout << "Invalid Option" << endl;
@@ -121,9 +145,31 @@ void updateProduct(){
     }
 
     if(change != ""){
-        productDatabase manage("data/products.json");
         manage.updateProduct(id, whatoption, change);
     }
 
 
+}
+
+
+int acceptNumber(const string& prompt) {
+    string input;
+    int number;
+
+    while (true) {
+        cout << prompt << ": ";
+        cin >> input;
+        cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+
+        try {
+            number = stoi(input);
+            break; // If stoi() succeeds, exit the loop
+        } catch (const invalid_argument& e) {
+            cout << "Invalid input. Please enter a valid number." << endl;
+        } catch (const out_of_range& e) {
+            cout << "Invalid input. Number out of range." << endl;
+        }
+    }
+
+    return number;
 }

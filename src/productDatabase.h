@@ -16,6 +16,7 @@ public:
   void updateProduct(const string&id, const string& option, const string& change);
   void delProduct(const string &id);
   void viewProduct(const string &id);
+  bool exists(const string &id);
 
 private:
   string _database;
@@ -78,18 +79,24 @@ void productDatabase::updateProduct(const string&id, const string& option, const
 
     bool foundProduct = false;
 
-    for (auto & prod: inventory["products"]) {
-        if (prod["id"] == id) {
-            foundProduct = true;
-            if(isdigit(prod[option])){
-                prod[option] = stoi(change);
+    for (auto &prod : inventory["products"]) {
+      if (prod["id"] == id) {
+          foundProduct = true;
+          
+          if (prod[option].is_number()) {
+            if(option == "quantity"){
+              prod[option] = stoi(change);
             }
-            else{
-                prod[option] = change;
+            else if(option == "price"){
+              prod[option] = stod(change);
             }
-            break;
-        }
-    }
+          } else {
+            prod[option] = change;
+          }
+          break;
+      }
+  }
+
 
     if (foundProduct) {
         cout << "Product with ID '" << id << "' has been updated in the inventory" << endl;
@@ -155,6 +162,23 @@ void productDatabase::delProduct(const string &id) {
   } else {
     cout << "Product with ID '" << id << "' does not exist in the inventory" << endl;
   }
+}
+
+bool productDatabase::exists(const string &id){
+    string inventoryPath = _database;
+
+    ifstream inputFile(inventoryPath);
+
+    json inventory;
+    inputFile >> inventory;
+    inputFile.close();
+
+    for (const auto &product : inventory["products"]) {
+        if (product["id"] == id) {
+            return true; 
+        }
+    }
+    return false;
 }
 
 #endif
