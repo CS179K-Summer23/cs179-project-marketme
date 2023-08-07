@@ -10,6 +10,17 @@
             "price": 123.0,
             "quantity": 321,
             "sku": "123"
+        },
+        {
+            "barcode": "31",
+            "category": "12321",
+            "description": "213",
+            "expiration_date": "321",
+            "id": "213",
+            "name": "123",
+            "price": 13.0,
+            "quantity": 313,
+            "sku": "321"
         }
     ]
 }

@@ -66,7 +66,7 @@ void displayProductManagementMenu() {
   case 1:
     std::cout
         << "You chose to add a product.\n";
-    addNewProduct();
+    addMenu();
     displayProductManagementMenu();
     break;
   case 2:
