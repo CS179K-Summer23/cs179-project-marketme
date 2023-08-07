@@ -1,0 +1,21 @@
+Test Case Group: Registration and Login
+
+Register New User
+1.1. Register with valid information.
+1.2. Attempt registration with an already registered username.
+1.3. Attempt registration with spaces only for username and password.
+
+Login
+2.1. Log in with valid credentials.
+2.2. Attempt to log in with an unregistered username.
+2.3. Attempt to log in with a registered username but wrong password.
+
+Security and Encryption
+3.1. Check the stored JSON to ensure aser data is encrypted.
+3.2. Provide empty username and password during login (system should reject these).
+
+Session Management
+4.1. Ensure the session is terminated after the user logs out.
+
+Accessibility and Usability
+5.1. Check clarity of error messages provided to the user.
