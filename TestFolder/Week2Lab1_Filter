@@ -1,0 +1,31 @@
+Week2Lab1 Filter
+
+
+Filter by category
+1.1. Input a valid category that already exists inside the inventory
+1.2. Input an invalid category that isn't in the inventory already
+
+Filter by price 
+2.1. Input a price that exists in the inventory
+2.2. Input a price that no products has
+2.3. Input a price range that includes multiple products from the inventory.
+
+Filter by Expiration Date
+3.1. Input an expiration range that is in the inventory
+3.2. Input an expiration range that is not in the inventory
+3.3. Input an expiration range that spans across multiple products in the inventory.
+
+Filter by name alphabetically:
+4.1. Input a valid starting letter for the product name that matches products in the inventory.
+4.2. Input an invalid starting letter for the product name (a letter that doesn't correspond to any products).
+4.3. Input a valid starting letter for the product name, but use uppercase to check case sensitivity.
+
+Filter by quantity range:
+5.1. Input a valid quantity range that matches products in the inventory.
+5.2. Input an invalid quantity range (e.g., lower limit higher than upper limit).
+5.3. Input a quantity range that only has one product (lower and upper limits are the same).
+
+
+
+
+
