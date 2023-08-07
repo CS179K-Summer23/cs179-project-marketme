@@ -1,0 +1,23 @@
+Test Case Group: Product Management (Barcode)
+
+Add Product
+1.1. Add a product by typing in the barcode and other valid details.
+1.2. Add a product by scanning the barcode directly.
+1.3. Attempt to add a product with an already registered barcode. - warning should show up
+1.4. Attempt to add a product with an invalid barcode (not in any recognized format). - should not be able to scan
+
+Update Product
+2.1. Update a product's details by typing in its barcode.
+2.2. Update a product's details by scanning its barcode directly.
+2.3. Attempt to update a product with an unregistered barcode. - warning should show up
+
+View Product
+3.1. View a product's details by typing in its barcode.
+3.2. View a product's details by scanning its barcode directly.
+3.3. Attempt to view a product with an unregistered barcode. - warning should show up
+
+Checkout Process
+4.1. Checkout a product by typing its barcode.
+4.2. Checkout a product by scanning its barcode directly.
+4.3. Attempt to checkout more quantity than is available. - warning should show up
+4.4. Attempt to checkout a product with an unregistered barcode. - warning should show up 
