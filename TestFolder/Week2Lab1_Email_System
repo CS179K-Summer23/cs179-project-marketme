@@ -1,0 +1,27 @@
+Alert System (Email) 🔔
+
+Sales/Price Changes
+1.1. Price increases for a product - alert triggered.
+1.2. Price decreases for a product - alert triggered.
+1.3. Price remains unchanged - no alert.
+
+Low Stock
+2.1. Product stock drops below threshold - alert triggered.
+2.2. Product stock is at threshold - alert triggered.
+2.3. Product stock is above threshold - no alert.
+
+Impending Expiration Dates
+3.1. Product expiration date approaching (e.g., within a week) - alert triggered.
+3.2. Product expiration date not close - no alert.
+3.3. Product has already expired - alert triggered.
+
+Regular Updates for Subscribers
+4.1. Subscriber receives a newsletter on a set schedule.
+4.2. Non-subscriber doesn’t receive a newsletter.
+4.3. Subscriber opts out and stops receiving the newsletter.
+
+
+Condition-Based Email Triggers
+5.1. Set a condition (e.g., 50% price drop) - email triggered when met.
+5.2. Condition isn't met - no email sent.
+5.3. Multiple conditions are met at once - email combines alerts.
