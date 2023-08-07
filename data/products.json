@@ -1,10 +1,15 @@
 {
     "products": [
         {
-            "count": 1000,
-            "description": "its a cream that is ice",
-            "name": "ice cream",
-            "price": 4.0
+            "barcode": "123",
+            "category": "food",
+            "description": "123",
+            "expiration_date": "12-12-12",
+            "id": "321",
+            "name": "123",
+            "price": 123.0,
+            "quantity": 321,
+            "sku": "123"
         }
     ]
 }

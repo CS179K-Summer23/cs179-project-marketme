@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include "src/mainmenuhelpers.h"
 
 void displayMainMenu();
 void displayProductManagementMenu();
@@ -64,17 +65,18 @@ void displayProductManagementMenu() {
   switch (choice) {
   case 1:
     std::cout
-        << "You chose to add a product. (This functionality is not yet implemented, please be patience.)\n";
+        << "You chose to add a product.\n";
+    addNewProduct();
     displayProductManagementMenu();
     break;
   case 2:
-    std::cout << "You chose to delete a product. (Functionality not yet "
-                 "implemented.)\n";
+    std::cout << "You chose to delete a product.\n";
+    deleteProduct();
     displayProductManagementMenu();
     break;
   case 3:
-    std::cout << "You chose to update a product. (Functionality not yet "
-                 "implemented.)\n";
+    std::cout << "You chose to update a product.\n";
+    updateProduct();
     displayProductManagementMenu();
     break;
   case 4:
