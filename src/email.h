@@ -17,7 +17,7 @@ const string ACCESS_TOKEN = "ya29.a0AfB_byD1nu0rfNHJ1vy_6SkqXobig80OWXDlkluYcc0F
 
 const string COMMAND = "curl -X POST -H \"Authorization: Bearer " + ACCESS_TOKEN +
                         "\" -H \"Content-Type: application/json\" -d '" +
-                        "{ \"raw\": \"RAW_EMAI_CONTENT_BASE64_ENCDED\" }' https://gmail.googleapis.com/gmail/v1/users/me/messages/send";
+                        "{ \"raw\": \"RAW_EMAIL_CONTENT_BASE64_ENCODED\" }' https://gmail.googleapis.com/gmail/v1/users/me/messages/send";
 
 void sendEmail(){
     int result = system(COMMAND.c_str());
