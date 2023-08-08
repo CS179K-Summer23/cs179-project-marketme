@@ -3,31 +3,43 @@
 
 #include <iostream>
 #include <cstdlib>
+#include <string>
 
 using namespace std;
 
-const string SENDER = "hpham096@ucr.edu";
-const string RECIPIENT = "phry.ham24@gmail.com";
-const string SUBJECT = "TEST";
-const string body = "testing...........";
+// using CHAT GPT template to test sending email API
 
-const string CREDENTIALS_PATH = "../data/credentials.json";
-const string ACCESS_TOKEN = "ya29.a0AfB_byD1nu0rfNHJ1vy_6SkqXobig80OWXDlkluYcc0F6vryzflAfQ2qqeZs3mf2ON_d-XqF7iLKR_SO5IbjKsY2TG_O0PVupRvrfDP_3STin-zeGkAPZGGvEhMghOSfYmtlEPfzNc8aJPAerYmsHq9y18ZLanUaCgYKAU0SARESFQHsvYlszZ6C16Y6p7i1seOEIzEl3A0166";
-                             // need to change this on playgrund every 3600 seconds
+const string COMMAND_BASE = "curl -X POST -H \"Authorization: Bearer ";
+const string API_ENDPOINT = "https://gmail.googleapis.com/gmail/v1/users/me/messages/send";
 
-const string COMMAND = "curl -X POST -H \"Authorization: Bearer " + ACCESS_TOKEN +
-                        "\" -H \"Content-Type: application/json\" -d '" +
-                        "{ \"raw\": \"RAW_EMAIL_CONTENT_BASE64_ENCODED\" }' https://gmail.googleapis.com/gmail/v1/users/me/messages/send";
+// Function to send the email using the Gmail API
+void sendEmail(const string& accessToken, const string& rawEmailContentBase64) {
+    string command = COMMAND_BASE + accessToken +
+                     "\" -H \"Content-Type: application/json\" -d '"
+                     "{ \"raw\": \"" + rawEmailContentBase64 + "\" }' " + API_ENDPOINT;
 
-void sendEmail(){
-    int result = system(COMMAND.c_str());
-    
+    int result = system(command.c_str());
+
     if (result == 0) {
         cout << "Email sent successfully." << endl;
-    }
-    else {
+    } else {
         cerr << "Failed to send email." << endl;
     }
+}
+
+int main() {
+    const string ACCESS_TOKEN = "YOUR_ACCESS_TOKEN"; // Replace with access token from google playground
+    string email_content = R"(
+To: recipient@example.com
+Subject: Test Email
+
+This is a test email sent via Gmail API.
+)"
+    string base64_encoded_content = base64_encode(reinterpret_cast<const unsigned char*>(email_content.c_str()), email_content.length()); 
+
+    sendEmail(ACCESS_TOKEN, base64_encoded_content);
+
+    return 0;
 }
 
 #endif
