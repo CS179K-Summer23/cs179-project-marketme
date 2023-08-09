@@ -1,5 +1,9 @@
 #include <iostream>
+
 #include <string>
+
+#include <algorithm>
+
 #include "src/mainmenuhelpers.h"
 
 void displayMainMenu();
@@ -11,11 +15,11 @@ void handleProductManagement();
 void handleSearch();
 void handleFilter();
 void handleEmailOperations();
-void handleCheckoutSystem();
+void CheckoutSystem();
 
 int main() {
   std::cout << "[Please be advised that some functions are not yet supported! -- MarketMe-Team]\n";
-	std::cout << "[This Version Supports Scanner]\n";
+  std::cout << "[This Version Supports Scanner]\n";
   displayMainMenu();
   return 0;
 }
@@ -41,7 +45,7 @@ void displayMainMenu() {
     handleEmailOperations();
     break;
   case 4:
-    handleCheckoutSystem();
+    CheckoutSystem();
     break;
   case 5:
     std::cout << "Exiting the system...\n";
@@ -101,20 +105,20 @@ void displaySearchMenu() {
   case 1:
     std::cout << "Enter Product ID: ";
     std::cin >> searchQuery;
-    std::cout
-        << "Searching by Product ID. (This functionality is not yet implemented, please be patience.)\n";
+    std::cout <<
+      "Searching by Product ID. (This functionality is not yet implemented, please be patience.)\n";
     displaySearchMenu();
     break;
   case 2:
     std::cout << "Enter Product Name: ";
     std::cin >> searchQuery;
-    std::cout
-        << "Searching by Product Name. (This functionality is not yet implemented, please be patience.)\n";
+    std::cout <<
+      "Searching by Product Name. (This functionality is not yet implemented, please be patience.)\n";
     displaySearchMenu();
     break;
   case 3:
-    std::cout
-        << "Please scan the barcode. (This functionality is not yet implemented, please be patience.)\n";
+    std::cout <<
+      "Please scan the barcode. (This functionality is not yet implemented, please be patience.)\n";
     displaySearchMenu();
     break;
   case 4:
@@ -139,15 +143,15 @@ void displayFilterMenu() {
   case 1:
     std::cout << "Enter Price Range (e.g., 10-20): ";
     std::cin >> filterQuery;
-    std::cout
-        << "Filtering by Price Range. (This functionality is not yet implemented, please be patience.)\n";
+    std::cout <<
+      "Filtering by Price Range. (This functionality is not yet implemented, please be patience.)\n";
     displayFilterMenu();
     break;
   case 2:
     std::cout << "Enter Category: ";
     std::cin >> filterQuery;
-    std::cout
-        << "Filtering by Category. (This functionality is not yet implemented, please be patience.)\n";
+    std::cout <<
+      "Filtering by Category. (This functionality is not yet implemented, please be patience.)\n";
     displayFilterMenu();
     break;
   case 3:
@@ -170,13 +174,13 @@ void displayEmailMenu() {
   std::cin >> choice;
   switch (choice) {
   case 1:
-    std::cout
-        << "Subscribing to Newsletter. (This functionality is not yet implemented, please be patience.)\n";
+    std::cout <<
+      "Subscribing to Newsletter. (This functionality is not yet implemented, please be patience.)\n";
     displayEmailMenu();
     break;
   case 2:
     std::cout << "Unsubscribing from Newsletter. (Functionality not yet "
-                 "implemented.)\n";
+    "implemented.)\n";
     displayEmailMenu();
     break;
   case 3:
@@ -192,16 +196,150 @@ void displayEmailMenu() {
   }
 }
 
-void handleProductManagement() { displayProductManagementMenu(); }
+void handleProductManagement() {
+  displayProductManagementMenu();
+}
 
-void handleSearch() { displaySearchMenu(); }
+void handleSearch() {
+  displaySearchMenu();
+}
 
-void handleFilter() { displayFilterMenu(); }
+void handleFilter() {
+  displayFilterMenu();
+}
 
-void handleEmailOperations() { displayEmailMenu(); }
+void handleEmailOperations() {
+  displayEmailMenu();
+}
 
-void handleCheckoutSystem() {
-  std::cout
-      << "You chose Checkout System. (This functionality is not yet implemented, please be patience.)\n";
+void CheckoutSystem() {
+  productDatabase manage("data/products.json");
+  string barcode, productId;
+  double total = 0.0;
+  vector < pair < Product, int >> cart; // Pair of Product and Quantity
+
+  cout << "Scan or enter product details (or type :DONE or :D to finish): ";
+  cin.ignore(numeric_limits < streamsize > ::max(), '\n');
+  getline(cin, barcode);
+
+  if (barcode == ":DONE" || barcode == ":D") {
+    displayMainMenu(); // END EARLY
+    return;
+  }
+
+  while (true) {
+    if (barcode == ":DONE" || barcode == ":D") {
+      break;
+    }
+
+    productId = manage.getProductIDByBarcode(barcode);
+
+    if (productId.empty()) {
+      cout << "Enter Product ID: ";
+      cin >> productId;
+      cin.ignore();
+    }
+
+    if (!manage.exists(productId)) {
+      cout << "Product not found or out of stock!" << endl;
+    } else {
+      Product product = manage.getProductDetailsByID(productId);
+      cout << "Scanned Product: " << product.getName() << " | Price: $" << product.getPrice() << endl;
+
+      int quantity = 1; // Default quantity
+      cout << "Type 'U' to manually update the quantity or scan the next product: ";
+      string choice;
+      getline(cin, choice);
+
+      if (choice == "U" || choice == "u") {
+        cout << "Enter quantity: ";
+        cin >> quantity;
+        cin.ignore();
+      } else {
+        cart.push_back({
+          product,
+          quantity
+        });
+        total += product.getPrice() * quantity;
+        cout << "Added to cart: " << product.getName() << " x" << quantity << " = $" << product.getPrice() * quantity << endl;
+        barcode = choice; // Treat choice as the next barcode
+        continue; // Skip the rest of the loop and process the new barcode
+      }
+
+      int availableQuantity = manage.getProductQuantityByID(productId);
+      if (quantity > availableQuantity) {
+        cout << "Not enough stock. Available quantity: " << availableQuantity << endl;
+      } else {
+        cart.push_back({
+          product,
+          quantity
+        });
+        total += product.getPrice() * quantity;
+        cout << "Added to cart: " << product.getName() << " x" << quantity << " = $" << product.getPrice() * quantity << endl;
+      }
+    }
+
+    cout << "Scan or enter product details (or type :DONE or :D to finish): ";
+    getline(cin, barcode);
+  }
+
+  // Display cart
+  sort(cart.begin(), cart.end(), [](const pair < Product, int > & a,
+    const pair < Product, int > & b) {
+    return a.first.getName() < b.first.getName();
+  });
+
+  cout << "\nYour Cart:\n";
+  int counter = 1;
+  for (const auto & item: cart) {
+    cout << counter++ << ". " << item.first.getName() << " ____________________$" << item.first.getPrice() * item.second << endl;
+  }
+
+  cout << "\nTotal: $" << total << endl;
+
+  // Coupon code
+  cout << "Enter coupon code (or press Enter to skip): ";
+  string coupon;
+  getline(cin, coupon);
+
+  if (!coupon.empty()) {
+    json coupons;
+    ifstream couponFile("coupons.json");
+    couponFile >> coupons;
+    couponFile.close();
+
+    for (const auto & code: coupons["coupons"]) {
+      if (code["code"] == coupon) {
+        int discount = stoi(coupon.substr(coupon.size() - 2));
+        total -= total * (discount / 100.0);
+        cout << "Discount applied! New total: $" << total << endl;
+        break;
+      } else {
+        cout << "Invalid Discount Code" << endl;
+      }
+    }
+  }
+
+  cout << "Final Total (after tax and promotions): $" << total << endl;
+
+  cout << "Amount Paid In Full? (Y/N): ";
+  getline(cin, coupon); // Use getline to handle empty input
+
+  if (coupon == "Y" || coupon == "y") {
+    for (const auto & item: cart) {
+      string productId = item.first._id; // Assuming the Product class has an ID field
+      int purchasedQuantity = item.second;
+
+      bool updated = updateProduct(productId, purchasedQuantity);
+      if (!updated) {
+        cout << "Failed to update inventory for product: " << item.first.getName() << endl;
+      }
+    }
+  } else if (coupon.empty() || coupon == "N" || coupon == "n") {
+    cout << "Transaction Failed! Inventory unchanged!" << endl;
+  } else {
+    cout << "Invalid input!" << endl;
+  }
+
   displayMainMenu();
 }
