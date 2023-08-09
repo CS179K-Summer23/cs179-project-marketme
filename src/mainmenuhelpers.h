@@ -9,7 +9,7 @@ using namespace std;
 void addMenu();
 void deleteProduct();
 bool updateProduct(string productId = "", int requestedQuantity = -1);
-int acceptNumber(const string & prompt);
+double acceptNumber(const string & prompt);
 
 void addMenu() {
   productDatabase manage("data/products.json");
@@ -55,9 +55,10 @@ void addMenu() {
 
         cout << "Enter product name: ";
         getline(cin, name);
-        cout << "Enter product price: ";
-        cin >> price;
-        cin.ignore(std::numeric_limits < std::streamsize > ::max(), '\n'); // Clear the input buffer
+        //cin >> price; 
+        //cout << "price: " << price << endl ;
+        price = acceptNumber("Enter product price");
+        //cin.ignore(std::numeric_limits < std::streamsize > ::max(), '\n'); // Clear the input buffer
         quantity = acceptNumber("Enter product quantity");
 
         Product newProduct(id, name, description, price, quantity, category, sku, barcode, expiration_date);
@@ -245,9 +246,9 @@ bool updateProduct(string productId, int requestedQuantity) {
   return true; // Return true by default if no quantity check is required
 }
 
-int acceptNumber(const string & prompt) {
+double acceptNumber(const string & prompt) {
   string input;
-  int number;
+  double number;
 
   while (true) {
     cout << prompt << ": ";
@@ -255,8 +256,8 @@ int acceptNumber(const string & prompt) {
     cin.ignore(std::numeric_limits < std::streamsize > ::max(), '\n');
 
     try {
-      number = stoi(input);
-      break; // If stoi() succeeds, exit the loop
+      number = stod(input);
+      break; // If stod() succeeds, exit the loop   STING TO DOUBLE
     } catch (const invalid_argument & e) {
       cout << "Invalid input. Please enter a valid number." << endl;
     } catch (const out_of_range & e) {
