@@ -92,6 +92,11 @@ void productDatabase::addProduct(Product & product) {
     return; // End Early
   }
 
+  cout << "Central Debug 1, Double or Int: " << product.getPrice() << endl;
+  cout << "Central Debug 2.5, Double or Int: " << product._price << endl;
+  //FIX ME
+
+
   string inventoryPath = _database;
 
   // opens file of the products

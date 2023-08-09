@@ -51,7 +51,6 @@ class Product {
   }
 
   bool validate() {
-    // You may add more validations based on your business rules
     if (_id.empty() || _name.empty() || _price < 0 || _quantity < 0 ||
       _category.empty() || _sku.empty() || _barcode.empty() || _expiration_date.empty()) {
       return false;
