@@ -34,7 +34,7 @@ To: recipient@example.com
 Subject: Test Email
 
 This is a test email sent via Gmail API.
-)"
+)";
     string base64_encoded_content = base64_encode(reinterpret_cast<const unsigned char*>(email_content.c_str()), email_content.length()); 
 
     sendEmail(ACCESS_TOKEN, base64_encoded_content);
