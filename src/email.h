@@ -4,6 +4,7 @@
 #include <iostream>
 #include <cstdlib>
 #include <string>
+#include "base64.h"
 
 using namespace std;
 
@@ -25,21 +26,6 @@ void sendEmail(const string& accessToken, const string& rawEmailContentBase64) {
     } else {
         cerr << "Failed to send email." << endl;
     }
-}
-
-int main() {
-    const string ACCESS_TOKEN = "YOUR_ACCESS_TOKEN"; // Replace with access token from google playground
-    string email_content = R"(
-To: recipient@example.com
-Subject: Test Email
-
-This is a test email sent via Gmail API.
-)";
-    string base64_encoded_content = base64_encode(reinterpret_cast<const unsigned char*>(email_content.c_str()), email_content.length()); 
-
-    sendEmail(ACCESS_TOKEN, base64_encoded_content);
-
-    return 0;
 }
 
 #endif
