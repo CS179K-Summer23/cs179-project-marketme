@@ -14,8 +14,8 @@ void handleEmailOperations();
 void handleCheckoutSystem();
 
 int main() {
-  std::cout << "[Please be advised that all the functionalities in this system are still under development. This is day 3 since the project was established. -- MarketMe-Team]\n";
-	std::cout << "[Please interact with the system by keyboard only at the moment.]\n";
+  std::cout << "[Please be advised that some functions are not yet supported! -- MarketMe-Team]\n";
+	std::cout << "[This Version Supports Scanner]\n";
   displayMainMenu();
   return 0;
 }
@@ -55,8 +55,8 @@ void displayMainMenu() {
 void displayProductManagementMenu() {
   int choice;
   std::cout << "\n=========== Product Management ===========\n";
-  std::cout << "1. Add a product\n";
-  std::cout << "2. Delete a product\n";
+  std::cout << "1. Add Product(s)\n";
+  std::cout << "2. Delete Product(s)\n";
   std::cout << "3. Update a product\n";
   std::cout << "4. Advanced Filter\n";
   std::cout << "5. Back to Main Menu\n";
@@ -64,18 +64,14 @@ void displayProductManagementMenu() {
   std::cin >> choice;
   switch (choice) {
   case 1:
-    std::cout
-        << "You chose to add a product.\n";
     addMenu();
     displayProductManagementMenu();
     break;
   case 2:
-    std::cout << "You chose to delete a product.\n";
     deleteProduct();
     displayProductManagementMenu();
     break;
   case 3:
-    std::cout << "You chose to update a product.\n";
     updateProduct();
     displayProductManagementMenu();
     break;
