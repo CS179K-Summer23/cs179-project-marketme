@@ -17,10 +17,43 @@ public:
   void delProduct(const string &id);
   void viewProduct(const string &id);
   bool exists(const string &id);
+  string getProductIDByBarcode(const string& barcode) const;
+  int getProductQuantityByID(const string& id) const;
 
 private:
   string _database;
 };
+
+int productDatabase::getProductQuantityByID(const string& id) const {
+    ifstream inputFile(_database);
+    json inventory;
+    inputFile >> inventory;
+    inputFile.close();
+
+    for (const auto& product : inventory["products"]) {
+        if (product["id"] == id) {
+            return product["quantity"].get<int>();
+        }
+    }
+
+    return -1;  // Return -1 if no product found with the given ID
+}
+
+string productDatabase::getProductIDByBarcode(const string& barcode) const {
+    ifstream inputFile(_database);
+    json inventory;
+    inputFile >> inventory;
+    inputFile.close();
+
+    for (const auto& product : inventory["products"]) {
+        if (product["barcode"] == barcode) {
+            return product["id"].get<string>();
+        }
+    }
+
+    return "";  // Return empty string if no product found with the given barcode
+}
+
 
 void productDatabase::addProduct(Product &product) {
   // Validate input
@@ -155,8 +188,6 @@ void productDatabase::delProduct(const string &id) {
   }
 
   if (foundProduct) {
-    cout << "Product with ID '" << id << "' has been removed from the inventory"
-         << endl;
     ofstream outputFile(inventoryPath);
     outputFile << inventory.dump(4);
   } else {
