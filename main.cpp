@@ -1,11 +1,7 @@
 #include <iostream>
-
 #include <string>
-
 #include <algorithm>
-
 #include "src/mainmenuhelpers.h"
-
 #include "src/email.h"
 
 void displayMainMenu();
@@ -19,11 +15,11 @@ void handleFilter();
 void handleEmailOperations();
 void CheckoutSystem();
 
- // update access_token everytime for email to work
+//GLOBAL VARIABLES
+// update access_token everytime for email to work
 const string ACCESS_TOKEN = "ya29.a0AfB_byCDFipfcNpfxJwwTZyuwD0VlDOe3M0NglgoPX_EIbN8dhK148Wq0T4VB-nUNGsBPZ-HfK_wPl1nwTB35jprrAF-KR1IdCqpN0oWEs_yQ4yrMmuKy5F7SWWx8JGvO8d2E7i3nN-hKefZdJJ-tygaTNsXaCgYKAdgSARESFQHsvYlswV0HULZWTQnGlppZiadZpg0163"; // Replace with access token from google playground
 
-//GLOBAL VARIABLES
-string email_content = "To: phry.ham24@gmail.com\r\n"
+string email_content = "To: pcwong165@gmail.com\r\n"
                        "Subject: Test Email\r\n"
                        "\r\n"
                        "This is a test email sent via Gmail API.\r\n";
