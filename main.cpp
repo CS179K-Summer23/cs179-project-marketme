@@ -6,6 +6,8 @@
 
 #include "src/mainmenuhelpers.h"
 
+#include "src/email.h"
+
 void displayMainMenu();
 void displayProductManagementMenu();
 void displaySearchMenu();
@@ -16,6 +18,17 @@ void handleSearch();
 void handleFilter();
 void handleEmailOperations();
 void CheckoutSystem();
+
+ // update access_token everytime for email to work
+const string ACCESS_TOKEN = "ya29.a0AfB_byCDFipfcNpfxJwwTZyuwD0VlDOe3M0NglgoPX_EIbN8dhK148Wq0T4VB-nUNGsBPZ-HfK_wPl1nwTB35jprrAF-KR1IdCqpN0oWEs_yQ4yrMmuKy5F7SWWx8JGvO8d2E7i3nN-hKefZdJJ-tygaTNsXaCgYKAdgSARESFQHsvYlswV0HULZWTQnGlppZiadZpg0163"; // Replace with access token from google playground
+
+//GLOBAL VARIABLES
+string email_content = "To: phry.ham24@gmail.com\r\n"
+                       "Subject: Test Email\r\n"
+                       "\r\n"
+                       "This is a test email sent via Gmail API.\r\n";
+
+string base64_encoded_content = base64_encode(reinterpret_cast<const unsigned char*>(email_content.c_str()), email_content.length()); 
 
 int main() {
   std::cout << "[Please be advised that some functions are not yet supported! -- MarketMe-Team]\n";
@@ -184,7 +197,8 @@ void displayEmailMenu() {
     displayEmailMenu();
     break;
   case 3:
-    std::cout << "Sending Emails. (This functionality is not yet implemented, please be patience.)\n";
+    std::cout << "Sending Emails. (This functionality is still being developed, will only send a test email.)\n";
+    sendEmail(ACCESS_TOKEN, base64_encoded_content);
     displayEmailMenu();
     break;
   case 4:
