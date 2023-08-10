@@ -25,14 +25,14 @@ Meet our fantastic team:
 ## Communications 📡
 
 - Discord: (Our primary channel for daily communications, established on 7/31/2023)
-- Weekly Meetings: Every Friday via Zoom (Tentatively 6-9pm for an hour)
+- Weekly Meetings: Every Friday via Zoom (7 PM - 8 PM)
 
 ## Technology 📘
 
 Skills Required: 
 
 - Proficiency in C++ programming language
-- Knowledge of ESP API and UPCitemdb API via HTTP request
+- Knowledge of UPCitemdb, Gmail API via cURL HTTP request
 - Familiarity with JSON library and file management
 - Understanding of encryption methods
 - Database knowledge acquired from the CS166 course or equivalent
@@ -45,7 +45,7 @@ Programming Environment: Visual Studio Code
 
 MarketMe's IMS is a terminal software offering several essential features:
 
-1. **eCommerce API Integration 🌐**: Seamlessly pull in product information for testing program features.
+1. **UPCitemdb API Integration 🌐**: Seamlessly pull in product information to auto-filled product data.
 2. **Product Management 🛠️**: Manual input, deletion, and update of product details.
 3. **Barcode Integration 📸**: Utilize a barcode scanner for existing products and input new ones using fake barcodes/QR codes.
 4. **Alert System 🔔**: ESP API-driven alerts for sales/price changes, low stock, and impending expiration dates.
@@ -55,63 +55,63 @@ MarketMe's IMS is a terminal software offering several essential features:
 8. **Inventory Filtering 🔍**: Sort inventory based on popularity, alphabetical order, etc.
 9. **Sale Restrictions ⛔**: Prohibit sales on certain items based on location, customer age, etc.
 
-# user stories
+# User Stories Revision 2.0
 
-1. **eCommerce API Integration 🌐**
-   - User Story: As a manager, I need to use the eCommerce API to fetch product information for testing the software features.
+1. **Upcitemdb API Integration 🌐**
+   - User Story: As a manager, I need to use the upcitemdb API to fetch product information when adding a new product into the system.
    - Priority: High 10
-   - Estimated Cost: 3
+   - Estimated Cost: 8
 
 2. **Product Management 🛠️**
-   - User Story: As a manager, I want to manually input, delete, and update product information in our system.
+   - User Story: As a manager, I want to manually input, delete, and update product information in our system, ensuring that duplicate barcodes or IDs are handled appropriately.
    - Priority: High 10
-   - Estimated Cost: 2
+   - Estimated Cost: 8
 
 3. **Barcode Integration 📸**
-   - User Story: As a store employee, I need to scan a product's barcode to quickly input or verify product information.
+   - User Story: As a store employee, I need to scan a product's barcode to quickly input or verify product information and handle scenarios where the barcode might not be in the system.
    - Priority: High 8
-   - Estimated Cost: 3
+   - Estimated Cost: 5
 
-4. **Checkout System 💰**
-   - User Story: As a cashier, I need the system to calculate taxes based on zip codes, allow coupon codes, and update databases accordingly during checkout.
+4. **Checkout System Enhancements 💰**
+   - User Story: As a cashier, I need the system to allow continuous product scanning, display cart details alphabetically, apply coupon codes, and update the inventory based on the transaction's success.
    - Priority: High 7
-   - Estimated Cost: 4
+   - Estimated Cost: 5
 
 5. **Sales Report 📊**
-   - User Story: As a manager, I want to receive daily sales reports to keep track of business performance.
+   - User Story: As a manager, I want to receive daily/monthly/yearly sales reports to keep track of business performance.
    - Priority: High 6
-   - Estimated Cost: 2
+   - Estimated Cost: 4
 
 6. **Alert System 🔔**
    - User Story: As a manager, I want the system to automatically alert me via email about sales/price changes, low stock, and approaching product expiration dates.
    - Priority: Medium 5
-   - Estimated Cost: 2
+   - Estimated Cost: 4
 
-7. **Inventory Filtering 🔍**
-   - User Story: As a store employee, I need to filter inventory based on various criteria to easily manage and locate products.
+7. **Inventory Filtering and Search 🔍**
+   - User Story: As a store employee, I need to filter inventory based on various criteria and search for products by ID, name, or barcode to easily manage and locate items.
    - Priority: Medium 5
-   - Estimated Cost: 2
+   - Estimated Cost: 3
 
 8. **Sale Restrictions ⛔**
    - User Story: As a manager, I want to set restrictions on sales of certain items based on location, customer age, etc., to comply with laws and regulations.
    - Priority: Medium 5
    - Estimated Cost: 3
      
-9. **User Profile**
-   - User Story: As a user, I want to be able to login as a manger or clerk to allow who can control what.
+9. **User Profile 👥** 
+   - User Story: As a user, I want to be able to log in as a manager or clerk to determine access levels and functionalities.
    - Priority: Medium 4
    - Estimated Cost: 2   
 
 10. **Newsletter 🗞️**
-   - User Story: As a customer, I want to subscribe to a newsletter for regular updates and product recommendations.
+   - User Story: As a customer, I want to subscribe to a newsletter for regular updates, promotions, and product recommendations.
    - Priority: Low 2
    - Estimated Cost: 1
 
+Update: Customer Account System Integration 🌟
+
+We've expanded our software to now include basic customer account management. This new feature allows for tracking purchase history and managing customer details directly within our platform, enhancing both employee and customer experiences.
+
 ## Additional Information 📌
-
-Please note, the customer account system is beyond the scope of this software. Our focus lies in providing immaculate inventory and sales management. However, during the checkout process, the system sends pertinent transaction data to a separate system (assumed to handle customer accounts) in an encrypted manner to maintain user privacy.
-
-We prioritize flexibility in our operations. In case of any feasibility issues with the barcode feature due to hardware constraints, we plan to replace it with a QR code feature, leveraging mobile devices as barcode readers.
 
 Let's elevate your business operations with our state-of-the-art **Inventory Management System**! 💼
 
