@@ -18,8 +18,8 @@ void handleEmailOperations();
 void CheckoutSystem();
 
 int main() {
-  std::cout << "[Please be advised that some functions are not yet supported! -- MarketMe-Team]\n";
-  std::cout << "[This Version Supports Scanner]\n";
+  std::cout << "[This Version Supports Scanner, Keyboard]\n";
+  std::cout << "[Advance Search; Search; Emails Functions are not yet supported. -- MarketMe-Team]\n";
   displayMainMenu();
   return 0;
 }
