@@ -16,7 +16,6 @@ void handleSearch();
 void handleFilter();
 void handleEmailOperations();
 void CheckoutSystem();
-void printProductDetails(const std::vector<Product>&, int detailLevel = 1);
 
 int main() {
   std::cout << "[This Version Supports Scanner, Keyboard]\n";
@@ -93,54 +92,42 @@ void displayProductManagementMenu() {
 }
 
 void displaySearchMenu() {
-    int choice;
-    std::string searchQuery;
-    std::vector<Product> searchResults; // This will store the search results
-
-    std::cout << "\n=========== Search Menu ===========\n";
-    std::cout << "1. Search by Product ID\n";
-    std::cout << "2. Search by Product Name\n";
-    std::cout << "3. Scan Barcode\n";
-    std::cout << "4. Back to Main Menu\n";
-    std::cout << "Please enter your choice (1-4): ";
-    std::cin >> choice;
-    std::cin.ignore(); // Clear the newline character from the buffer
-
-    switch (choice) {
-    case 1:
-        std::cout << "Enter Product ID: ";
-        getline(std::cin, searchQuery);
-
-        if (manage.exists(searchQuery)) {
-            Product foundProduct = manage.getProductDetailsByID(searchQuery);
-            searchResults.push_back(foundProduct);
-            printProductDetails(searchResults, 3); // Display full details
-        } else {
-            std::cout << "Product with ID '" << searchQuery << "' not found.\n";
-        }
-
-        displaySearchMenu();
-        break;
-    case 2:
-        std::cout << "Enter Product Name: ";
-        getline(std::cin, searchQuery);
-        // TODO: Implement the search by Product Name and populate the searchResults vector
-        printProductDetails(searchResults, 2);
-        displaySearchMenu();
-        break;
-    case 3:
-        std::cout << "Please scan the barcode.\n";
-        // TODO: Implement the barcode scanning and populate the searchResults vector
-        printProductDetails(searchResults, 3);
-        displaySearchMenu();
-        break;
-    case 4:
-        displayMainMenu();
-        break;
-    default:
-        std::cout << "Invalid choice. Please try again.\n";
-        displaySearchMenu();
-    }
+  int choice;
+  std::string searchQuery;
+  std::cout << "\n=========== Search Menu ===========\n";
+  std::cout << "1. Search by Product ID\n";
+  std::cout << "2. Search by Product Name\n";
+  std::cout << "3. Scan Barcode\n";
+  std::cout << "4. Back to Main Menu\n";
+  std::cout << "Please enter your choice (1-4): ";
+  std::cin >> choice;
+  switch (choice) {
+  case 1:
+    std::cout << "Enter Product ID: ";
+    std::cin >> searchQuery;
+    std::cout <<
+      "Searching by Product ID. (This functionality is not yet implemented, please be patience.)\n";
+    displaySearchMenu();
+    break;
+  case 2:
+    std::cout << "Enter Product Name: ";
+    std::cin >> searchQuery;
+    std::cout <<
+      "Searching by Product Name. (This functionality is not yet implemented, please be patience.)\n";
+    displaySearchMenu();
+    break;
+  case 3:
+    std::cout <<
+      "Please scan the barcode. (This functionality is not yet implemented, please be patience.)\n";
+    displaySearchMenu();
+    break;
+  case 4:
+    displayMainMenu();
+    break;
+  default:
+    std::cout << "Invalid choice. Please try again.\n";
+    displaySearchMenu();
+  }
 }
 
 void displayFilterMenu() {
@@ -355,27 +342,4 @@ void CheckoutSystem() {
   }
 
   displayMainMenu();
-}
-
-
-void printProductDetails(const std::vector<Product>& products, int detailLevel = 1) {
-    for (const auto& product : products) {
-        std::cout << "Product ID: " << product._id << std::endl;
-        std::cout << "Name: " << product._name << std::endl;
-
-        if (detailLevel >= 2) {
-            std::cout << "Description: " << product._description << std::endl;
-            std::cout << "Price: $" << product._price << std::endl;
-            std::cout << "Quantity: " << product._quantity << std::endl;
-        }
-
-        if (detailLevel == 3) {
-            std::cout << "Category: " << product._category << std::endl;
-            std::cout << "SKU: " << product._sku << std::endl;
-            std::cout << "Barcode: " << product._barcode << std::endl;
-            std::cout << "Expiration Date: " << product._expiration_date << std::endl;
-        }
-
-        std::cout << "-----------------------------------" << std::endl;
-    }
 }
