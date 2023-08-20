@@ -4,12 +4,15 @@
 
 #include "productDatabase.h"
 
+#include "filter.h"
+
 using namespace std;
 
 void addMenu();
 void deleteProduct();
 bool updateProduct(string productId = "", int requestedQuantity = -1);
 double acceptNumber(const string & prompt);
+void filterPriceRange();
 
 void addMenu() {
   productDatabase manage("data/products.json");
@@ -266,4 +269,35 @@ double acceptNumber(const string & prompt) {
   }
 
   return number;
+}
+
+void filterPriceRange(){
+  int min = INT_MIN;
+  int max = INT_MAX;
+
+  cout << "Enter the minimum price: ";
+  cin >> min;
+  cout << "Enter the maximum price: ";
+  cin >> max;
+
+  if(min > max){
+    cout << "Invalid option\n\n";
+    return;
+  }
+
+  string productsPath = "data/products.json";
+  PriceRangeFilter priceFilter(productsPath, min, max);
+
+  vector<json> res = priceFilter.apply();
+
+  productDatabase manage(productsPath);
+  int count = 1;
+  cout << endl;
+  for(auto i : res){
+    cout << count << "." << endl;
+    count++;
+    manage.viewProduct(i["id"]);
+    cout << endl;
+  }
+
 }

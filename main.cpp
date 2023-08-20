@@ -141,10 +141,7 @@ void displayFilterMenu() {
   std::cin >> choice;
   switch (choice) {
   case 1:
-    std::cout << "Enter Price Range (e.g., 10-20): ";
-    std::cin >> filterQuery;
-    std::cout <<
-      "Filtering by Price Range. (This functionality is not yet implemented, please be patience.)\n";
+    filterPriceRange();
     displayFilterMenu();
     break;
   case 2:
@@ -343,3 +340,7 @@ void CheckoutSystem() {
 
   displayMainMenu();
 }
+
+
+
+
