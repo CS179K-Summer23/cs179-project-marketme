@@ -7,12 +7,12 @@ Sales/Price Changes
 
 Low Stock
 2.1. Product stock drops below threshold - alert triggered.
-2.2. Product stock is at threshold - alert triggered.
-2.3. Product stock is above threshold - no alert.
+2.2. Product stock is at a threshold - alert triggered.
+2.3. Product stock is above a threshold - no alert.
 
 Impending Expiration Dates
 3.1. Product expiration date approaching (e.g., within a week) - alert triggered.
-3.2. Product expiration date not close - no alert.
+3.2. Product expiration date not closed - no alert.
 3.3. Product has already expired - alert triggered.
 
 Regular Updates for Subscribers

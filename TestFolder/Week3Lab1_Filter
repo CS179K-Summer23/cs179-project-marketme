@@ -7,13 +7,13 @@ Filter by category
 
 Filter by price 
 2.1. Input a price that exists in the inventory
-2.2. Input a price that no products has
+2.2. Input a price that no product has
 2.3. Input a price range that includes multiple products from the inventory.
 
 Filter by Expiration Date
 3.1. Input an expiration range that is in the inventory
 3.2. Input an expiration range that is not in the inventory
-3.3. Input an expiration range that spans across multiple products in the inventory.
+3.3. Input an expiration range that spans multiple products in the inventory.
 
 Filter by name alphabetically:
 4.1. Input a valid starting letter for the product name that matches products in the inventory.

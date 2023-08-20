@@ -121,7 +121,8 @@ Let's elevate your business operations with our state-of-the-art **Inventory Man
 Burndown chart:
 https://docs.google.com/spreadsheets/d/1PmEULxzyLe58C3dYHZTaqGl39ewRZSZj/edit#gid=2086879608
 
-![simpleFlow](https://github.com/CS179K-Summer23/cs179-project-marketme/assets/77028662/8ed5302f-b2b2-479a-b3ee-978703145c28)
+![image](https://github.com/CS179K-Summer23/cs179-project-marketme/assets/77028662/df374ed2-25ec-4f68-a2a6-dd62edf9160b)
+
 
 
 
