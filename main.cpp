@@ -138,7 +138,8 @@ void displayFilterMenu() {
   std::cout << "2. Filter by Category\n";
   std::cout << "3. Filter by Name Alphabetically\n";
   std::cout << "4. Filter by Quantity Range\n";
-  std::cout << "5. Back to Product Management\n";
+  std::cout << "5. Filter by Prefix\n";
+  std::cout << "6. Back to Product Management\n";
   std::cin >> choice;
   switch (choice) {
   case 1:
@@ -158,6 +159,9 @@ void displayFilterMenu() {
     displayFilterMenu();
     break;
   case 5:
+    filterPrefix();
+    displayFilterMenu();
+  case 6:
     displayProductManagementMenu();
     break;
   default:

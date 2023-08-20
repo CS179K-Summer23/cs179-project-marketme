@@ -169,3 +169,27 @@ private:
     int _minQuantity;
     int _maxQuantity;
 };
+
+class PrefixFilter : public Filter {
+public:
+    PrefixFilter(const string& productsPath, const string& prefix) : Filter(productsPath){
+        _prefix = prefix;
+    }
+
+    vector<json> apply() const override {
+        vector<json> filteredData;
+
+        for (const auto& product : _data["products"]) {
+           const string productName = product["name"];
+
+            if (productName.compare(0, _prefix.length(), _prefix) == 0) {
+                filteredData.push_back(product);
+            }
+        }
+
+        return filteredData;
+    }
+
+private:
+    string _prefix;
+};

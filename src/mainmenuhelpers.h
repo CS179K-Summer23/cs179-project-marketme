@@ -15,6 +15,7 @@ double acceptNumber(const string & prompt);
 void filterPriceRange();
 void filterCategory();
 void filterQuantityRange();
+void filterPrefix();
 
 void addMenu() {
   productDatabase manage("data/products.json");
@@ -377,6 +378,32 @@ void filterQuantityRange(){
   QuantityFilter quantityFilter(productsPath, min, max);
 
   vector<json> res = quantityFilter.apply();
+
+  if(res.size() == 0){
+    cout << endl;
+    cout << "No results found" << endl;
+  }
+
+  productDatabase manage(productsPath);
+  int count = 1;
+  cout << endl;
+  for(auto i : res){
+    cout << count << "." << endl;
+    count++;
+    manage.viewProduct(i["id"]);
+    cout << endl;
+  }
+}
+
+void filterPrefix(){
+  string prefix;
+  cout << "Enter the prefix: ";
+  cin >> prefix;
+
+  string productsPath = "data/products.json";
+  PrefixFilter prefixFilter(productsPath, prefix);
+
+  vector<json> res = prefixFilter.apply();
 
   if(res.size() == 0){
     cout << endl;
