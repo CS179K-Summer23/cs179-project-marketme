@@ -14,6 +14,7 @@ bool updateProduct(string productId = "", int requestedQuantity = -1);
 double acceptNumber(const string & prompt);
 void filterPriceRange();
 void filterCategory();
+void filterQuantityRange();
 
 void addMenu() {
   productDatabase manage("data/products.json");
@@ -317,6 +318,65 @@ void filterCategory(){
   CategoryFilter categoryFilter(productsPath, name);
 
   vector<json> res = categoryFilter.apply();
+
+  if(res.size() == 0){
+    cout << endl;
+    cout << "No results found" << endl;
+  }
+
+  productDatabase manage(productsPath);
+  int count = 1;
+  cout << endl;
+  for(auto i : res){
+    cout << count << "." << endl;
+    count++;
+    manage.viewProduct(i["id"]);
+    cout << endl;
+  }
+}
+
+void filterName(){
+  cout << "Sorting all products alphabetically\n";
+
+  string productsPath = "data/products.json";
+  NameFilter nameFilter(productsPath);
+
+  vector<json> res = nameFilter.apply();
+
+  if(res.size() == 0){
+    cout << endl;
+    cout << "No results found" << endl;
+  }
+
+  productDatabase manage(productsPath);
+  int count = 1;
+  cout << endl;
+  for(auto i : res){
+    cout << count << "." << endl;
+    count++;
+    manage.viewProduct(i["id"]);
+    cout << endl;
+  }
+}
+
+void filterQuantityRange(){
+  int min = INT_MIN;
+  int max = INT_MAX;
+
+  cout << "Enter the minimum quantity: ";
+  cin >> min;
+  cout << "Enter the maximum quantity: ";
+  cin >> max;
+
+  if(min > max){
+    cout << "Invalid option\n\n";
+    return;
+  }
+
+  string productsPath = "data/products.json";
+  QuantityFilter quantityFilter(productsPath, min, max);
+
+  vector<json> res = quantityFilter.apply();
 
   if(res.size() == 0){
     cout << endl;

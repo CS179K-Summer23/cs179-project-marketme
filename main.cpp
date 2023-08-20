@@ -136,8 +136,9 @@ void displayFilterMenu() {
   std::cout << "\n=========== Advanced Filter ===========\n";
   std::cout << "1. Filter by Price Range\n";
   std::cout << "2. Filter by Category\n";
-  std::cout << "3. Back to Product Management\n";
-  std::cout << "Please enter your choice (1-3): ";
+  std::cout << "3. Filter by Name Alphabetically\n";
+  std::cout << "4. Filter by Quantity Range\n";
+  std::cout << "5. Back to Product Management\n";
   std::cin >> choice;
   switch (choice) {
   case 1:
@@ -149,6 +150,14 @@ void displayFilterMenu() {
     displayFilterMenu();
     break;
   case 3:
+    filterName();
+    displayFilterMenu();
+    break;
+  case 4:
+    filterQuantityRange();
+    displayFilterMenu();
+    break;
+  case 5:
     displayProductManagementMenu();
     break;
   default:

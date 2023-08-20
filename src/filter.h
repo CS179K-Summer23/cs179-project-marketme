@@ -120,3 +120,52 @@ public:
 private:
     string _name;
 };
+
+class NameFilter : public Filter {
+public:
+    NameFilter(const string& productsPath) : Filter(productsPath){
+
+    }
+
+    vector<json> apply() const override {
+        vector<json> filteredData;
+
+        for (const auto& product : _data["products"]) {
+            filteredData.push_back(product);
+        }
+
+        sort(filteredData.begin(), filteredData.end(), [](const json& a, const json& b) {
+            string nameA = a["name"];
+            string nameB = b["name"];
+            return nameA < nameB;
+        });
+
+
+        return filteredData;
+    }
+};
+
+class QuantityFilter : public Filter {
+public:
+    QuantityFilter(const string&  productsPath, const int& minQuantity, const int& maxQuantity) : Filter(productsPath){
+        _minQuantity = minQuantity;
+        _maxQuantity = maxQuantity;
+    }
+
+    vector<json> apply() const override {
+        vector<json> filteredData;
+
+        // Apply price range filtering logic using _data, _minQuantity, and _maxQuantity
+        for (const auto& product : _data["products"]) {
+            double price = product["quantity"];
+            if (price >= _minQuantity && price <= _maxQuantity) {
+                filteredData.push_back(product);
+            }
+        }
+
+        return filteredData;
+    }
+private:
+    int _minQuantity;
+    int _maxQuantity;
+};
