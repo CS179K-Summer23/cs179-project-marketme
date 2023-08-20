@@ -13,6 +13,9 @@
         "utility": "cpp",
         "limits": "cpp",
         "*.tcc": "cpp",
-        "ostream": "cpp"
+        "ostream": "cpp",
+        "chrono": "cpp",
+        "random": "cpp",
+        "valarray": "cpp"
     }
 }

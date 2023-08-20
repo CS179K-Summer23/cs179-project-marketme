@@ -21,6 +21,61 @@
             "price": 13.0,
             "quantity": 313,
             "sku": "321"
+        },
+        {
+            "barcode": "123",
+            "category": "NA",
+            "description": "NA",
+            "expiration_date": "NA",
+            "id": "123",
+            "name": "hotdog",
+            "price": 13.0,
+            "quantity": 123,
+            "sku": "NA"
+        },
+        {
+            "barcode": "123123",
+            "category": "NA",
+            "description": "NA",
+            "expiration_date": "NA",
+            "id": "123123",
+            "name": "dog",
+            "price": 123.0,
+            "quantity": 2,
+            "sku": "NA"
+        },
+        {
+            "barcode": "12323123",
+            "category": "NA",
+            "description": "NA",
+            "expiration_date": "NA",
+            "id": "12323123",
+            "name": "alpha",
+            "price": 123.0,
+            "quantity": 2,
+            "sku": "NA"
+        },
+        {
+            "barcode": "200",
+            "category": "NA",
+            "description": "NA",
+            "expiration_date": "NA",
+            "id": "200",
+            "name": "400",
+            "price": 3333.0,
+            "quantity": 333333,
+            "sku": "NA"
+        },
+        {
+            "barcode": "12321313",
+            "category": "NA",
+            "description": "NA",
+            "expiration_date": "NA",
+            "id": "12321313",
+            "name": "pony",
+            "price": 300000.0,
+            "quantity": 2,
+            "sku": "NA"
         }
     ]
 }
