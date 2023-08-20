@@ -13,6 +13,7 @@ void deleteProduct();
 bool updateProduct(string productId = "", int requestedQuantity = -1);
 double acceptNumber(const string & prompt);
 void filterPriceRange();
+void filterCategory();
 
 void addMenu() {
   productDatabase manage("data/products.json");
@@ -290,6 +291,11 @@ void filterPriceRange(){
 
   vector<json> res = priceFilter.apply();
 
+  if(res.size() == 0){
+    cout << endl;
+    cout << "No results found" << endl;
+  }
+
   productDatabase manage(productsPath);
   int count = 1;
   cout << endl;
@@ -300,4 +306,30 @@ void filterPriceRange(){
     cout << endl;
   }
 
+}
+
+void filterCategory(){
+  string name;
+  cout << "Enter a category name: ";
+  cin >> name;
+
+  string productsPath = "data/products.json";
+  CategoryFilter categoryFilter(productsPath, name);
+
+  vector<json> res = categoryFilter.apply();
+
+  if(res.size() == 0){
+    cout << endl;
+    cout << "No results found" << endl;
+  }
+
+  productDatabase manage(productsPath);
+  int count = 1;
+  cout << endl;
+  for(auto i : res){
+    cout << count << "." << endl;
+    count++;
+    manage.viewProduct(i["id"]);
+    cout << endl;
+  }
 }

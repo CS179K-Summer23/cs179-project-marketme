@@ -145,10 +145,7 @@ void displayFilterMenu() {
     displayFilterMenu();
     break;
   case 2:
-    std::cout << "Enter Category: ";
-    std::cin >> filterQuery;
-    std::cout <<
-      "Filtering by Category. (This functionality is not yet implemented, please be patience.)\n";
+    filterCategory();
     displayFilterMenu();
     break;
   case 3:
