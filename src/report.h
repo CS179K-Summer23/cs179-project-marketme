@@ -25,8 +25,9 @@ class ReportGenerator {
   void generateReport(int option,
     const std::string & startDate = "",
       const std::string & endDate = "");
+  string getCurrentDate();
 
-  private: string getCurrentDate();
+  private: 
   double calculateTotal(const json & transactions);
   vector < pair < string,
   int >> getTopSellingItems(const json & transactions);
