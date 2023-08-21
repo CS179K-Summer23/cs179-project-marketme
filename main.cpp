@@ -2,8 +2,13 @@
 #include <string>
 #include <algorithm>
 #include "src/mainmenuhelpers.h"
+
 #include "src/CheckoutSystem.h"
 #include "src/email.h"
+
+#include "src/ProductSearch.h"
+
+#include "src/report.h"
 
 void displayMainMenu();
 void displayProductManagementMenu();
@@ -15,6 +20,7 @@ void handleSearch();
 void handleFilter();
 void handleEmailOperations();
 void displayCheckoutSystem();
+void displayReportMenu();
 
 // GLOBAL VARIABLES
 // replace string with a non-expired access code from google playground
@@ -37,7 +43,8 @@ void displayMainMenu() {
   std::cout << "2. Search\n";
   std::cout << "3. Email Operations\n";
   std::cout << "4. Checkout System\n";
-  std::cout << "5. Exit\n";
+  std::cout << "5. Report Generator\n"; // New Function!
+  std::cout << "6. Exit\n";
   std::cout << "Please enter your choice (1-5): ";
   std::cin >> choice;
   switch (choice) {
@@ -54,12 +61,75 @@ void displayMainMenu() {
     displayCheckoutSystem();
     break;
   case 5:
+    displayReportMenu();
+  case 6:
     std::cout << "Exiting the system...\n";
     break;
   default:
     std::cout << "Invalid choice. Please try again.\n";
     displayMainMenu();
   }
+}
+
+void displayReportMenu() {
+  bool isManager = true; // Placeholder for now. FIX ME
+  int retryAttempts = 0; // EasterEgg
+
+  if (!isManager) {
+    std::cout << "Unavailable function. Please contact your manager for this action.\n";
+    retryAttempts++;
+    if (retryAttempts >= 2) {
+      std::cout << "Warning: This action will be reported!\n";
+      // Nah, just easter egg
+    }
+    displayMainMenu();
+    return;
+  }
+
+  int choice;
+  std::string startDate, endDate;
+
+  std::cout << "\n=========== Report Menu ===========\n";
+  std::cout << "1. Daily Report\n";
+  std::cout << "2. Monthly Report\n";
+  std::cout << "3. Yearly Report\n";
+  std::cout << "4. All-Time Report\n";
+  std::cout << "5. Custom Date Report\n";
+  std::cout << "6. Custom Date Range Report\n";
+  std::cout << "7. Back to Main Menu\n";
+  std::cout << "Please enter your choice (1-7): ";
+  std::cin >> choice;
+
+  ReportGenerator reportGen;
+
+  switch (choice) {
+  case 1:
+  case 2:
+  case 3:
+  case 4:
+    reportGen.generateReport(choice);
+    break;
+  case 5:
+    std::cout << "Enter the custom date (YYYY-MM-DD): ";
+    std::cin >> startDate;
+    reportGen.generateReport(choice, startDate);
+    break;
+  case 6:
+    std::cout << "Enter the start date (YYYY-MM-DD): ";
+    std::cin >> startDate;
+    std::cout << "Enter the end date (YYYY-MM-DD): ";
+    std::cin >> endDate;
+    reportGen.generateReport(choice, startDate, endDate);
+    break;
+  case 7:
+    displayMainMenu();
+    return;
+  default:
+    std::cout << "Invalid choice. Please try again.\n";
+    displayReportMenu();
+  }
+
+  displayMainMenu();
 }
 
 void displayProductManagementMenu() {
@@ -98,42 +168,63 @@ void displayProductManagementMenu() {
 }
 
 void displaySearchMenu() {
-  int choice;
-  std::string searchQuery;
-  std::cout << "\n=========== Search Menu ===========\n";
-  std::cout << "1. Search by Product ID\n";
-  std::cout << "2. Search by Product Name\n";
-  std::cout << "3. Scan Barcode\n";
-  std::cout << "4. Back to Main Menu\n";
-  std::cout << "Please enter your choice (1-4): ";
-  std::cin >> choice;
-  switch (choice) {
-  case 1:
-    std::cout << "Enter Product ID: ";
-    std::cin >> searchQuery;
-    std::cout <<
-      "Searching by Product ID. (This functionality is not yet implemented, please be patience.)\n";
+    int choice;
+    std::string searchQuery;
+    std::cout << "\n=========== Search Menu ===========\n";
+    std::cout << "1. Search by Product ID\n";
+    std::cout << "2. Search by Product Name\n";
+    std::cout << "3. Scan Barcode\n";
+    std::cout << "4. Back to Main Menu\n";
+    std::cout << "Please enter your choice (1-4): ";
+    std::cin >> choice;
+
+    ProductSearch productSearch("data/products.json");
+    vector<json> results;
+
+    switch (choice) {
+        case 1:
+            std::cout << "Enter Product ID: ";
+            std::cin >> searchQuery;
+            results = productSearch.searchById(searchQuery);
+            break;
+        case 2:
+            std::cout << "Enter Product Name: ";
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); 
+            std::getline(std::cin, searchQuery);
+            results = productSearch.searchByName(searchQuery);
+            break;
+        case 3:
+            std::cout << "Scan Barcode: ";
+            std::cin >> searchQuery;
+            results = productSearch.searchByBarcode(searchQuery);
+            break;
+        case 4:
+            displayMainMenu();
+            return;
+        default:
+            std::cout << "Invalid choice. Please try again.\n";
+            displaySearchMenu();
+            return;
+    }
+
+    if (results.empty()) {
+        std::cout << "\nNo results found.\n";
+        displaySearchMenu();
+        return;
+    }
+
+    for (const auto& product : results) {
+        std::cout << "\nName: " << product["name"] 
+                  << "\nPrice: $" << product["price"] 
+                  << "\nCategory: " << product["category"] 
+                  << "\nDescription: " << product["description"] 
+                  << "\nExpiration Date: " << product["expiration_date"]
+                  << "\nID: " << product["id"] 
+                  << "\nIn Stock: " << product["quantity"] << "\n";
+    }
+
     displaySearchMenu();
-    break;
-  case 2:
-    std::cout << "Enter Product Name: ";
-    std::cin >> searchQuery;
-    std::cout <<
-      "Searching by Product Name. (This functionality is not yet implemented, please be patience.)\n";
-    displaySearchMenu();
-    break;
-  case 3:
-    std::cout <<
-      "Please scan the barcode. (This functionality is not yet implemented, please be patience.)\n";
-    displaySearchMenu();
-    break;
-  case 4:
-    displayMainMenu();
-    break;
-  default:
-    std::cout << "Invalid choice. Please try again.\n";
-    displaySearchMenu();
-  }
+    return;
 }
 
 void displayFilterMenu() {
@@ -146,7 +237,7 @@ void displayFilterMenu() {
   std::cout << "4. Filter by Quantity Range\n";
   std::cout << "5. Filter by Prefix\n";
   std::cout << "6. Back to Product Management\n";
-  std::cin >> choice;
+  choice = acceptNumber("Please enter your choice (1-6)");
   switch (choice) {
   case 1:
     filterPriceRange();

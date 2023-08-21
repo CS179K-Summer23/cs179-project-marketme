@@ -1,9 +1,9 @@
+#ifndef MAINMENUHELPERS_H
+#define MAINMENUHELPERS_H
+
 #include <iostream>
-
 #include "product.h"
-
 #include "productDatabase.h"
-
 #include "filter.h"
 
 using namespace std;
@@ -420,3 +420,5 @@ void filterPrefix(){
     cout << endl;
   }
 }
+
+#endif
