@@ -5,7 +5,10 @@
 #include <algorithm>
 
 #include "src/mainmenuhelpers.h"
+
 #include "src/CheckoutSystem.h"
+
+#include "src/report.h"
 
 void displayMainMenu();
 void displayProductManagementMenu();
@@ -17,6 +20,7 @@ void handleSearch();
 void handleFilter();
 void handleEmailOperations();
 void displayCheckoutSystem();
+void displayReportMenu();
 
 int main() {
   std::cout << "[This Version Supports Scanner, Keyboard]\n";
@@ -32,7 +36,8 @@ void displayMainMenu() {
   std::cout << "2. Search\n";
   std::cout << "3. Email Operations\n";
   std::cout << "4. Checkout System\n";
-  std::cout << "5. Exit\n";
+  std::cout << "5. Report Generator\n"; // New Function!
+  std::cout << "6. Exit\n";
   std::cout << "Please enter your choice (1-5): ";
   std::cin >> choice;
   switch (choice) {
@@ -49,12 +54,75 @@ void displayMainMenu() {
     displayCheckoutSystem();
     break;
   case 5:
+    displayReportMenu();
+  case 6:
     std::cout << "Exiting the system...\n";
     break;
   default:
     std::cout << "Invalid choice. Please try again.\n";
     displayMainMenu();
   }
+}
+
+void displayReportMenu() {
+  bool isManager = true; // Placeholder for now. FIX ME
+  int retryAttempts = 0; // EasterEgg
+
+  if (!isManager) {
+    std::cout << "Unavailable function. Please contact your manager for this action.\n";
+    retryAttempts++;
+    if (retryAttempts >= 2) {
+      std::cout << "Warning: This action will be reported!\n";
+      // Nah, just easter egg
+    }
+    displayMainMenu();
+    return;
+  }
+
+  int choice;
+  std::string startDate, endDate;
+
+  std::cout << "\n=========== Report Menu ===========\n";
+  std::cout << "1. Daily Report\n";
+  std::cout << "2. Monthly Report\n";
+  std::cout << "3. Yearly Report\n";
+  std::cout << "4. All-Time Report\n";
+  std::cout << "5. Custom Date Report\n";
+  std::cout << "6. Custom Date Range Report\n";
+  std::cout << "7. Back to Main Menu\n";
+  std::cout << "Please enter your choice (1-7): ";
+  std::cin >> choice;
+
+  ReportGenerator reportGen;
+
+  switch (choice) {
+  case 1:
+  case 2:
+  case 3:
+  case 4:
+    reportGen.generateReport(choice);
+    break;
+  case 5:
+    std::cout << "Enter the custom date (YYYY-MM-DD): ";
+    std::cin >> startDate;
+    reportGen.generateReport(choice, startDate);
+    break;
+  case 6:
+    std::cout << "Enter the start date (YYYY-MM-DD): ";
+    std::cin >> startDate;
+    std::cout << "Enter the end date (YYYY-MM-DD): ";
+    std::cin >> endDate;
+    reportGen.generateReport(choice, startDate, endDate);
+    break;
+  case 7:
+    displayMainMenu();
+    return;
+  default:
+    std::cout << "Invalid choice. Please try again.\n";
+    displayReportMenu();
+  }
+
+  displayMainMenu();
 }
 
 void displayProductManagementMenu() {
