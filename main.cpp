@@ -1,11 +1,9 @@
 #include <iostream>
-
 #include <string>
-
 #include <algorithm>
-
 #include "src/mainmenuhelpers.h"
 #include "src/CheckoutSystem.h"
+#include "src/email.h"
 
 void displayMainMenu();
 void displayProductManagementMenu();
@@ -17,6 +15,13 @@ void handleSearch();
 void handleFilter();
 void handleEmailOperations();
 void displayCheckoutSystem();
+
+// GLOBAL VARIABLES
+// replace string with a non-expired access code from google playground
+const std::string access = "ya29.a0AfB_byBqw30auozVLlqxW4TGfTrj5mJJmcykJnDTqWLA-sBPuqO2M97fF2W4bax3PDQTKsFigNETJj93twxoWNFVO_GDdby8Zfiq5NiHPxT_plOdju4jNUGk02GBQk1d6icGU1dvptDZdrSW9_QkiEakMG-nQAUX9wfH5gaCgYKAf8SARESFQHsvYlsBxE_lutNZi2kkmTDxKD50Q0173"; 
+std::string content = ""; 
+std::string encode = "";
+
 
 int main() {
   std::cout << "[This Version Supports Scanner, Keyboard]\n";
@@ -184,15 +189,39 @@ void displayEmailMenu() {
   case 1:
     std::cout <<
       "Subscribing to Newsletter. (This functionality is not yet implemented, please be patience.)\n";
+    content = "To: pcwong165@gmail.com\r\n"
+              "Subject: Test Email\r\n"
+              "\r\n"
+              "Welcome to MarketMe's newsletter subscription!\r\n";
+    encode = base64_encode(reinterpret_cast<const unsigned char*>(content.c_str()), content.length());
+    sendEmail(access, encode);
+    content = "";
+    encode = "";
     displayEmailMenu();
     break;
   case 2:
     std::cout << "Unsubscribing from Newsletter. (Functionality not yet "
     "implemented.)\n";
+    content = "To: pcwong165@gmail.com\r\n"
+              "Subject: Test Email\r\n"
+              "\r\n"
+              "You have been unsubscribed from MarketMe. We'll miss you!\r\n";
+    encode = base64_encode(reinterpret_cast<const unsigned char*>(content.c_str()), content.length());
+    sendEmail(access, encode);
+    content = "";
+    encode = "";
     displayEmailMenu();
     break;
   case 3:
     std::cout << "Sending Emails. (This functionality is not yet implemented, please be patience.)\n";
+    content = "To: pcwong165@gmail.com\r\n"
+              "Subject: Test Email\r\n"
+              "\r\n"
+              "Check out today's hot deals and items!\r\n";
+    encode = base64_encode(reinterpret_cast<const unsigned char*>(content.c_str()), content.length());
+    sendEmail(access, encode);
+    content = "";
+    encode = "";
     displayEmailMenu();
     break;
   case 4:
