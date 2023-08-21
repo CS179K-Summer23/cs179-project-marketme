@@ -45,7 +45,7 @@ void reportEmail(const string&accessToken, ReportGenerator report) {
     string reportContent((istreambuf_iterator<char>(reportFile)), istreambuf_iterator<char>());
     reportFile.close();
 
-    string content = "To: official.marketme@gmail.com \r\n"
+    string content = "To: official.marketme@gmail.com\r\n"
                      "Subject: Daily Report!\r\n"
                      "Content-Type: text/html\r\n" // Specify HTML content type
                          "\r\n"
