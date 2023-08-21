@@ -165,7 +165,7 @@ void CheckoutSystem() {
     transaction["total"] = total;
     transaction["tax"] = round(calculateTax(total) * 100) / 100.0;
     transaction["discount"] = discountValue;
-    transaction["operator"] = "System"; // Modify as needed
+    transaction["operator"] = "Default Operator"; 
 
     json itemList;
     for (const auto & item: cart) {
