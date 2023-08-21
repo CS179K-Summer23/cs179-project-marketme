@@ -5,6 +5,7 @@
 #include <algorithm>
 
 #include "src/mainmenuhelpers.h"
+#include "src/CheckoutSystem.h"
 
 void displayMainMenu();
 void displayProductManagementMenu();
@@ -15,7 +16,7 @@ void handleProductManagement();
 void handleSearch();
 void handleFilter();
 void handleEmailOperations();
-void CheckoutSystem();
+void displayCheckoutSystem();
 
 int main() {
   std::cout << "[This Version Supports Scanner, Keyboard]\n";
@@ -45,7 +46,7 @@ void displayMainMenu() {
     handleEmailOperations();
     break;
   case 4:
-    CheckoutSystem();
+    displayCheckoutSystem();
     break;
   case 5:
     std::cout << "Exiting the system...\n";
@@ -219,134 +220,7 @@ void handleEmailOperations() {
   displayEmailMenu();
 }
 
-void CheckoutSystem() {
-  productDatabase manage("data/products.json");
-  string barcode, productId;
-  double total = 0.0;
-  vector < pair < Product, int >> cart; // Pair of Product and Quantity
-
-  cout << "Scan or enter product details (or type :DONE or :D to finish): ";
-  cin.ignore(numeric_limits < streamsize > ::max(), '\n');
-  getline(cin, barcode);
-
-  if (barcode == ":DONE" || barcode == ":D") {
-    displayMainMenu(); // END EARLY
-    return;
-  }
-
-  while (true) {
-    if (barcode == ":DONE" || barcode == ":D") {
-      break;
-    }
-
-    productId = manage.getProductIDByBarcode(barcode);
-
-    if (productId.empty()) {
-      cout << "Enter Product ID: ";
-      cin >> productId;
-      cin.ignore();
-    }
-
-    if (!manage.exists(productId)) {
-      cout << "Product not found or out of stock!" << endl;
-    } else {
-      Product product = manage.getProductDetailsByID(productId);
-      cout << "Scanned Product: " << product.getName() << " | Price: $" << product.getPrice() << endl;
-
-      int quantity = 1; // Default quantity
-      cout << "Type 'U' to manually update the quantity or scan the next product: ";
-      string choice;
-      getline(cin, choice);
-
-      if (choice == "U" || choice == "u") {
-        cout << "Enter quantity: ";
-        cin >> quantity;
-        cin.ignore();
-      } else {
-        cart.push_back({
-          product,
-          quantity
-        });
-        total += product.getPrice() * quantity;
-        cout << "Added to cart: " << product.getName() << " x" << quantity << " = $" << product.getPrice() * quantity << endl;
-        barcode = choice; // Treat choice as the next barcode
-        continue; // Skip the rest of the loop and process the new barcode
-      }
-
-      int availableQuantity = manage.getProductQuantityByID(productId);
-      if (quantity > availableQuantity) {
-        cout << "Not enough stock. Available quantity: " << availableQuantity << endl;
-      } else {
-        cart.push_back({
-          product,
-          quantity
-        });
-        total += product.getPrice() * quantity;
-        cout << "Added to cart: " << product.getName() << " x" << quantity << " = $" << product.getPrice() * quantity << endl;
-      }
-    }
-
-    cout << "Scan or enter product details (or type :DONE or :D to finish): ";
-    getline(cin, barcode);
-  }
-
-  // Display cart
-  sort(cart.begin(), cart.end(), [](const pair < Product, int > & a,
-    const pair < Product, int > & b) {
-    return a.first.getName() < b.first.getName();
-  });
-
-  cout << "\nYour Cart:\n";
-  int counter = 1;
-  for (const auto & item: cart) {
-    cout << counter++ << ". " << item.first.getName() << " ____________________$" << item.first.getPrice() * item.second << endl;
-  }
-
-  cout << "\nTotal: $" << total << endl;
-
-  // Coupon code
-  cout << "Enter coupon code (or press Enter to skip): ";
-  string coupon;
-  getline(cin, coupon);
-
-  if (!coupon.empty()) {
-    json coupons;
-    ifstream couponFile("coupons.json");
-    couponFile >> coupons;
-    couponFile.close();
-
-    for (const auto & code: coupons["coupons"]) {
-      if (code["code"] == coupon) {
-        int discount = stoi(coupon.substr(coupon.size() - 2));
-        total -= total * (discount / 100.0);
-        cout << "Discount applied! New total: $" << total << endl;
-        break;
-      } else {
-        cout << "Invalid Discount Code" << endl;
-      }
-    }
-  }
-
-  cout << "Final Total (after tax and promotions): $" << total << endl;
-
-  cout << "Amount Paid In Full? (Y/N): ";
-  getline(cin, coupon); // Use getline to handle empty input
-
-  if (coupon == "Y" || coupon == "y") {
-    for (const auto & item: cart) {
-      string productId = item.first._id; // Assuming the Product class has an ID field
-      int purchasedQuantity = item.second;
-
-      bool updated = updateProduct(productId, purchasedQuantity);
-      if (!updated) {
-        cout << "Failed to update inventory for product: " << item.first.getName() << endl;
-      }
-    }
-  } else if (coupon.empty() || coupon == "N" || coupon == "n") {
-    cout << "Transaction Failed! Inventory unchanged!" << endl;
-  } else {
-    cout << "Invalid input!" << endl;
-  }
-
+void displayCheckoutSystem() {
+  CheckoutSystem();
   displayMainMenu();
 }
