@@ -27,6 +27,9 @@
         "format": "cpp",
         "initializer_list": "cpp",
         "ranges": "cpp",
-        "span": "cpp"
+        "span": "cpp",
+        "__locale": "cpp",
+        "typeinfo": "cpp",
+        "bitset": "cpp"
     }
 }
