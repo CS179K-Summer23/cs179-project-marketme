@@ -8,6 +8,8 @@
 
 #include "src/CheckoutSystem.h"
 
+#include "src/ProductSearch.h"
+
 #include "src/report.h"
 
 void displayMainMenu();
@@ -161,42 +163,63 @@ void displayProductManagementMenu() {
 }
 
 void displaySearchMenu() {
-  int choice;
-  std::string searchQuery;
-  std::cout << "\n=========== Search Menu ===========\n";
-  std::cout << "1. Search by Product ID\n";
-  std::cout << "2. Search by Product Name\n";
-  std::cout << "3. Scan Barcode\n";
-  std::cout << "4. Back to Main Menu\n";
-  std::cout << "Please enter your choice (1-4): ";
-  std::cin >> choice;
-  switch (choice) {
-  case 1:
-    std::cout << "Enter Product ID: ";
-    std::cin >> searchQuery;
-    std::cout <<
-      "Searching by Product ID. (This functionality is not yet implemented, please be patience.)\n";
+    int choice;
+    std::string searchQuery;
+    std::cout << "\n=========== Search Menu ===========\n";
+    std::cout << "1. Search by Product ID\n";
+    std::cout << "2. Search by Product Name\n";
+    std::cout << "3. Scan Barcode\n";
+    std::cout << "4. Back to Main Menu\n";
+    std::cout << "Please enter your choice (1-4): ";
+    std::cin >> choice;
+
+    ProductSearch productSearch("data/products.json");
+    vector<json> results;
+
+    switch (choice) {
+        case 1:
+            std::cout << "Enter Product ID: ";
+            std::cin >> searchQuery;
+            results = productSearch.searchById(searchQuery);
+            break;
+        case 2:
+            std::cout << "Enter Product Name: ";
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); 
+            std::getline(std::cin, searchQuery);
+            results = productSearch.searchByName(searchQuery);
+            break;
+        case 3:
+            std::cout << "Scan Barcode: ";
+            std::cin >> searchQuery;
+            results = productSearch.searchByBarcode(searchQuery);
+            break;
+        case 4:
+            displayMainMenu();
+            return;
+        default:
+            std::cout << "Invalid choice. Please try again.\n";
+            displaySearchMenu();
+            return;
+    }
+
+    if (results.empty()) {
+        std::cout << "\nNo results found.\n";
+        displaySearchMenu();
+        return;
+    }
+
+    for (const auto& product : results) {
+        std::cout << "\nName: " << product["name"] 
+                  << "\nPrice: $" << product["price"] 
+                  << "\nCategory: " << product["category"] 
+                  << "\nDescription: " << product["description"] 
+                  << "\nExpiration Date: " << product["expiration_date"]
+                  << "\nID: " << product["id"] 
+                  << "\nIn Stock: " << product["quantity"] << "\n";
+    }
+
     displaySearchMenu();
-    break;
-  case 2:
-    std::cout << "Enter Product Name: ";
-    std::cin >> searchQuery;
-    std::cout <<
-      "Searching by Product Name. (This functionality is not yet implemented, please be patience.)\n";
-    displaySearchMenu();
-    break;
-  case 3:
-    std::cout <<
-      "Please scan the barcode. (This functionality is not yet implemented, please be patience.)\n";
-    displaySearchMenu();
-    break;
-  case 4:
-    displayMainMenu();
-    break;
-  default:
-    std::cout << "Invalid choice. Please try again.\n";
-    displaySearchMenu();
-  }
+    return;
 }
 
 void displayFilterMenu() {
