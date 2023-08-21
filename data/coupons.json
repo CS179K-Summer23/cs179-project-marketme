@@ -1,0 +1,16 @@
+{
+    "coupons": [
+        {
+            "code": "SAVE10",
+            "expiry_date": "2023-12-31",
+            "max_discount": 50.0,
+            "min_order_amount": 100.0
+        },
+        {
+            "code": "SUMMER15",
+            "expiry_date": "2023-08-31",
+            "max_discount": 30.0,
+            "min_order_amount": 70.0
+        }
+    ]
+}
