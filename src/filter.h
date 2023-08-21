@@ -1,3 +1,6 @@
+#ifndef FILTER_H
+#define FILTER_H
+
 #include <iostream>
 #include <vector>
 #include <chrono>
@@ -103,6 +106,7 @@ class CategoryFilter : public Filter{
 public:
     CategoryFilter(const string& productsPath, const string& name) : Filter(productsPath){
         _name = name;
+        transform(_name.begin(), _name.end(), _name.begin(), ::tolower);
     }
 
     vector<json> apply() const override{
@@ -110,6 +114,7 @@ public:
 
         for (const auto& product : _data["products"]) {
             string name = product["category"];
+            transform(name.begin(), name.end(), name.begin(), ::tolower);
             if (_name == name) {
                 filteredData.push_back(product);
             }
@@ -174,13 +179,15 @@ class PrefixFilter : public Filter {
 public:
     PrefixFilter(const string& productsPath, const string& prefix) : Filter(productsPath){
         _prefix = prefix;
+        transform(_prefix.begin(), _prefix.end(), _prefix.begin(), ::tolower);
     }
 
     vector<json> apply() const override {
         vector<json> filteredData;
 
         for (const auto& product : _data["products"]) {
-           const string productName = product["name"];
+           string productName = product["name"];
+           transform(productName.begin(), productName.end(), productName.begin(), ::tolower);
 
             if (productName.compare(0, _prefix.length(), _prefix) == 0) {
                 filteredData.push_back(product);
@@ -193,3 +200,5 @@ public:
 private:
     string _prefix;
 };
+
+#endif

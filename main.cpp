@@ -141,7 +141,7 @@ void displayFilterMenu() {
   std::cout << "4. Filter by Quantity Range\n";
   std::cout << "5. Filter by Prefix\n";
   std::cout << "6. Back to Product Management\n";
-  std::cin >> choice;
+  choice = acceptNumber("Please enter your choice (1-6)");
   switch (choice) {
   case 1:
     filterPriceRange();
