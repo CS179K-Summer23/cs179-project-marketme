@@ -7,6 +7,7 @@
 #include <algorithm>
 #include "base64.h"
 #include "user.h"
+#include "report.h"
 
 using namespace std;
 // using CHAT GPT template to send email
@@ -15,7 +16,7 @@ const string COMMAND_BASE = "curl -X POST -H \"Authorization: Bearer ";
 const string API_ENDPOINT = "https://gmail.googleapis.com/gmail/v1/users/me/messages/send";
 
 
-// Function to send the email using the Gmail API
+// Template function to send the email using the Gmail API
 void sendEmail(const string& accessToken, const string& rawEmailContentBase64) {
     string email_command = COMMAND_BASE + accessToken +
                      "\" -H \"Content-Type: application/json\" -d '"
@@ -30,6 +31,44 @@ void sendEmail(const string& accessToken, const string& rawEmailContentBase64) {
     } else {
         cerr << "Failed to send email." << endl;
     }
+}
+
+void reportEmail(const string&accessToken, ReportGenerator report) {
+    string filename = "report/dailyreport_" + report.getCurrentDate() + ".txt";
+    ifstream reportFile(filename);
+
+    if (!reportFile.is_open()) {
+        cerr << "Failed to open " << filename << endl;
+        return;
+    }
+
+    string reportContent((istreambuf_iterator<char>(reportFile)), istreambuf_iterator<char>());
+    reportFile.close();
+
+    string content = "To: official.marketme@gmail.com\r\n"
+                     "Subject: Daily Report!\r\n"
+                     "Content-Type: text/html\r\n" // Specify HTML content type
+                         "\r\n"
+                         "<html><body>"
+                         "<p><img src=\"https://raw.githubusercontent.com/CS179K-Summer23/cs179-project-marketme/email/data/marketme.png\" alt=\"MarketMe Logo\"></p>"
+                         "<pre>" + reportContent + "</pre>"
+                         "</body></html>";
+    
+    string base64 = base64_encode(reinterpret_cast<const unsigned char*>(content.c_str()), content.length());
+    string command = COMMAND_BASE + accessToken +
+                     "\" -H \"Content-Type: application/json\" -d '"
+                     "{ \"raw\": \"" + base64 + "\" }' " + API_ENDPOINT + 
+                     " >/dev/null 2>/dev/null";
+
+    int result = system(command.c_str());
+
+    if (result != 0) {
+        cerr << "Failed to send the report." << endl;
+    }
+    else {
+        cout << "The daily report has been sent. Please check the company email." << endl;
+    }
+    
 }
 
 void subscribe(const string& accessToken, vector<User>& subscribers){
