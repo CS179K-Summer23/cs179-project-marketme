@@ -2,13 +2,11 @@
 #include <string>
 #include <algorithm>
 #include "src/mainmenuhelpers.h"
-
 #include "src/CheckoutSystem.h"
 #include "src/email.h"
-
 #include "src/ProductSearch.h"
-
 #include "src/report.h"
+#include "src/user.h"
 
 void displayMainMenu();
 void displayProductManagementMenu();
@@ -24,10 +22,10 @@ void displayReportMenu();
 
 // GLOBAL VARIABLES
 // replace string with a non-expired access code from google playground
-const std::string access = "ya29.a0AfB_byBqw30auozVLlqxW4TGfTrj5mJJmcykJnDTqWLA-sBPuqO2M97fF2W4bax3PDQTKsFigNETJj93twxoWNFVO_GDdby8Zfiq5NiHPxT_plOdju4jNUGk02GBQk1d6icGU1dvptDZdrSW9_QkiEakMG-nQAUX9wfH5gaCgYKAf8SARESFQHsvYlsBxE_lutNZi2kkmTDxKD50Q0173"; 
+const std::string access = "ya29.a0AfB_byATl4lv1ZPJsh35DwYB5-OO5ANdiiakjeQGwOHGH5EBJz27-LaAJ1O8AK-VJQ-FVVxrWQTR9rNPzy6TlgMbY4J1SV277l4eD6IMd13yrMF0bVb7N5YNhSH9zBJAluMsnftN5wdiJAg7uAnB6Ni9zIGso98eZvUVEi6hbAaCgYKAaQSARESFQHsvYlsJfngj94s6VzRm9SqufdSTQ0177"; 
 std::string content = ""; 
 std::string encode = "";
-
+vector<User> subscribers;
 
 int main() {
   std::cout << "[This Version Supports Scanner, Keyboard]\n";
@@ -278,41 +276,26 @@ void displayEmailMenu() {
   std::cin >> choice;
   switch (choice) {
   case 1:
-    std::cout <<
-      "Subscribing to Newsletter. (This functionality is not yet implemented, please be patience.)\n";
-    content = "To: pcwong165@gmail.com\r\n"
-              "Subject: Welcome!\r\n"
-              "\r\n"
-              "You have successfully subscribed to MarketMe newsletters!\r\n";
-    encode = base64_encode(reinterpret_cast<const unsigned char*>(content.c_str()), content.length());
-    sendEmail(access, encode);
-    content = "";
-    encode = "";
+    std::cout << "Subscribing to Newsletter...\n";
+    subscribe(access, subscribers);
+    for (const auto& user : subscribers)
+    {
+      cout << user._ename << endl;
+    }
     displayEmailMenu();
     break;
   case 2:
-    std::cout << "Unsubscribing from Newsletter. (Functionality not yet "
-    "implemented.)\n";
-    content = "To: pcwong165@gmail.com\r\n"
-              "Subject: We'll miss you!\r\n"
-              "\r\n"
-              "You have successfully unsubscribed from MarketMe.\r\n";
-    encode = base64_encode(reinterpret_cast<const unsigned char*>(content.c_str()), content.length());
-    sendEmail(access, encode);
-    content = "";
-    encode = "";
+    std::cout << "Unsubscribing from Newsletter...\n";  
+    unsubscribe(access, subscribers);
+    for (const auto& user : subscribers)
+    {
+      cout << user._ename << endl;
+    }
     displayEmailMenu();
     break;
   case 3:
-    std::cout << "Sending Emails. (This functionality is not yet implemented, please be patience.)\n";
-    content = "To: pcwong165@gmail.com\r\n"
-              "Subject: Newsletter\r\n"
-              "\r\n"
-              "Check out today's hot deals and items!\r\n";
-    encode = base64_encode(reinterpret_cast<const unsigned char*>(content.c_str()), content.length());
-    sendEmail(access, encode);
-    content = "";
-    encode = "";
+    std::cout << "Sending Emails...\n";
+    newsletter(access, subscribers);
     displayEmailMenu();
     break;
   case 4:
