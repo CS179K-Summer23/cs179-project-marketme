@@ -190,9 +190,9 @@ void displayEmailMenu() {
     std::cout <<
       "Subscribing to Newsletter. (This functionality is not yet implemented, please be patience.)\n";
     content = "To: pcwong165@gmail.com\r\n"
-              "Subject: Test Email\r\n"
+              "Subject: Welcome!\r\n"
               "\r\n"
-              "Welcome to MarketMe's newsletter subscription!\r\n";
+              "You have successfully subscribed to MarketMe newsletters!\r\n";
     encode = base64_encode(reinterpret_cast<const unsigned char*>(content.c_str()), content.length());
     sendEmail(access, encode);
     content = "";
@@ -203,9 +203,9 @@ void displayEmailMenu() {
     std::cout << "Unsubscribing from Newsletter. (Functionality not yet "
     "implemented.)\n";
     content = "To: pcwong165@gmail.com\r\n"
-              "Subject: Test Email\r\n"
+              "Subject: We'll miss you!\r\n"
               "\r\n"
-              "You have been unsubscribed from MarketMe. We'll miss you!\r\n";
+              "You have successfully unsubscribed from MarketMe.\r\n";
     encode = base64_encode(reinterpret_cast<const unsigned char*>(content.c_str()), content.length());
     sendEmail(access, encode);
     content = "";
@@ -215,7 +215,7 @@ void displayEmailMenu() {
   case 3:
     std::cout << "Sending Emails. (This functionality is not yet implemented, please be patience.)\n";
     content = "To: pcwong165@gmail.com\r\n"
-              "Subject: Test Email\r\n"
+              "Subject: Newsletter\r\n"
               "\r\n"
               "Check out today's hot deals and items!\r\n";
     encode = base64_encode(reinterpret_cast<const unsigned char*>(content.c_str()), content.length());
