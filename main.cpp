@@ -133,7 +133,7 @@ void displayProductManagementMenu() {
   std::cout << "1. Add Product(s)\n";
   std::cout << "2. Delete Product(s)\n";
   std::cout << "3. Update a product\n";
-  std::cout << "4. Advanced Filter\n";
+  std::cout << "4. Advanced \n";
   std::cout << "5. Back to Main Menu\n";
   std::cout << "Please enter your choice (1-5): ";
   std::cin >> choice;
@@ -151,7 +151,7 @@ void displayProductManagementMenu() {
     displayProductManagementMenu();
     break;
   case 4:
-    handleFilter();
+    handle();
     break;
   case 5:
     displayMainMenu();
@@ -228,7 +228,7 @@ void displayFilterMenu() {
   std::cout << "\n=========== Advanced Filter ===========\n";
   std::cout << "1. Filter by Price Range\n";
   std::cout << "2. Filter by Category\n";
-  std::cout << "3. Filter by Name Alphabetically\n";
+  std::cout << "3. Sort by Name Alphabetically\n";
   std::cout << "4. Filter by Quantity Range\n";
   std::cout << "5. Filter by Prefix\n";
   std::cout << "6. Back to Product Management\n";
