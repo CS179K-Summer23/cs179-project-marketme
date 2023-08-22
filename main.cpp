@@ -153,7 +153,7 @@ void displayProductManagementMenu() {
     displayProductManagementMenu();
     break;
   case 4:
-    handle();
+    handleFilter();
     break;
   case 5:
     displayMainMenu();
