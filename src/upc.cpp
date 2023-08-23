@@ -20,11 +20,8 @@ int main() {
 
     if (curl) {
         // Set the UPC code you want to query
-        std::string upc = "194425013742";
+        std::string upc = "194425013742"; // Replace with the desired UPC code
 
-        // Set the path to the directory containing DLL/DYLIB files
-        std::string dllPath = "../libraries"; // Works on both Windows and macOS
-        
         // Construct the URL for the UPCItemDB API
         std::string url = "https://api.upcitemdb.com/prod/trial/lookup?upc=" + upc;
 
@@ -32,6 +29,19 @@ int main() {
         curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
         curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, WriteCallback);
         curl_easy_setopt(curl, CURLOPT_WRITEDATA, &response);
+
+        // Determine the path to the dynamic library based on the operating system
+        std::string dllPath;
+        #ifdef _WIN32 // Windows
+            dllPath = "../libraries/libcurl.dll"; // Update this for Windows path
+        #else // macOS or Linux
+            dllPath = "../libraries/libcurl.dylib"; // Update this for macOS/Linux path
+        #endif
+
+        // Set the path to the dynamic library using CURLOPT_LIBRARY_PATH (Windows only)
+        #ifdef _WIN32
+            curl_easy_setopt(curl, CURLOPT_LIBRARY_PATH, dllPath.c_str());
+        #endif
 
         // Perform the request
         res = curl_easy_perform(curl);
