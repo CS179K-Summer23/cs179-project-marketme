@@ -33,7 +33,7 @@ int main() {
         // Determine the path to the dynamic library based on the operating system
         std::string dllPath;
         #ifdef _WIN32 // Windows
-            dllPath = "../libraries/libcurl.dll"; // Update this for Windows path
+            dllPath = "..\\libraries\\libcurl.dll"; // Update this for Windows path
         #else // macOS or Linux
             dllPath = "../libraries/libcurl.dylib"; // Update this for macOS/Linux path
         #endif
