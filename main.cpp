@@ -27,6 +27,31 @@ vector<User> subscribers;
 ReportGenerator reportGen;
 
 int main() {
+
+    std::cout << "[This Version Supports Scanner, Keyboard]\n";
+    std::cout << "[Advance Search; Search; Emails Functions are not yet supported. -- MarketMe-Team]\n";
+    
+    LoginSystem loginSystem;
+    std::string username, password;
+
+    for (int attempts = 0; attempts < 3; ++attempts) {  // 3 login attempts max
+        std::cout << "Enter Username: ";
+        std::cin >> username;
+
+        std::cout << "Enter Password: ";
+        std::cin >> password;
+
+        if (loginSystem.authenticate(username, password)) {
+            std::cout << "Login Successful!" << std::endl;
+            displayMainMenu();
+            return 0;
+        } else {
+            std::cout << "Invalid username or password. Try again." << std::endl;
+        }
+    }
+
+    std::cout << "Too many failed login attempts. Exiting." << std::endl;
+
   std::cout << "[This Version Supports Scanner, Keyboard]\n";
   std::cout << "[Advance Search; Search; Emails Functions are not yet supported. -- MarketMe-Team]\n";
   displayMainMenu();
