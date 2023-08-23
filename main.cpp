@@ -7,6 +7,7 @@
 #include "src/ProductSearch.h"
 #include "src/report.h"
 #include "src/user.h"
+#include "src/login.h"
 
 void displayMainMenu();
 void displayProductManagementMenu();
