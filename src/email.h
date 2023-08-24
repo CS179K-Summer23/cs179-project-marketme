@@ -1,8 +1,13 @@
 #ifndef EMAIL_H
 #define EMAIL_H
 
+// Include Windows headers before curl.h
+#define WIN32_LEAN_AND_MEAN
+#include <windows.h>
+
 #include <iostream>
 #include <cstdlib>
+#include <curl/curl.h>
 #include <string>
 #include <algorithm>
 #include "base64.h"
@@ -10,30 +15,82 @@
 #include "report.h"
 
 using namespace std;
-// using CHAT GPT template to send email
 
 const string COMMAND_BASE = "curl -X POST -H \"Authorization: Bearer ";
 const string API_ENDPOINT = "https://gmail.googleapis.com/gmail/v1/users/me/messages/send";
 
-
-// Template function to send the email using the Gmail API
-void sendEmail(const string& accessToken, const string& rawEmailContentBase64) {
-    string email_command = COMMAND_BASE + accessToken +
-                     "\" -H \"Content-Type: application/json\" -d '"
-                     "{ \"raw\": \"" + rawEmailContentBase64 + "\" }' " + API_ENDPOINT;
-
-    string command = email_command + " >/dev/null 2>/dev/null";
-
-    int result = system(command.c_str());
-
-    if (result == 0) {
-        cout << "Email sent successfully." << endl;
-    } else {
-        cerr << "Failed to send email." << endl;
-    }
+size_t WriteCallback(void *contents, size_t size, size_t nmemb, void *userp) {
+    // Do nothing with the response data
+    return size * nmemb;
 }
 
-void reportEmail(const string&accessToken, ReportGenerator report) {
+void sendEmailWithLibcurl(const string& accessToken, const string& recipient, const string& payload, int msg) {
+    CURL *curl = curl_easy_init();
+    if (!curl) {
+        cerr << "Failed to initialize libcurl." << endl;
+        return;
+    }
+
+    string url = API_ENDPOINT;
+
+    struct curl_slist *headers = nullptr;
+    headers = curl_slist_append(headers, ("Authorization: Bearer " + accessToken).c_str());
+    headers = curl_slist_append(headers, "Content-Type: application/json");
+
+    curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
+    curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
+    curl_easy_setopt(curl, CURLOPT_POSTFIELDS, payload.c_str());
+
+
+    curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, WriteCallback);
+    CURLcode res = curl_easy_perform(curl);
+
+    if (res == CURLE_OK) {
+        if (msg == 1) {
+            cout << "Thanks for subscribing to MarketMe! Please check your email for confirmation." << endl;
+        }
+        else if (msg == 2) {
+            cout << "You have successfully unsubscribed from MarketMe newsletters." << endl;   
+        }
+    } else {
+        cerr << "Failed to send email to " << recipient << ". Error: " << curl_easy_strerror(res) << endl;
+    }
+
+    curl_slist_free_all(headers);
+    curl_easy_cleanup(curl);
+}
+
+void sendEmailWithLibcurlCount(const string& accessToken, const string& recipient, const string& payload, int& count) {
+    CURL *curl = curl_easy_init();
+    if (!curl) {
+        cerr << "Failed to initialize libcurl." << endl;
+        return;
+    }
+
+    string url = API_ENDPOINT;
+
+    struct curl_slist *headers = nullptr;
+    headers = curl_slist_append(headers, ("Authorization: Bearer " + accessToken).c_str());
+    headers = curl_slist_append(headers, "Content-Type: application/json");
+
+    curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
+    curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
+    curl_easy_setopt(curl, CURLOPT_POSTFIELDS, payload.c_str());
+
+    curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, WriteCallback);
+    CURLcode res = curl_easy_perform(curl);
+
+    if (res == CURLE_OK) {
+        count++;  // Increment count only for successful emails
+    } else {
+        cerr << "Failed to send email to " << recipient << ". Error: " << curl_easy_strerror(res) << endl;
+    }
+
+    curl_slist_free_all(headers);
+    curl_easy_cleanup(curl);
+}
+
+void reportEmail(const string& accessToken, ReportGenerator report) {
     string filename = "report/dailyreport_" + report.getCurrentDate() + ".txt";
     ifstream reportFile(filename);
 
@@ -47,28 +104,42 @@ void reportEmail(const string&accessToken, ReportGenerator report) {
 
     string content = "To: official.marketme@gmail.com\r\n"
                      "Subject: Daily Report!\r\n"
-                     "Content-Type: text/html\r\n" // Specify HTML content type
-                         "\r\n"
-                         "<html><body>"
-                         "<p><img src=\"https://raw.githubusercontent.com/CS179K-Summer23/cs179-project-marketme/email/data/marketme.png\" alt=\"MarketMe Logo\"></p>"
-                         "<pre>" + reportContent + "</pre>"
-                         "</body></html>";
-    
-    string base64 = base64_encode(reinterpret_cast<const unsigned char*>(content.c_str()), content.length());
-    string command = COMMAND_BASE + accessToken +
-                     "\" -H \"Content-Type: application/json\" -d '"
-                     "{ \"raw\": \"" + base64 + "\" }' " + API_ENDPOINT + 
-                     " >/dev/null 2>/dev/null";
+                     "Content-Type: text/html\r\n"
+                     "\r\n"
+                     "<html><body>"
+                     "<p><img src=\"https://raw.githubusercontent.com/CS179K-Summer23/cs179-project-marketme/email/data/marketme.png\" alt=\"MarketMe Logo\"></p>"
+                     "<pre>" + reportContent + "</pre>"
+                     "</body></html>";
 
-    int result = system(command.c_str());
-
-    if (result != 0) {
-        cerr << "Failed to send the report." << endl;
+    CURL *curl = curl_easy_init();
+    if (!curl) {
+        cerr << "Failed to initialize libcurl." << endl;
+        return;
     }
-    else {
+
+    string url = API_ENDPOINT;
+    string payload = "{ \"raw\": \"" + base64_encode(reinterpret_cast<const unsigned char*>(content.c_str()), content.length()) + "\" }";
+
+    struct curl_slist *headers = nullptr;
+    headers = curl_slist_append(headers, ("Authorization: Bearer " + accessToken).c_str());
+    headers = curl_slist_append(headers, "Content-Type: application/json");
+
+    curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
+    curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
+    curl_easy_setopt(curl, CURLOPT_POSTFIELDS, payload.c_str());
+
+  // Set CURLOPT_WRITEFUNCTION to prevent writing the response to stdout
+    curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, WriteCallback);
+    CURLcode res = curl_easy_perform(curl);
+
+    if (res == CURLE_OK) {
         cout << "The daily report has been sent. Please check the company email." << endl;
+    } else {
+        cerr << "Failed to send the report. Error: " << curl_easy_strerror(res) << endl;
     }
-    
+
+    curl_slist_free_all(headers);
+    curl_easy_cleanup(curl);
 }
 
 void subscribe(const string& accessToken, vector<User>& subscribers){
@@ -82,7 +153,7 @@ void subscribe(const string& accessToken, vector<User>& subscribers){
 
     for (const auto& user : subscribers)
     {
-        if (user._ename == email)
+        if (user._email == email)
         {
             cout << "You're already subscribed!" << endl;
             return;
@@ -99,64 +170,42 @@ void subscribe(const string& accessToken, vector<User>& subscribers){
                          "<p><img src=\"https://raw.githubusercontent.com/CS179K-Summer23/cs179-project-marketme/email/data/marketme.png\" alt=\"MarketMe Logo\"></p>"
                          "<p>You have successfully subscribed to MarketMe newsletters!\r\n</p>"
                          "</body></html>";
-    string base64 = base64_encode(reinterpret_cast<const unsigned char*>(content.c_str()), content.length());
-    string command = COMMAND_BASE + accessToken +
-                     "\" -H \"Content-Type: application/json\" -d '"
-                     "{ \"raw\": \"" + base64 + "\" }' " + API_ENDPOINT + 
-                     " >/dev/null 2>/dev/null";
+    string payload = "{ \"raw\": \"" + base64_encode(reinterpret_cast<const unsigned char*>(content.c_str()), content.length()) + "\" }";
 
-    int result = system(command.c_str());
-
-    if (result != 0) {
-        cerr << "Failed to send email to " + email << "." << endl;
-    }
-    else {
-        cout << "Thanks for subscribing to MarketMe! Please check your email for confirmation." << endl;
-    }
-    
+    sendEmailWithLibcurl(accessToken, email, payload, 1);
 }
 
 void unsubscribe(const string& accessToken, vector<User>& subscribers){
-    string email, content;
+    string email;
     cout << "Please input your email: ";
     cin.ignore();
     getline(cin, email);
-    
-    for (auto userIter = subscribers.begin(); userIter != subscribers.end(); ++userIter) {
-        if (userIter->_email == email) {
-            content = "To: " + email + "\r\n"
-                      "Subject: We'll miss you, " + userIter->_ename + "!\r\n"
-                      "Content-Type: text/html\r\n" // Specify HTML content type
-                      "\r\n"
-                      "<html><body>"
-                      "<p><img src=\"https://raw.githubusercontent.com/CS179K-Summer23/cs179-project-marketme/email/data/marketme.png\" alt=\"MarketMe Logo\"></p>"
-                      "<p>You have successfully unsubscribed from MarketMe newsletters.\r\n</p>"
-                      "</body></html>";
-            subscribers.erase(userIter); // Remove the user from the vector.
-            break;
-        }
+
+    auto userIter = std::find_if(subscribers.begin(), subscribers.end(), [&email](const User& user) {
+        return user._email == email;
+    });
+
+    if (userIter == subscribers.end()) {
+        cerr << "Email not found in subscribers list." << endl;
+        return;
     }
 
-    string base64 = base64_encode(reinterpret_cast<const unsigned char*>(content.c_str()), content.length());
-    string command = COMMAND_BASE + accessToken +
-                     "\" -H \"Content-Type: application/json\" -d '"
-                     "{ \"raw\": \"" + base64 + "\" }' " + API_ENDPOINT + 
-                     " >/dev/null 2>/dev/null";
+    string content = "To: " + email + "\r\n"
+                     "Subject: We'll miss you, " + userIter->_ename + "!\r\n"
+                     "Content-Type: text/html\r\n"
+                     "\r\n"
+                     "<html><body>"
+                     "<p><img src=\"https://raw.githubusercontent.com/CS179K-Summer23/cs179-project-marketme/email/data/marketme.png\" alt=\"MarketMe Logo\"></p>"
+                     "<p>You have successfully unsubscribed from MarketMe newsletters.\r\n</p>"
+                     "</body></html>";
+    string payload = "{ \"raw\": \"" + base64_encode(reinterpret_cast<const unsigned char*>(content.c_str()), content.length()) + "\" }";
 
-    int result = system(command.c_str());
-
-    if (result != 0) {
-        cerr << "Failed to send email to " + email << "." << endl;
-    }
-    else {
-        cout << "Thanks for subscribing to MarketMe! Please check your email for confirmation." << endl;
-    }
+    sendEmailWithLibcurl(accessToken, email, payload, 2);
+    subscribers.erase(userIter);
 }
 
 void newsletter(const string& accessToken, const vector<User>& subscribers){
-    
     int count = 0;
-    string command = "";
 
     for (const auto& user : subscribers){
         string content = "To: " + user._email + "\r\n"
@@ -167,25 +216,20 @@ void newsletter(const string& accessToken, const vector<User>& subscribers){
                      "<p><img src=\"https://raw.githubusercontent.com/CS179K-Summer23/cs179-project-marketme/email/data/newsletter.png\" alt=\"Newsletter\">\r\n</p>"
                      "</body></html>";
 
-        string base64 = base64_encode(reinterpret_cast<const unsigned char*>(content.c_str()), content.length());
+        string payload = "{ \"raw\": \"" + base64_encode(reinterpret_cast<const unsigned char*>(content.c_str()), content.length()) + "\" }";
 
-        command = COMMAND_BASE + accessToken +
-                     "\" -H \"Content-Type: application/json\" -d '"
-                     "{ \"raw\": \"" + base64 + "\" }' " + API_ENDPOINT + 
-                     " >/dev/null 2>/dev/null";
-
-        int result = system(command.c_str());
-
-        if (result != 0) {
-            cerr << "Failed to send email to " + user._ename << "." << endl;
-        }
-        else {
-            count++;
-        }
+        sendEmailWithLibcurlCount(accessToken, user._email, payload, count);
     }
     
-    cout << "Successfully sent " + to_string(count) + " email(s)!" << endl;
-
+    if (subscribers.empty()){
+        cout << "Oops! There are no subscribers in the system yet." << endl;
+    }
+    else if (count == 0) {
+        cout << "Error: Sending emails was unsuccessful." << endl;
+    }
+    else {    
+        cout << "Successfully sent " + to_string(count) + " email(s)!" << endl;
+    }
 }
 
 #endif

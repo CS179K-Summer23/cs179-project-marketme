@@ -1,12 +1,15 @@
+#include <cstddef>
 #include <iostream>
 #include <string>
 #include <algorithm>
+
 #include "src/mainmenuhelpers.h"
 #include "src/CheckoutSystem.h"
 #include "src/email.h"
 #include "src/ProductSearch.h"
 #include "src/report.h"
 #include "src/user.h"
+
 
 void displayMainMenu();
 void displayProductManagementMenu();
@@ -22,7 +25,7 @@ void displayReportMenu();
 
 // GLOBAL VARIABLES
 // replace string with a non-expired access code from google playground
-const std::string access = "ya29.a0AfB_byArrB92uZ9t7uwnF1l83xKDCwX5tY0XL03VphjM-qoSsS9E5UlpbcrDawicBJoAnlDyB9TJhcZ8ksojb_5N5CFsSBQ7gqtUCy8T_F-MKX6dKAMETDYizOeT429sQ5Iu62p9ojrA_K0xaivyXC3g0gvWpS8b0UQ5aAsOaCgYKAYcSARESFQHsvYlsVAW3rA6lVd8yBGD0n4LI2A0175"; 
+const std::string access = "ya29.a0AfB_byA5bIMJA1Zo7Y2fku5vVcj8RLCNDaUXS5QH5btcrxX273mpgHQGcSIkRFbLiU1tsRzlVScNhNH9Bu_VttcdxzKbJtcspukC6MZn1-t5vONGD04OOmrUs27lkXlNmXuGLvip5t_wXgmNMn7VGrudcHlVybhR92WXc6rlaCgYKAYMSARESFQHsvYls0vGnxHnOxNQDuNehlqTm9A0175"; 
 vector<User> subscribers;
 ReportGenerator reportGen;
 
@@ -43,7 +46,15 @@ void displayMainMenu() {
   std::cout << "5. Report Generator\n"; // New Function!
   std::cout << "6. Exit\n";
   std::cout << "Please enter your choice (1-5): ";
-  std::cin >> choice;
+  
+  if (!(std::cin >> choice)) {
+    std::cout << "Invalid input. Please enter a valid number (1-6).\n";
+    std::cin.clear(); // Clear the error state
+    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Clear the input buffer
+    displayMainMenu();
+    return;
+  }
+
   switch (choice) {
   case 1:
     handleProductManagement();
@@ -63,6 +74,9 @@ void displayMainMenu() {
     std::cout << "Exiting the system...\n";
     reportGen.generateReport(1);
     reportEmail(access, reportGen);
+    std::cout << "Press Enter to exit the program.";
+    std::cin.ignore(); // Clear the newline character from the previous input
+    std::cin.get();    // Wait for the user to press Enter
     break;
   default:
     std::cout << "Invalid choice. Please try again.\n";
@@ -97,7 +111,14 @@ void displayReportMenu() {
   std::cout << "6. Custom Date Range Report\n";
   std::cout << "7. Back to Main Menu\n";
   std::cout << "Please enter your choice (1-7): ";
-  std::cin >> choice;
+  
+   if (!(std::cin >> choice)) {
+    std::cout << "Invalid input. Please enter a valid number (1-6).\n";
+    std::cin.clear(); // Clear the error state
+    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Clear the input buffer
+    displayReportMenu();
+    return;
+  } 
 
   switch (choice) {
   case 1:
@@ -138,7 +159,16 @@ void displayProductManagementMenu() {
   std::cout << "4. Advanced \n";
   std::cout << "5. Back to Main Menu\n";
   std::cout << "Please enter your choice (1-5): ";
-  std::cin >> choice;
+  
+  if (!(std::cin >> choice)) {
+    std::cout << "Invalid input. Please enter a valid number (1-6).\n";
+    std::cin.clear(); // Clear the error state
+    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Clear the input buffer
+    displayProductManagementMenu();
+    return;
+  }
+  std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+
   switch (choice) {
   case 1:
     addMenu();
@@ -173,7 +203,14 @@ void displaySearchMenu() {
     std::cout << "3. Scan Barcode\n";
     std::cout << "4. Back to Main Menu\n";
     std::cout << "Please enter your choice (1-4): ";
-    std::cin >> choice;
+    
+    if (!(std::cin >> choice)) {
+      std::cout << "Invalid input. Please enter a valid number (1-6).\n";
+      std::cin.clear(); // Clear the error state
+      std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Clear the input buffer
+      displaySearchMenu();
+      return;
+    }
 
     ProductSearch productSearch("data/products.json");
     vector<json> results;
@@ -235,6 +272,14 @@ void displayFilterMenu() {
   std::cout << "5. Filter by Prefix\n";
   std::cout << "6. Back to Product Management\n";
   choice = acceptNumber("Please enter your choice (1-6)");
+  if (!(std::cin >> choice)) {
+    std::cout << "Invalid input. Please enter a valid number (1-6).\n";
+    std::cin.clear(); // Clear the error state
+    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Clear the input buffer
+    displayFilterMenu();
+    return;
+  }
+
   switch (choice) {
   case 1:
     filterPriceRange();
@@ -272,24 +317,24 @@ void displayEmailMenu() {
   std::cout << "3. Send Emails\n";
   std::cout << "4. Back to Main Menu\n";
   std::cout << "Please enter your choice (1-4): ";
-  std::cin >> choice;
+  
+  if (!(std::cin >> choice)) {
+    std::cout << "Invalid input. Please enter a valid number (1-6).\n";
+    std::cin.clear(); // Clear the error state
+    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Clear the input buffer
+    displayEmailMenu();
+    return;
+  }
+
   switch (choice) {
   case 1:
     std::cout << "Subscribing to Newsletter...\n";
     subscribe(access, subscribers);
-    for (const auto& user : subscribers)
-    {
-      cout << user._ename << endl;
-    }
     displayEmailMenu();
     break;
   case 2:
     std::cout << "Unsubscribing from Newsletter...\n";  
     unsubscribe(access, subscribers);
-    for (const auto& user : subscribers)
-    {
-      cout << user._ename << endl;
-    }
     displayEmailMenu();
     break;
   case 3:
