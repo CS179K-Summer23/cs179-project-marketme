@@ -42,6 +42,10 @@ class Product {
     _expiration_date = expiration_date;
   }
 
+  void setID(const string & id) {
+    _id = id;
+  }
+
   double getPrice() const {
     return _price;
   }

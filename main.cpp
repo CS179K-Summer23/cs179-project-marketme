@@ -3,7 +3,7 @@
 #include <algorithm>
 #include "src/mainmenuhelpers.h"
 #include "src/CheckoutSystem.h"
-#include "src/email.h"
+// #include "src/email.h"
 #include "src/ProductSearch.h"
 #include "src/report.h"
 #include "src/user.h"
@@ -62,7 +62,8 @@ void displayMainMenu() {
   case 6:
     std::cout << "Exiting the system...\n";
     reportGen.generateReport(1);
-    reportEmail(access, reportGen);
+    newInventory();
+    // reportEmail(access, reportGen);
     break;
   default:
     std::cout << "Invalid choice. Please try again.\n";
@@ -276,7 +277,7 @@ void displayEmailMenu() {
   switch (choice) {
   case 1:
     std::cout << "Subscribing to Newsletter...\n";
-    subscribe(access, subscribers);
+    // subscribe(access, subscribers);
     for (const auto& user : subscribers)
     {
       cout << user._ename << endl;
@@ -285,7 +286,7 @@ void displayEmailMenu() {
     break;
   case 2:
     std::cout << "Unsubscribing from Newsletter...\n";  
-    unsubscribe(access, subscribers);
+    // unsubscribe(access, subscribers);
     for (const auto& user : subscribers)
     {
       cout << user._ename << endl;
@@ -294,7 +295,7 @@ void displayEmailMenu() {
     break;
   case 3:
     std::cout << "Sending Emails...\n";
-    newsletter(access, subscribers);
+    // newsletter(access, subscribers);
     displayEmailMenu();
     break;
   case 4:
