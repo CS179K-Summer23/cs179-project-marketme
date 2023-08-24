@@ -33,6 +33,7 @@ public:
   int getProductQuantityByID(const string & id) const;
   Product getProductDetailsByID(const string & id) const;
   void commitChangesToDisk();
+  json getData() const;
 
   private: 
     productDatabase(const string& database) {
@@ -189,6 +190,10 @@ void productDatabase::commitChangesToDisk() {
   outputFile << products_in_memory.dump(4);
   cout << "Changes Have Been Saved!" << endl;
   outputFile.close();
+}
+
+json productDatabase::getData() const{
+  return products_in_memory;
 }
 
 #endif

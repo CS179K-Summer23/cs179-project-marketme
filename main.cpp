@@ -176,7 +176,9 @@ void displaySearchMenu() {
     std::cout << "Please enter your choice (1-4): ";
     std::cin >> choice;
 
-    ProductSearch productSearch("data/products.json");
+    productDatabase& manage = productDatabase::getInstance("data/products.json");
+    ProductSearch productSearch(manage);
+    // cout << &manage << endl;
     vector<json> results;
 
     switch (choice) {
