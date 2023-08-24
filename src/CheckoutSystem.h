@@ -2,13 +2,21 @@
 #define CHECKOUTSYSTEM_H
 
 #include "product.h"
+
 #include "productDatabase.h"
+
 #include "mainmenuhelpers.h"
+
 #include <iostream>
+
 #include <limits>
+
 #include <vector>
+
 #include <algorithm>
+
 #include <ctime>
+
 #include <cmath>
 
 using namespace std;
@@ -19,9 +27,119 @@ string getCurrentDate();
 double calculateTax(double total);
 bool isCouponValid(const json & coupon, double total);
 
-void CheckoutSystem() {
-  productDatabase& manage = productDatabase::getInstance("data/products.json");
+void saveTransaction(const json & transaction) {
+  json transactions;
+  ifstream inFile("data/transactions.json");
 
+  if (inFile.is_open()) {
+    inFile >> transactions;
+    inFile.close();
+  }
+
+  transactions.push_back(transaction);
+
+  ofstream outFile("data/transactions.json");
+  outFile << transactions.dump(4);
+  outFile.close();
+}
+
+string getCurrentDate() {
+  time_t now = time(0);
+  struct tm tstruct;
+  char buf[80];
+  tstruct = * localtime( & now);
+  strftime(buf, sizeof(buf), "%Y-%m-%d", & tstruct);
+  return buf;
+}
+
+double calculateTax(double total) {
+  const double TAX_RATE = 0.07; // FIX ME WITH API
+  return total * TAX_RATE;
+}
+
+bool isCouponValid(const json & coupon, double total) {
+  string currentDate = getCurrentDate();
+  if (coupon["expiry_date"] <= currentDate) return false;
+  if (total < coupon["min_order_amount"]) return false;
+  return true;
+}
+
+// Age less than 18: Return value is 0
+// Age is 18 or older but less than 21: Return value is 2
+// Age is 21 or older: Return value is 1
+int checkAge() {
+  string scannedCode;
+  cout << "Please scan the CA DMV ID or manually enter MMYY format: ";
+
+  cin >> scannedCode;
+
+  if (scannedCode == "0") {
+    cout << "No ID provided." << endl;
+    return 0; // Return 0, indicating no ID provided
+  }
+
+  if (scannedCode.length() == 4) {
+  } else if (scannedCode.length() == 16) {
+    scannedCode = scannedCode.substr(12, 4); // We need the last 4 digits
+  } else {
+    cout << "Invalid ID format. Please provide a valid ID." << endl;
+    return 0; // Invalid length/format
+  }
+
+  int month = stoi(scannedCode.substr(0, 2));
+  int yearSuffix = stoi(scannedCode.substr(2, 2));
+
+  // Safely remove for personal identity 
+  scannedCode = "XXXXXXXXXXXXXXXXXXXXXXXXXXXX";
+
+  time_t now = time(0);
+  struct tm tstruct;
+  tstruct = * localtime( & now);
+  int currentYearSuffix = (tstruct.tm_year + 1900) % 100;
+  int currentYear = tstruct.tm_year + 1900;
+  int currentMonth = tstruct.tm_mon + 1;
+
+  int year;
+  if (yearSuffix <= currentYearSuffix) {
+    year = 2000 + yearSuffix;
+  } else {
+    year = 1900 + yearSuffix;
+  }
+
+  int age = currentYear - year;
+  if (month > currentMonth) {
+    age--; // Adjust age if birth month is in the future 
+  }
+
+  if (age < 18) {
+    return 0;
+  } else if (age < 21) {
+    return 2;
+  } else {
+    return 1;
+  }
+}
+// Age less than 18: Return value is 0
+// Age is 18 or older but less than 21: Return value is 2
+// Age is 21 or older: Return value is 1
+
+// Function to display cart contents in a tabular format
+void displayCart(const vector < pair < Product, int >> & cart) {
+  cout << "\nYour Cart:\n";
+  cout << "-----------------------------------------------------------\n";
+  cout << "| Product Name                 | Quantity | Total Price   |\n";
+  cout << "-----------------------------------------------------------\n";
+
+  for (const auto & item: cart) {
+    printf("| %-28s | %-8d | $%-12.2f |\n", item.first.getName().c_str(), item.second, item.first.getPrice() * item.second);
+  }
+
+  cout << "-----------------------------------------------------------\n";
+}
+
+void CheckoutSystem() {
+  //productDatabase manage("data/products.json");
+  productDatabase &manage = productDatabase::getInstance("data/products.json");
   string barcode, productId;
   double total = 0.0;
   double discountValue = 0.0;
@@ -81,15 +199,40 @@ void CheckoutSystem() {
 
     cout << "Scan or enter product details (or type :DONE or :D to finish): ";
     getline(cin, barcode);
+
   }
 
-  // Display cart contents
-  cout << "\nYour Cart:\n";
-  for (const auto & item: cart) {
-    cout << item.first.getName() << " x" << item.second << " = $" << item.first.getPrice() * item.second << endl;
-  }
+  displayCart(cart);
 
   cout << "\nTotal: $" << total << endl;
+
+  // Age check for alcohol
+  bool containsAlcohol = false;
+  for (const auto & item: cart) {
+    if (item.first.getCategory() == "alcohol") {
+      containsAlcohol = true;
+      break;
+    }
+  }
+
+  if (containsAlcohol) {
+    if (checkAge() != 1) {
+      for (const auto & item: cart) {
+        if (item.first.getCategory() == "alcohol") {
+          total -= item.first.getPrice() * item.second; // Subtracting the price of each alcohol item
+        }
+      }
+      cart.erase(remove_if(cart.begin(), cart.end(), [](const pair < Product, int > & item) {
+        return item.first.getCategory() == "alcohol";
+      }), cart.end());
+      cout << "Alcohol items removed from cart due to age restriction." << endl;
+      displayCart(cart);
+      cout << "\n Your New Total: $" << total << endl;
+    }
+  }
+
+  cin.ignore();
+  // Age check for alcohol
 
   // Coupon code
   int retryCount = 0;
@@ -166,7 +309,7 @@ void CheckoutSystem() {
     transaction["total"] = total;
     transaction["tax"] = round(calculateTax(total) * 100) / 100.0;
     transaction["discount"] = discountValue;
-    transaction["operator"] = "Default Operator"; 
+    transaction["operator"] = "Default Operator";
 
     json itemList;
     for (const auto & item: cart) {
@@ -186,41 +329,4 @@ void CheckoutSystem() {
   }
 }
 
-void saveTransaction(const json & transaction) {
-  json transactions;
-  ifstream inFile("data/transactions.json");
-
-  if (inFile.is_open()) {
-    inFile >> transactions;
-    inFile.close();
-  }
-
-  transactions.push_back(transaction);
-
-  ofstream outFile("data/transactions.json");
-  outFile << transactions.dump(4);
-  outFile.close();
-}
-
-string getCurrentDate() {
-  time_t now = time(0);
-  struct tm tstruct;
-  char buf[80];
-  tstruct = * localtime( & now);
-  strftime(buf, sizeof(buf), "%Y-%m-%d", & tstruct);
-  return buf;
-}
-
-double calculateTax(double total) {
-  const double TAX_RATE = 0.07; // FIX ME WITH API
-  return total * TAX_RATE;
-}
-
-bool isCouponValid(const json & coupon, double total) {
-  string currentDate = getCurrentDate();
-  if (coupon["expiry_date"] <= currentDate) return false;
-  if (total < coupon["min_order_amount"]) return false;
-  return true;
-}
-
-#endif // CHECKOUTSYSTEM_H
+#endif
