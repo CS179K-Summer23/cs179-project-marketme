@@ -5,32 +5,26 @@
 #include <vector>
 #include <chrono>
 #include <fstream>
+#include "productDatabase.h"
 #include "../libraries/json.hpp"
 
 using namespace std;
 using json = nlohmann::json;
 
-class Filter{
+class Filter {
 public:
-    Filter(const string& productsPath){
-        _path = productsPath;
-        loadFromFile();
+    Filter(productDatabase& database) : _database(database) {
+        loadFromDatabase();
     }
 
     virtual vector<json> apply() const = 0;
 
-protected:   
-    string _path;
+protected:
+    productDatabase& _database;
     json _data;
-
-    void loadFromFile() {
-        ifstream pPath(_path);
-        if (!pPath.is_open()) {
-            cerr << "Error opening file: " << _path << endl;
-            return;
-        }
-        pPath >> _data;
-        pPath.close();
+    
+    void loadFromDatabase() {
+        _data = _database.getData(); 
     }
 };
 
@@ -38,7 +32,7 @@ protected:
 
 class PriceRangeFilter : public Filter{
 public:
-    PriceRangeFilter(const string& productsPath, const double& minPrice, const double& maxPrice) : Filter(productsPath){
+    PriceRangeFilter(productDatabase& database, const double& minPrice, const double& maxPrice) : Filter(database){
         _minPrice = minPrice;
         _maxPrice = maxPrice;
     }
@@ -63,8 +57,8 @@ private:
 
 class ExpirationDateFilter : public Filter {
 public:
-    ExpirationDateFilter(const string& productsPath, const string& expirationDate)
-        : Filter(productsPath), _expirationDate(expirationDate) {
+    ExpirationDateFilter(productDatabase& database, const string& expirationDate)
+        : Filter(database), _expirationDate(expirationDate) {
     }
 
     vector<json> apply() const override {
@@ -104,7 +98,7 @@ private:
 
 class CategoryFilter : public Filter{
 public:
-    CategoryFilter(const string& productsPath, const string& name) : Filter(productsPath){
+    CategoryFilter(productDatabase& database, const string& name) : Filter(database){
         _name = name;
         transform(_name.begin(), _name.end(), _name.begin(), ::tolower);
     }
@@ -128,7 +122,7 @@ private:
 
 class NameFilter : public Filter {
 public:
-    NameFilter(const string& productsPath) : Filter(productsPath){
+    NameFilter(productDatabase& database) : Filter(database){
 
     }
 
@@ -152,7 +146,7 @@ public:
 
 class QuantityFilter : public Filter {
 public:
-    QuantityFilter(const string&  productsPath, const int& minQuantity, const int& maxQuantity) : Filter(productsPath){
+    QuantityFilter(productDatabase& database, const int& minQuantity, const int& maxQuantity) : Filter(database){
         _minQuantity = minQuantity;
         _maxQuantity = maxQuantity;
     }
@@ -177,7 +171,7 @@ private:
 
 class PrefixFilter : public Filter {
 public:
-    PrefixFilter(const string& productsPath, const string& prefix) : Filter(productsPath){
+    PrefixFilter(productDatabase& database, const string& prefix) : Filter(database){
         _prefix = prefix;
         transform(_prefix.begin(), _prefix.end(), _prefix.begin(), ::tolower);
     }
