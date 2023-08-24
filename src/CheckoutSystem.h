@@ -20,7 +20,8 @@ double calculateTax(double total);
 bool isCouponValid(const json & coupon, double total);
 
 void CheckoutSystem() {
-  productDatabase manage("data/products.json");
+  productDatabase& manage = productDatabase::getInstance("data/products.json");
+
   string barcode, productId;
   double total = 0.0;
   double discountValue = 0.0;

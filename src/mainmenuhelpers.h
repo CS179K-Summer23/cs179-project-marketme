@@ -16,9 +16,12 @@ void filterPriceRange();
 void filterCategory();
 void filterQuantityRange();
 void filterPrefix();
+void newInventory();
 
 void addMenu() {
-  productDatabase manage("data/products.json");
+  productDatabase& manage = productDatabase::getInstance("data/products.json");
+  cout << &manage << endl;
+
   string id, name, description, category, sku, barcode, expiration_date;
   double price;
   int quantity;
@@ -86,7 +89,8 @@ void addMenu() {
 }
 
 void deleteProduct() {
-  productDatabase manage("data/products.json");
+  productDatabase& manage = productDatabase::getInstance("data/products.json");
+  cout << &manage << endl;
   string productID, barcode;
 
   static bool skipConfirmation = false; // Flag 1 
@@ -140,7 +144,8 @@ void deleteProduct() {
 }
 
 bool updateProduct(string productId, int requestedQuantity) {
-  productDatabase manage("data/products.json");
+  productDatabase& manage = productDatabase::getInstance("data/products.json");
+  cout << &manage << endl;
   string id, barcode;
   int option;
   string whatoption;
@@ -298,7 +303,7 @@ void filterPriceRange(){
     cout << "No results found" << endl;
   }
 
-  productDatabase manage(productsPath);
+  productDatabase& manage = productDatabase::getInstance("data/products.json");
   int count = 1;
   cout << endl;
   for(auto i : res){
@@ -325,7 +330,7 @@ void filterCategory(){
     cout << "No results found" << endl;
   }
 
-  productDatabase manage(productsPath);
+  productDatabase& manage = productDatabase::getInstance("data/products.json");
   int count = 1;
   cout << endl;
   for(auto i : res){
@@ -349,7 +354,7 @@ void filterName(){
     cout << "No results found" << endl;
   }
 
-  productDatabase manage(productsPath);
+  productDatabase& manage = productDatabase::getInstance("data/products.json");
   int count = 1;
   cout << endl;
   for(auto i : res){
@@ -384,7 +389,7 @@ void filterQuantityRange(){
     cout << "No results found" << endl;
   }
 
-  productDatabase manage(productsPath);
+  productDatabase& manage = productDatabase::getInstance("data/products.json");
   int count = 1;
   cout << endl;
   for(auto i : res){
@@ -410,7 +415,7 @@ void filterPrefix(){
     cout << "No results found" << endl;
   }
 
-  productDatabase manage(productsPath);
+  productDatabase& manage = productDatabase::getInstance("data/products.json");
   int count = 1;
   cout << endl;
   for(auto i : res){
@@ -419,6 +424,12 @@ void filterPrefix(){
     manage.viewProduct(i["id"]);
     cout << endl;
   }
+}
+
+void newInventory(){
+  productDatabase& manage = productDatabase::getInstance("data/products.json");
+
+  manage.commitChangesToDisk();
 }
 
 #endif

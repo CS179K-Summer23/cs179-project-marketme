@@ -540,15 +540,15 @@
             "sku": "SKU-1049"
         },
         {
-            "barcode": "50",
-            "category": "Fruits",
-            "description": "Crisp red apple.",
-            "expiration_date": "12-12-30",
-            "id": "150",
-            "name": "Apple",
-            "price": 8.57,
-            "quantity": 11,
-            "sku": "SKU-1050"
+            "barcode": "23123213213213",
+            "category": "NA",
+            "description": "NA",
+            "expiration_date": "NA",
+            "id": "51",
+            "name": "testing purposes",
+            "price": 333333.0,
+            "quantity": 33333,
+            "sku": "NA"
         }
     ]
 }
