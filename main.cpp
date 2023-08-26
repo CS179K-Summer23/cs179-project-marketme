@@ -328,7 +328,7 @@ void displayEmailMenu() {
   switch (choice) {
   case 1:
     std::cout << "Subscribing to Newsletter...\n";
-    // subscribe(access, subscribers);
+    subscribe(access, subscribers);
     for (const auto& user : subscribers)
     {
       cout << user._ename << endl;
@@ -337,7 +337,7 @@ void displayEmailMenu() {
     break;
   case 2:
     std::cout << "Unsubscribing from Newsletter...\n";  
-    // unsubscribe(access, subscribers);
+    unsubscribe(access, subscribers);
     for (const auto& user : subscribers)
     {
       cout << user._ename << endl;
@@ -346,7 +346,7 @@ void displayEmailMenu() {
     break;
   case 3:
     std::cout << "Sending Emails...\n";
-    // newsletter(access, subscribers);
+    newsletter(access, subscribers);
     displayEmailMenu();
     break;
   case 4:
