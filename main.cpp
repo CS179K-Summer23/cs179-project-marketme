@@ -74,9 +74,6 @@ void displayMainMenu() {
     std::cout << "Exiting the system...\n";
     reportGen.generateReport(1);
     reportEmail(access, reportGen);
-    std::cout << "Press Enter to exit the program.";
-    std::cin.ignore(); // Clear the newline character from the previous input
-    std::cin.get();    // Wait for the user to press Enter
     break;
   default:
     std::cout << "Invalid choice. Please try again.\n";
@@ -156,7 +153,7 @@ void displayProductManagementMenu() {
   std::cout << "1. Add Product(s)\n";
   std::cout << "2. Delete Product(s)\n";
   std::cout << "3. Update a product\n";
-  std::cout << "4. Advanced \n";
+  std::cout << "4. Advanced Filter\n";
   std::cout << "5. Back to Main Menu\n";
   std::cout << "Please enter your choice (1-5): ";
   
@@ -212,7 +209,9 @@ void displaySearchMenu() {
       return;
     }
 
-    ProductSearch productSearch("data/products.json");
+    productDatabase& manage = productDatabase::getInstance("data/products.json");
+    ProductSearch productSearch(manage);
+    // cout << &manage << endl;
     vector<json> results;
 
     switch (choice) {
@@ -330,11 +329,19 @@ void displayEmailMenu() {
   case 1:
     std::cout << "Subscribing to Newsletter...\n";
     subscribe(access, subscribers);
+    for (const auto& user : subscribers)
+    {
+      cout << user._ename << endl;
+    }
     displayEmailMenu();
     break;
   case 2:
     std::cout << "Unsubscribing from Newsletter...\n";  
     unsubscribe(access, subscribers);
+    for (const auto& user : subscribers)
+    {
+      cout << user._ename << endl;
+    }
     displayEmailMenu();
     break;
   case 3:
