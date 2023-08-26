@@ -73,8 +73,7 @@ void displayMainMenu() {
   case 6:
     std::cout << "Exiting the system...\n";
     reportGen.generateReport(1);
-    newInventory();
-    // reportEmail(access, reportGen);
+    reportEmail(access, reportGen);
     break;
   default:
     std::cout << "Invalid choice. Please try again.\n";
@@ -210,9 +209,9 @@ void displaySearchMenu() {
       return;
     }
 
-  productDatabase& manage = productDatabase::getInstance("data/products.json");
-
+    productDatabase& manage = productDatabase::getInstance("data/products.json");
     ProductSearch productSearch(manage);
+    // cout << &manage << endl;
     vector<json> results;
 
     switch (choice) {
@@ -329,7 +328,7 @@ void displayEmailMenu() {
   switch (choice) {
   case 1:
     std::cout << "Subscribing to Newsletter...\n";
-    subscribe(access, subscribers);
+    // subscribe(access, subscribers);
     for (const auto& user : subscribers)
     {
       cout << user._ename << endl;
@@ -338,7 +337,7 @@ void displayEmailMenu() {
     break;
   case 2:
     std::cout << "Unsubscribing from Newsletter...\n";  
-    unsubscribe(access, subscribers);
+    // unsubscribe(access, subscribers);
     for (const auto& user : subscribers)
     {
       cout << user._ename << endl;
@@ -347,7 +346,7 @@ void displayEmailMenu() {
     break;
   case 3:
     std::cout << "Sending Emails...\n";
-    newsletter(access, subscribers);
+    // newsletter(access, subscribers);
     displayEmailMenu();
     break;
   case 4:
