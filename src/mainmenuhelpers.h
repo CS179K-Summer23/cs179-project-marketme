@@ -20,7 +20,7 @@ void newInventory();
 
 void addMenu() {
   productDatabase& manage = productDatabase::getInstance("data/products.json");
-  cout << &manage << endl;
+  // cout << &manage << endl;
 
   string id, name, description, category, sku, barcode, expiration_date;
   double price;
@@ -90,7 +90,7 @@ void addMenu() {
 
 void deleteProduct() {
   productDatabase& manage = productDatabase::getInstance("data/products.json");
-  cout << &manage << endl;
+  // cout << &manage << endl;
   string productID, barcode;
 
   static bool skipConfirmation = false; // Flag 1 
@@ -145,7 +145,7 @@ void deleteProduct() {
 
 bool updateProduct(string productId, int requestedQuantity) {
   productDatabase& manage = productDatabase::getInstance("data/products.json");
-  cout << &manage << endl;
+  // cout << &manage << endl;
   string id, barcode;
   int option;
   string whatoption;
@@ -355,6 +355,7 @@ void filterName(){
     cout << "No results found" << endl;
   }
 
+  
   int count = 1;
   cout << endl;
   for(auto i : res){
