@@ -54,6 +54,12 @@ class Product {
     return _name;
   }
 
+  string getCategory() const {
+    return _category;
+  }
+
+
+
   bool validate() {
     if (_id.empty() || _name.empty() || _price < 0 || _quantity < 0 ||
       _category.empty() || _sku.empty() || _barcode.empty() || _expiration_date.empty()) {

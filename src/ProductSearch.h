@@ -26,20 +26,22 @@ using namespace std;
 using json = nlohmann::json;
 
 class ProductSearch {
-  private: std::string productsPath;
-  json productsData;
+  private: 
+  json _data;
+  productDatabase& _database;
 
-  public: ProductSearch(const std::string & path): productsPath(path) {
-    std::ifstream productsFile(productsPath);
-    if (productsFile.is_open()) {
-      productsFile >> productsData;
-      productsFile.close();
-    }
+  void loadFromDatabase() {
+    _data = _database.getData(); 
+  }
+
+  public:
+  ProductSearch(productDatabase& database) : _database(database){
+    loadFromDatabase();
   }
 
   vector < json > searchById(const std::string & id) {
     vector < json > results;
-    for (const auto & product: productsData["products"]) {
+    for (const auto & product: _data["products"]) {
       if (product["id"] == id) {
         results.push_back(product);
       }
@@ -88,7 +90,7 @@ class ProductSearch {
   vector < json > searchByName(const std::string & name) {
     vector < json > results;
     std::string loweredQuery = toLower(name);
-    for (const auto & product: productsData["products"]) {
+    for (const auto & product: _data["products"]) {
       std::string loweredProductName = toLower(product["name"]);
       if (edit_distance(loweredQuery, loweredProductName) <= 1) {
         results.push_back(product);
@@ -99,7 +101,7 @@ class ProductSearch {
 
   vector < json > searchByBarcode(const std::string & barcode) {
     vector < json > results;
-    for (const auto & product: productsData["products"]) {
+    for (const auto & product: _data["products"]) {
       if (product["barcode"] == barcode) {
         results.push_back(product);
       }

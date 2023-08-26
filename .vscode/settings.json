@@ -31,6 +31,10 @@
         "__locale": "cpp",
         "typeinfo": "cpp",
         "bitset": "cpp",
+<<<<<<< HEAD
+=======
+        "algorithm": "cpp",
+>>>>>>> 5735974 (changed productsearch to new productdatabase singleton)
         "any": "cpp",
         "atomic": "cpp",
         "bit": "cpp",
@@ -52,7 +56,10 @@
         "cwctype": "cpp",
         "map": "cpp",
         "exception": "cpp",
+<<<<<<< HEAD
         "algorithm": "cpp",
+=======
+>>>>>>> 5735974 (changed productsearch to new productdatabase singleton)
         "iterator": "cpp",
         "memory": "cpp",
         "memory_resource": "cpp",
@@ -65,6 +72,10 @@
         "stdexcept": "cpp",
         "streambuf": "cpp",
         "variant": "cpp"
+<<<<<<< HEAD
     },
     "cmake.configureOnOpen": true
+=======
+    }
+>>>>>>> 5735974 (changed productsearch to new productdatabase singleton)
 }

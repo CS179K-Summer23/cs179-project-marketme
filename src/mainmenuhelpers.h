@@ -293,8 +293,9 @@ void filterPriceRange(){
     return;
   }
 
-  string productsPath = "data/products.json";
-  PriceRangeFilter priceFilter(productsPath, min, max);
+  productDatabase& manage = productDatabase::getInstance("data/products.json");
+
+  PriceRangeFilter priceFilter(manage, min, max);
 
   vector<json> res = priceFilter.apply();
 
@@ -303,7 +304,6 @@ void filterPriceRange(){
     cout << "No results found" << endl;
   }
 
-  productDatabase& manage = productDatabase::getInstance("data/products.json");
   int count = 1;
   cout << endl;
   for(auto i : res){
@@ -319,9 +319,10 @@ void filterCategory(){
   string name;
   cout << "Enter a category name: ";
   cin >> name;
+  
+  productDatabase& manage = productDatabase::getInstance("data/products.json");
 
-  string productsPath = "data/products.json";
-  CategoryFilter categoryFilter(productsPath, name);
+  CategoryFilter categoryFilter(manage, name);
 
   vector<json> res = categoryFilter.apply();
 
@@ -330,7 +331,6 @@ void filterCategory(){
     cout << "No results found" << endl;
   }
 
-  productDatabase& manage = productDatabase::getInstance("data/products.json");
   int count = 1;
   cout << endl;
   for(auto i : res){
@@ -344,8 +344,9 @@ void filterCategory(){
 void filterName(){
   cout << "Sorting all products alphabetically\n";
 
-  string productsPath = "data/products.json";
-  NameFilter nameFilter(productsPath);
+  productDatabase& manage = productDatabase::getInstance("data/products.json");
+
+  NameFilter nameFilter(manage);
 
   vector<json> res = nameFilter.apply();
 
@@ -354,7 +355,6 @@ void filterName(){
     cout << "No results found" << endl;
   }
 
-  productDatabase& manage = productDatabase::getInstance("data/products.json");
   int count = 1;
   cout << endl;
   for(auto i : res){
@@ -379,8 +379,9 @@ void filterQuantityRange(){
     return;
   }
 
-  string productsPath = "data/products.json";
-  QuantityFilter quantityFilter(productsPath, min, max);
+  productDatabase& manage = productDatabase::getInstance("data/products.json");
+
+  QuantityFilter quantityFilter(manage, min, max);
 
   vector<json> res = quantityFilter.apply();
 
@@ -389,7 +390,6 @@ void filterQuantityRange(){
     cout << "No results found" << endl;
   }
 
-  productDatabase& manage = productDatabase::getInstance("data/products.json");
   int count = 1;
   cout << endl;
   for(auto i : res){
@@ -405,8 +405,9 @@ void filterPrefix(){
   cout << "Enter the prefix: ";
   cin >> prefix;
 
-  string productsPath = "data/products.json";
-  PrefixFilter prefixFilter(productsPath, prefix);
+  productDatabase& manage = productDatabase::getInstance("data/products.json");
+
+  PrefixFilter prefixFilter(manage, prefix);
 
   vector<json> res = prefixFilter.apply();
 
@@ -415,7 +416,7 @@ void filterPrefix(){
     cout << "No results found" << endl;
   }
 
-  productDatabase& manage = productDatabase::getInstance("data/products.json");
+  
   int count = 1;
   cout << endl;
   for(auto i : res){
