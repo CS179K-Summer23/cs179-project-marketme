@@ -102,9 +102,12 @@ void UPC(const string& id, const string& barcode, productDatabase& manage) {
                 }
                 
                 else {
-                std::cout << "This item can't be found in the UPC Item Database!" << std::endl;
+                    std::cout << "This item can't be found in the UPC Item Database!" << std::endl;
                 }
-            } 
+            }
+            else {
+                std::cout << "This item can't be found in the UPC Item Database!" << std::endl;
+            }
         }
         // Clean up
         curl_easy_cleanup(curl);
