@@ -99,7 +99,6 @@ void UPC(const string& id, const string& barcode, productDatabase& manage) {
 
                     Product newProduct(id, name, description, price, quantity, category, sku, barcode, expirationDate);
                     manage.addProduct(newProduct);
-                    cout << "New product added to the inventory." << endl;
                 }
                 
                 else {

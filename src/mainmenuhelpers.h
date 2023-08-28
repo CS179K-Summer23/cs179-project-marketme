@@ -57,8 +57,6 @@ void addMenu() {
 
       } else {
         UPC(id, barcode, manage);
-        cout << "UPC done!" << endl;
-        cin.get();
       }
 
       cout << "Scan: ";
