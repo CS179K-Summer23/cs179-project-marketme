@@ -13,8 +13,13 @@ using namespace std;
 using json = nlohmann::json;
 
 class productDatabase {
-  public: productDatabase(const string & database) {
-    _database = database;
+public:
+  static productDatabase& getInstance(const string& database) {
+    if(instancePtr == NULL){
+      instancePtr = new productDatabase(database);
+    }
+    return *instancePtr;
+    
   }
 
   void addProduct(Product & product);
@@ -27,90 +32,70 @@ class productDatabase {
   string getProductIDByBarcode(const string & barcode) const;
   int getProductQuantityByID(const string & id) const;
   Product getProductDetailsByID(const string & id) const;
+  void commitChangesToDisk();
+  json getData() const;
 
-  private: string _database;
+  private: 
+    productDatabase(const string& database) {
+      _database = database;
+      ifstream inputFile(database);
+      inputFile >> products_in_memory;
+      inputFile.close();
+    }
+    static productDatabase* instancePtr;
+    string _database;
+    json products_in_memory;
 };
 
-Product productDatabase::getProductDetailsByID(const string & id) const {
-  ifstream inputFile(_database);
-  json inventory;
-  inputFile >> inventory;
-  inputFile.close();
+productDatabase* productDatabase::instancePtr = nullptr;
 
-  for (const auto & product: inventory["products"]) {
-    if (product["id"] == id) {
-      return Product(
-        product["id"].get < string > (),
-        product["name"].get < string > (),
-        product["description"].get < string > (),
-        product["price"].get < double > (),
-        product["quantity"].get < int > (),
-        product["category"].get < string > (),
-        product["sku"].get < string > (),
-        product["barcode"].get < string > (),
-        product["expiration_date"].get < string > ()
-      );
+Product productDatabase::getProductDetailsByID(const string & id) const {
+    for (const auto & product: products_in_memory["products"]) {
+      if (product["id"] == id) {
+        return Product(
+          product["id"].get<string>(),
+          product["name"].get<string>(),
+          product["description"].get<string>(),
+          product["price"].get<double>(),
+          product["quantity"].get<int>(),
+          product["category"].get<string>(),
+          product["sku"].get<string>(),
+          product["barcode"].get<string>(),
+          product["expiration_date"].get<string>()
+        );
+      }
     }
-  }
-  throw runtime_error("Product with ID '" + id + "' does not exist in the inventory");
+    throw runtime_error("Product with ID '" + id + "' does not exist in the database");
 }
 
 int productDatabase::getProductQuantityByID(const string & id) const {
-  ifstream inputFile(_database);
-  json inventory;
-  inputFile >> inventory;
-  inputFile.close();
-
-  for (const auto & product: inventory["products"]) {
+  for (const auto & product: products_in_memory["products"]) {
     if (product["id"] == id) {
-      return product["quantity"].get < int > ();
+      return product["quantity"].get<int>();
     }
   }
-
-  return -1; // Return -1 if no product found with the given ID
+  return -1;
 }
 
 string productDatabase::getProductIDByBarcode(const string & barcode) const {
-  ifstream inputFile(_database);
-  json inventory;
-  inputFile >> inventory;
-  inputFile.close();
-
-  for (const auto & product: inventory["products"]) {
+  for (const auto & product: products_in_memory["products"]) {
     if (product["barcode"] == barcode) {
-      return product["id"].get < string > ();
+      return product["id"].get<string>();
     }
   }
-
-  return ""; // Return empty string if no product found with the given barcode
+  return "";
 }
 
 void productDatabase::addProduct(Product & product) {
-  // Validate input
+  int newID = products_in_memory["products"].size() + 1;
+  product.setID(to_string(newID));  
   if (!product.validate()) {
     cout << "Product failed validation. Please check the input data!" << endl;
-    return; // End Early
+    return;
   }
 
-  cout << "Central Debug 1, Double or Int: " << product.getPrice() << endl;
-  cout << "Central Debug 2.5, Double or Int: " << product._price << endl;
-  //FIX ME
-
-
-  string inventoryPath = _database;
-
-  // opens file of the products
-  ifstream inputFile(inventoryPath);
-
-  // puts json structure from file to json object
-  json inventory;
-  inputFile >> inventory;
-  inputFile.close();
-
-  // check to see if the product already exists in the inventory
-  unordered_set < string > existingProduct;
-
-  for (const auto & product: inventory["products"]) {
+  unordered_set<string> existingProduct;
+  for (const auto & product: products_in_memory["products"]) {
     existingProduct.insert(product["id"]);
   }
 
@@ -120,40 +105,19 @@ void productDatabase::addProduct(Product & product) {
     return;
   }
 
-  // turns new product info to json
   json newProduct = product.toJson();
+  products_in_memory["products"].push_back(newProduct);
+  cout << "Product with ID '" << productID << "' has been added to the database." << endl;
 
-  // pushes new product into inventory json
-  inventory["products"].push_back(newProduct);
-
-  cout << "Product with ID '" << productID << "' has been added to the inventory." <<
-    endl;
-
-  // makes json pretty
-  ofstream outputFile(inventoryPath);
-  outputFile << std::fixed << std::setprecision(2); // Set precision to 2 decimal places to store up to 99 cents
-  outputFile << inventory.dump(4);
+  // ofstream outputFile(_database);
+  //outputFile << products_in_memory.dump(4);  //disable live action 
 }
 
-void productDatabase::updateProduct(const string & id,
-  const string & option,
-    const string & change) {
-  // Validate input  
-
-  string inventoryPath = _database;
-
-  ifstream inputFile(inventoryPath);
-
-  json inventory;
-  inputFile >> inventory;
-  inputFile.close();
-
+void productDatabase::updateProduct(const string & id, const string & option, const string & change) {
   bool foundProduct = false;
-
-  for (auto & prod: inventory["products"]) {
+  for (auto & prod: products_in_memory["products"]) {
     if (prod["id"] == id) {
       foundProduct = true;
-
       if (prod[option].is_number()) {
         if (option == "quantity") {
           prod[option] = stoi(change);
@@ -168,24 +132,16 @@ void productDatabase::updateProduct(const string & id,
   }
 
   if (foundProduct) {
-    cout << "Product with ID '" << id << "' has been updated in the inventory" << endl;
-    ofstream outputFile(inventoryPath);
-    outputFile << inventory.dump(4);
+    // cout << "Product with ID '" << id << "' has been updated in the database" << endl;
+    // ofstream outputFile(_database);
+    // outputFile << products_in_memory.dump(4); //disable live action 
   } else {
-    cout << "Product with ID '" << id << "' does not exist in the inventory" << endl;
+    cout << "Product with ID '" << id << "' does not exist in the database" << endl;
   }
 }
 
 void productDatabase::viewProduct(const string & id) {
-  string inventoryPath = _database;
-
-  ifstream inputFile(inventoryPath);
-
-  json inventory;
-  inputFile >> inventory;
-  inputFile.close();
-
-  for (const auto & product: inventory["products"]) {
+  for (const auto & product: products_in_memory["products"]) {
     if (product["id"] == id) {
       cout << "ID: " << product["id"] << endl;
       cout << "Name: " << product["name"] << endl;
@@ -199,53 +155,45 @@ void productDatabase::viewProduct(const string & id) {
       return;
     }
   }
-
-  cout << "Product with ID '" << id << "' does not exist in the inventory" << endl;
+  cout << "Product with ID '" << id << "' does not exist in the database" << endl;
 }
 
 void productDatabase::delProduct(const string & id) {
-  string inventoryPath = _database;
-
-  ifstream inputFile(inventoryPath);
-
-  json inventory;
-  inputFile >> inventory;
-  inputFile.close();
-
   bool foundProduct = false;
-
-  for (auto it = inventory["products"].begin(); it != inventory["products"].end(); ++it) {
-    if (( * it)["id"] == id) {
+  for (auto it = products_in_memory["products"].begin(); it != products_in_memory["products"].end(); ++it) {
+    if ((*it)["id"] == id) {
       foundProduct = true;
-      it = inventory["products"].erase(it);
-      it--;
+      it = products_in_memory["products"].erase(it);
       break;
     }
   }
 
   if (foundProduct) {
-    ofstream outputFile(inventoryPath);
-    outputFile << inventory.dump(4);
+    // ofstream outputFile(_database);
+    // outputFile << products_in_memory.dump(4);
   } else {
-    cout << "Product with ID '" << id << "' does not exist in the inventory" << endl;
+    cout << "Product with ID '" << id << "' does not exist in the database" << endl;
   }
 }
 
 bool productDatabase::exists(const string & id) {
-  string inventoryPath = _database;
-
-  ifstream inputFile(inventoryPath);
-
-  json inventory;
-  inputFile >> inventory;
-  inputFile.close();
-
-  for (const auto & product: inventory["products"]) {
+  for (const auto & product: products_in_memory["products"]) {
     if (product["id"] == id) {
       return true;
     }
   }
   return false;
+}
+
+void productDatabase::commitChangesToDisk() {
+  ofstream outputFile(_database);
+  outputFile << products_in_memory.dump(4);
+  cout << "Changes Have Been Saved!" << endl;
+  outputFile.close();
+}
+
+json productDatabase::getData() const{
+  return products_in_memory;
 }
 
 #endif

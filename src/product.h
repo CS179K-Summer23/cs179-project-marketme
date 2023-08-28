@@ -42,6 +42,10 @@ class Product {
     _expiration_date = expiration_date;
   }
 
+  void setID(const string & id) {
+    _id = id;
+  }
+
   double getPrice() const {
     return _price;
   }
@@ -49,6 +53,12 @@ class Product {
   string getName() const {
     return _name;
   }
+
+  string getCategory() const {
+    return _category;
+  }
+
+
 
   bool validate() {
     if (_id.empty() || _name.empty() || _price < 0 || _quantity < 0 ||
