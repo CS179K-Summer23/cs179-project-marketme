@@ -30,13 +30,33 @@ const std::string access = "ya29.a0AfB_byA5bIMJA1Zo7Y2fku5vVcj8RLCNDaUXS5QH5btcr
 vector<User> subscribers;
 ReportGenerator reportGen;
 
+void printLogo() {
+    cout << R"( __       __   ______   _______   __    __  ________  ________        __       __  ________ 
+|  \     /  \ /      \ |       \ |  \  /  \|        \|        \      |  \     /  \|        \
+| $$\   /  $$|  $$$$$$\| $$$$$$$\| $$ /  $$| $$$$$$$$ \$$$$$$$$      | $$\   /  $$| $$$$$$$$
+| $$$\ /  $$$| $$__| $$| $$__| $$| $$/  $$ | $$__       | $$         | $$$\ /  $$$| $$__    
+| $$$$\  $$$$| $$    $$| $$    $$| $$  $$  | $$  \      | $$         | $$$$\  $$$$| $$  4\   
+| $$\$$ $$ $$| $$$$$$$$| $$$$$$$\| $$$$$\  | $$$$$      | $$         | $$\$$ $$ $$| $$$$$   
+| $$ \$$$| $$| $$  | $$| $$  | $$| $$ \$$\ | $$_____    | $$         | $$ \$$$| $$| $$_____ 
+| $$  \$ | $$| $$  | $$| $$  | $$| $$  \$$\| $$     \   | $$         | $$  \$ | $$| $$     \
+ \$$      \$$ \$$   \$$ \$$   \$$ \$$   \$$ \$$$$$$$$    \$$          \$$      \$$ \$$$$$$$$
+                                                                                            
+                                                                                            
+                                                                                            )" << endl;
+    cout << "=============================================" << endl;
+    cout << "WELCOME TO INVENTORY MANAGEMENT SYSTEM" << endl;
+    cout << "=============================================" << endl;
+}
+
+
 int main() {
-  std::cout << "[This Version Supports Scanner, Keyboard]\n";
-  std::cout << "[Advance Search; Search; Emails Functions are not yet supported. -- MarketMe-Team]\n";
+  printLogo();
+  std::cout << "[If you encounter any issues or have feedback, please reach out to us via email at official.marketme@gmail.com. -- MarketMe-Team]\n";
   displayMainMenu();
   curl_global_cleanup();
   return 0;
 }
+
 
 void displayMainMenu() {
   int choice;
