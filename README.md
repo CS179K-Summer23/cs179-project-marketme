@@ -50,19 +50,27 @@ Programming Environment: Visual Studio Code
 
 ## Major features (Software Specifications) ⚙️
 
-MarketMe's IMS is a terminal software offering several essential features:
+MarketMe's IMS is a terminal software offering several essential features (Updated):
 
-1. **UPCitemdb API Integration 🌐**: Seamlessly pull in product information to auto-filled product data.
-2. **Product Management 🛠️**: Manual input, deletion, and update of product details.
-3. **Barcode Integration 📸**: Utilize a barcode scanner for existing products and input new ones using fake barcodes/QR codes.
-4. **Alert System 🔔**: ESP API-driven alerts for sales/price changes, low stock, and impending expiration dates.
-5. **Newsletter 🗞️**: Regular updates for subscribers and clearance product recommendations.
-6. **Checkout System 💰**: Calculate taxes based on zip code, allow coupon codes, and update internal databases.
-7. **Sales Report 📊**: Daily sales reports for managerial review.
-8. **Inventory Filtering 🔍**: Sort inventory based on popularity, alphabetical order, etc.
-9. **Sale Restrictions ⛔**: Prohibit sales on certain items based on location, customer age, etc.
+1. **UPCitemdb API Integration 🌐**: Facilitate automatic data population by integrating with the UPCitemdb API. This streamlines the addition of new products to the inventory by auto-filling essential attributes, thereby eliminating manual data entry errors and easing the pain of inputting data by hand.
 
-# User Stories Revision 3.0
+2. **Comprehensive Product Management Suite 🛠️**: Empower administrators with tools for the manual input, update, and deletion of product information. This complete management interface ensures that inventory data remains current and accurate.
+
+3. **Barcode Scanning for Streamlined Product Identification 📸**: Incorporate a barcode scanning feature to simplify and accelerate product identification in various operational tasks such as inventory management and checkout processes.
+
+4. **Gmail API-Driven Alert and Notification System 🔔**: Utilize Gmail API for sending automated alerts concerning sales fluctuations, low inventory levels, and impending product expiration dates. This system also enables the generation of analytical sales reports for data-driven decision-making.
+
+5. **Subscriber Newsletter with Intelligent Recommendations 🗞️**: Dispatch a regular newsletter that provides subscribers with updates and intelligently recommends clearance items or products nearing their expiration dates, which are offered at discounted rates.
+
+6. **Advanced Checkout and Payment Processing System 💰**: Implement a checkout mechanism capable of dynamically calculating taxes based on zip codes, accepting coupon codes, and updating internal databases. All transaction data is recorded for future analytical uses.
+
+7. **Sales Reporting and Analytical Dashboard 📊**: Furnish managers with an intuitive dashboard for viewing sales reports tailored to different time frames—daily, weekly, monthly, quarterly—or any custom date range, aiding in strategic planning.
+
+8. **Inventory Filtering and Smart Search Capabilities 🔍**: Offer advanced inventory filtering options that allow sorting based on criteria like price, alphabetical listing, and others. The smart search function uses natural language processing to yield relevant results based on keyword input.
+
+9. **Age-Restricted Sales Compliance Mechanism ⛔**: Integrate a robust system to automatically validate customer age for certain age-sensitive products like alcohol, thereby ensuring compliance with legal requirements and reducing potential liabilities. <br><br><br> <br><br><br>
+
+## User Stories Revision 3.5
 
 1. **Upcitemdb API Integration 🌐** ✅
    - User Story: As a manager, I need to use the upcitemdb API to fetch product information when adding a new product into the system.
@@ -89,7 +97,7 @@ MarketMe's IMS is a terminal software offering several essential features:
    - Priority: High 6
    - Estimated Cost: 4
 
-6. **Alert System 🔔**
+6. **Alert System 🔔** ✅
    - User Story: As a manager, I want the system to automatically alert me via email about sales/price changes, low stock, and approaching product expiration dates.
    - Priority: Medium 5
    - Estimated Cost: 4
@@ -103,13 +111,8 @@ MarketMe's IMS is a terminal software offering several essential features:
    - User Story: As a manager, I want to set restrictions on sales of certain items based on location, customer age, etc., to comply with laws and regulations.
    - Priority: Medium 5
    - Estimated Cost: 3
-     
-9. **User Profile 👥** 
-   - User Story: As a user, I want to be able to log in as a manager or clerk to determine access levels and functionalities.
-   - Priority: Medium 4
-   - Estimated Cost: 2   
 
-10. **Newsletter 🗞️**
+9. **Newsletter 🗞️** ✅
    - User Story: As a customer, I want to subscribe to a newsletter for regular updates, promotions, and product recommendations.
    - Priority: Low 2
    - Estimated Cost: 1
