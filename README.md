@@ -120,18 +120,6 @@ We've expanded our software to include essential customer account management now
 
 ## Additional Information 📌
 
-Let's elevate your business operations with our state-of-the-art **Inventory Management System**! 💼 <br><br><br><br><br><br>
-
-
-
-
-
-
-
-
-## Other information
-
-
 This program requires a one-time setup of cURL. To install cURL on your system, you can use the following command in MSYS2 MINGW64:
 ```bash
 pacman -S mingw-w64-x86_64-curl
