@@ -124,7 +124,7 @@ This program requires a one-time setup of cURL. To install cURL on your system, 
 ```bash
 pacman -S mingw-w64-x86_64-curl
 ```
-For additional assistance or inquiries, please feel free to reach out to our technical support team. <br><br><br><br><br><br>
+For additional assistance or inquiries, please feel free to reach out to our technical support team at official.marketme@gmail.com. <br><br><br>
 
 
 
