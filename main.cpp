@@ -12,7 +12,7 @@
 #include "src/upc.h"
 
 
-void displayMainMenu();
+void displayMainMenu(int option = 0);
 void displayProductManagementMenu();
 void displaySearchMenu();
 void displayFilterMenu();
@@ -30,12 +30,18 @@ const std::string access = "ya29.a0AfB_byA5bIMJA1Zo7Y2fku5vVcj8RLCNDaUXS5QH5btcr
 vector<User> subscribers;
 ReportGenerator reportGen;
 
+void wipeScreen() {
+    for (int i = 0; i < 100; ++i) {
+        std::cout << std::endl;
+    }
+}
+
 void printLogo() {
     cout << R"( __       __   ______   _______   __    __  ________  ________        __       __  ________ 
 |  \     /  \ /      \ |       \ |  \  /  \|        \|        \      |  \     /  \|        \
 | $$\   /  $$|  $$$$$$\| $$$$$$$\| $$ /  $$| $$$$$$$$ \$$$$$$$$      | $$\   /  $$| $$$$$$$$
 | $$$\ /  $$$| $$__| $$| $$__| $$| $$/  $$ | $$__       | $$         | $$$\ /  $$$| $$__    
-| $$$$\  $$$$| $$    $$| $$    $$| $$  $$  | $$  \      | $$         | $$$$\  $$$$| $$   \
+| $$$$\  $$$$| $$    $$| $$    $$| $$  $$  | $$  \      | $$         | $$$$\  $$$$| $$  \   
 | $$\$$ $$ $$| $$$$$$$$| $$$$$$$\| $$$$$\  | $$$$$      | $$         | $$\$$ $$ $$| $$$$$   
 | $$ \$$$| $$| $$  | $$| $$  | $$| $$ \$$\ | $$_____    | $$         | $$ \$$$| $$| $$_____ 
 | $$  \$ | $$| $$  | $$| $$  | $$| $$  \$$\| $$     \   | $$         | $$  \$ | $$| $$     \
@@ -52,13 +58,16 @@ void printLogo() {
 int main() {
   printLogo();
   std::cout << "[If you encounter any issues or have feedback, please reach out to us via email at official.marketme@gmail.com. -- MarketMe-Team]\n";
-  displayMainMenu();
+  displayMainMenu(1);
   curl_global_cleanup();
   return 0;
 }
 
 
-void displayMainMenu() {
+void displayMainMenu(int option) {
+  if(option==0){
+    wipeScreen();
+  } 
   int choice;
   std::cout << "\n=========== Main Menu ===========\n";
   std::cout << "1. Product Management\n";
@@ -79,20 +88,26 @@ void displayMainMenu() {
 
   switch (choice) {
   case 1:
+    wipeScreen();
     handleProductManagement();
     break;
   case 2:
+    wipeScreen();
     handleSearch();
     break;
   case 3:
+    wipeScreen();
     handleEmailOperations();
     break;
   case 4:
+    wipeScreen();
     displayCheckoutSystem();
     break;
   case 5:
+    wipeScreen();
     displayReportMenu();
   case 6:
+    wipeScreen();
     std::cout << "Exiting the system...\n";
     reportGen.generateReport(1);
     reportEmail(access, reportGen);
