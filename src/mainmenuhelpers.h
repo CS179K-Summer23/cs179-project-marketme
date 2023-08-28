@@ -5,13 +5,13 @@
 #include "product.h"
 #include "productDatabase.h"
 #include "filter.h"
+#include "upc.h"
 
 using namespace std;
 
 void addMenu();
 void deleteProduct();
 bool updateProduct(string productId = "", int requestedQuantity = -1);
-double acceptNumber(const string & prompt);
 void filterPriceRange();
 void filterCategory();
 void filterQuantityRange();
@@ -22,7 +22,7 @@ void addMenu() {
   productDatabase& manage = productDatabase::getInstance("data/products.json");
   // cout << &manage << endl;
 
-  string id, name, description, category, sku, barcode, expiration_date;
+  string id, name, barcode;
   double price;
   int quantity;
 
@@ -56,23 +56,9 @@ void addMenu() {
         }
 
       } else {
-        // New product, so set default values
-        description = "NA";
-        category = "NA";
-        sku = "NA";
-        expiration_date = "NA";
-
-        cout << "Enter product name: ";
-        getline(cin, name);
-        //cin >> price; 
-        //cout << "price: " << price << endl ;
-        price = acceptNumber("Enter product price");
-        //cin.ignore(std::numeric_limits < std::streamsize > ::max(), '\n'); // Clear the input buffer
-        quantity = acceptNumber("Enter product quantity");
-
-        Product newProduct(id, name, description, price, quantity, category, sku, barcode, expiration_date);
-        manage.addProduct(newProduct);
-        cout << "New product added to the inventory." << endl;
+        UPC(id, barcode, manage);
+        cout << "UPC done!" << endl;
+        cin.get();
       }
 
       cout << "Scan: ";
@@ -255,28 +241,6 @@ bool updateProduct(string productId, int requestedQuantity) {
   }
 
   return true; // Return true by default if no quantity check is required
-}
-
-double acceptNumber(const string & prompt) {
-  string input;
-  double number;
-
-  while (true) {
-    cout << prompt << ": ";
-    cin >> input;
-    cin.ignore(std::numeric_limits < std::streamsize > ::max(), '\n');
-
-    try {
-      number = stod(input);
-      break; // If stod() succeeds, exit the loop   STING TO DOUBLE
-    } catch (const invalid_argument & e) {
-      cout << "Invalid input. Please enter a valid number." << endl;
-    } catch (const out_of_range & e) {
-      cout << "Invalid input. Number out of range." << endl;
-    }
-  }
-
-  return number;
 }
 
 void filterPriceRange(){

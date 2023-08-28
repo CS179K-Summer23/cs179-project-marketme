@@ -9,6 +9,7 @@
 #include "src/ProductSearch.h"
 #include "src/report.h"
 #include "src/user.h"
+#include "src/upc.h"
 
 
 void displayMainMenu();
@@ -33,6 +34,7 @@ int main() {
   std::cout << "[This Version Supports Scanner, Keyboard]\n";
   std::cout << "[Advance Search; Search; Emails Functions are not yet supported. -- MarketMe-Team]\n";
   displayMainMenu();
+  curl_global_cleanup();
   return 0;
 }
 
@@ -74,6 +76,8 @@ void displayMainMenu() {
     std::cout << "Exiting the system...\n";
     reportGen.generateReport(1);
     reportEmail(access, reportGen);
+    std::cout << "Press any key to terminate the program...\n";
+    std::cin.get(); // Wait for user to press any key
     break;
   default:
     std::cout << "Invalid choice. Please try again.\n";

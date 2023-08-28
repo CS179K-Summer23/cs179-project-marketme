@@ -19,7 +19,7 @@ using namespace std;
 const string COMMAND_BASE = "curl -X POST -H \"Authorization: Bearer ";
 const string API_ENDPOINT = "https://gmail.googleapis.com/gmail/v1/users/me/messages/send";
 
-size_t WriteCallback(void *contents, size_t size, size_t nmemb, void *userp) {
+size_t EmailCallback(void *contents, size_t size, size_t nmemb, void *userp) {
     // Do nothing with the response data
     return size * nmemb;
 }
@@ -42,7 +42,7 @@ void sendEmailWithLibcurl(const string& accessToken, const string& recipient, co
     curl_easy_setopt(curl, CURLOPT_POSTFIELDS, payload.c_str());
 
 
-    curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, WriteCallback);
+    curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, EmailCallback);
     CURLcode res = curl_easy_perform(curl);
 
     if (res == CURLE_OK) {
@@ -77,7 +77,7 @@ void sendEmailWithLibcurlCount(const string& accessToken, const string& recipien
     curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
     curl_easy_setopt(curl, CURLOPT_POSTFIELDS, payload.c_str());
 
-    curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, WriteCallback);
+    curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, EmailCallback);
     CURLcode res = curl_easy_perform(curl);
 
     if (res == CURLE_OK) {
@@ -129,7 +129,7 @@ void reportEmail(const string& accessToken, ReportGenerator report) {
     curl_easy_setopt(curl, CURLOPT_POSTFIELDS, payload.c_str());
 
   // Set CURLOPT_WRITEFUNCTION to prevent writing the response to stdout
-    curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, WriteCallback);
+    curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, EmailCallback);
     CURLcode res = curl_easy_perform(curl);
 
     if (res == CURLE_OK) {
