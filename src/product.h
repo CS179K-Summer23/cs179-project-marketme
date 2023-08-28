@@ -2,115 +2,86 @@
 #define PRODUCT_H
 
 #include <iostream>
-
 #include <fstream>
-
 #include <unordered_set>
-
 #include "../libraries/json.hpp"
 
 using namespace std;
 using json = nlohmann::json;
 
 class Product {
-  public: string _id;
-  string _name;
-  string _description;
-  double _price;
-  int _quantity;
-  string _category;
-  string _sku;
-  string _barcode;
-  string _expiration_date; // Expiration date in "YYYY-MM-DD" format
+private:
+    string _id;
+    string _name;
+    string _description;
+    double _price;
+    int _quantity;
+    string _category;
+    string _sku;
+    string _barcode;
+    string _expiration_date; // Expiration date in "YYYY-MM-DD" format
 
-  Product(const string & id,
-    const string & name,
-      const string & description, double price,
-        int quantity,
-        const string & category,
-          const string & sku,
-            const string & barcode,
-              const string & expiration_date) {
-    _id = id;
-    _name = name;
-    _description = description;
-    _price = price;
-    _quantity = quantity;
-    _category = category;
-    _sku = sku;
-    _barcode = barcode;
-    _expiration_date = expiration_date;
-  }
+    // Private constructor to prevent instantiation
+    Product(const string & id, const string & name, const string & description, double price,
+        int quantity, const string & category, const string & sku, 
+        const string & barcode, const string & expiration_date) 
+        : _id(id), _name(name), _description(description), _price(price), 
+        _quantity(quantity), _category(category), _sku(sku), 
+        _barcode(barcode), _expiration_date(expiration_date) {}
 
-  void setID(const string & id) {
-    _id = id;
-  }
+public:
 
-  double getPrice() const {
-    return _price;
-  }
+    Product(const Product&) = delete;
+    Product& operator=(const Product&) = delete;
 
-  string getName() const {
-    return _name;
-  }
-
-  string getCategory() const {
-    return _category;
-  }
-
-
-
-  bool validate() {
-    if (_id.empty() || _name.empty() || _price < 0 || _quantity < 0 ||
-      _category.empty() || _sku.empty() || _barcode.empty() || _expiration_date.empty()) {
-      return false;
+    static Product& getInstance(const string & id, const string & name, const string & description, 
+        double price, int quantity, const string & category, const string & sku, 
+        const string & barcode, const string & expiration_date) 
+    {
+        static Product instance(id, name, description, price, quantity, category, sku, barcode, expiration_date);
+        return instance;
     }
-    if (_description.empty()) {
-      _description.assign("NA");
-    }
-    return true;
-  }
 
-  json toJson() const {
-    return {
-      {
-        "id",
-        _id
-      },
-      {
-        "name",
-        _name
-      },
-      {
-        "description",
-        _description
-      },
-      {
-        "price",
-        _price
-      },
-      {
-        "quantity",
-        _quantity
-      },
-      {
-        "category",
-        _category
-      },
-      {
-        "sku",
-        _sku
-      },
-      {
-        "barcode",
-        _barcode
-      },
-      {
-        "expiration_date",
-        _expiration_date
-      }
-    };
-  }
+    void setID(const string & id) {
+        _id = id;
+    }
+
+    double getPrice() const {
+        return _price;
+    }
+
+    string getName() const {
+        return _name;
+    }
+
+    string getCategory() const {
+        return _category;
+    }
+
+    bool validate() {
+        if (_id.empty() || _name.empty() || _price < 0 || _quantity < 0 ||
+          _category.empty() || _sku.empty() || _barcode.empty() || _expiration_date.empty()) {
+            return false;
+        }
+        if (_description.empty()) {
+            _description.assign("NA");
+        }
+        return true;
+    }
+
+    json toJson() const {
+        return {
+            {"id", _id},
+            {"name", _name},
+            {"description", _description},
+            {"price", _price},
+            {"quantity", _quantity},
+            {"category", _category},
+            {"sku", _sku},
+            {"barcode", _barcode},
+            {"expiration_date", _expiration_date}
+        };
+    }
 };
 
 #endif
