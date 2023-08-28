@@ -538,17 +538,6 @@
             "price": 4.88,
             "quantity": 364,
             "sku": "SKU-1049"
-        },
-        {
-            "barcode": "23123213213213",
-            "category": "NA",
-            "description": "NA",
-            "expiration_date": "NA",
-            "id": "51",
-            "name": "testing purposes",
-            "price": 333333.0,
-            "quantity": 33333,
-            "sku": "NA"
         }
     ]
 }
