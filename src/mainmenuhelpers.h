@@ -36,7 +36,7 @@ void addMenu() {
       cout << "Scanned barcode: " << barcode << endl;
       id = barcode;
 
-      if (manage.exists(id)) {
+      if (manage.exists(barcode)) {
         int currentQuantity = manage.getProductQuantityByID(id);
         manage.updateProduct(id, "quantity", to_string(currentQuantity + 1)); // Add 1 to the current quantity
         cout << "Product inventory updated. Total quantity: " << currentQuantity + 1 << endl;
@@ -57,6 +57,7 @@ void addMenu() {
       } else {
         UPC(id, barcode, manage);
       }
+
 
       cout << "Scan: ";
       getline(cin, barcode);

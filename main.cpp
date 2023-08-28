@@ -41,7 +41,7 @@ void printLogo() {
 |  \     /  \ /      \ |       \ |  \  /  \|        \|        \      |  \     /  \|        \
 | $$\   /  $$|  $$$$$$\| $$$$$$$\| $$ /  $$| $$$$$$$$ \$$$$$$$$      | $$\   /  $$| $$$$$$$$
 | $$$\ /  $$$| $$__| $$| $$__| $$| $$/  $$ | $$__       | $$         | $$$\ /  $$$| $$__    
-| $$$$\  $$$$| $$    $$| $$    $$| $$  $$  | $$  \      | $$         | $$$$\  $$$$| $$  \   
+| $$$$\  $$$$| $$    $$| $$    $$| $$  $$  | $$  \      | $$         | $$$$\  $$$$| $$  \
 | $$\$$ $$ $$| $$$$$$$$| $$$$$$$\| $$$$$\  | $$$$$      | $$         | $$\$$ $$ $$| $$$$$   
 | $$ \$$$| $$| $$  | $$| $$  | $$| $$ \$$\ | $$_____    | $$         | $$ \$$$| $$| $$_____ 
 | $$  \$ | $$| $$  | $$| $$  | $$| $$  \$$\| $$     \   | $$         | $$  \$ | $$| $$     \
@@ -109,6 +109,7 @@ void displayMainMenu(int option) {
     displayReportMenu();
   case 6:
     wipeScreen();
+    newInventory();
     std::cout << "Exiting the system...\n";
     reportGen.generateReport(1);
     reportEmail(access, reportGen);
@@ -371,7 +372,7 @@ void displayEmailMenu() {
     subscribe(access, subscribers);
     for (const auto& user : subscribers)
     {
-      cout << user._ename << endl;
+      cout << user.getName() << endl;
     }
     displayEmailMenu();
     break;
@@ -380,7 +381,7 @@ void displayEmailMenu() {
     unsubscribe(access, subscribers);
     for (const auto& user : subscribers)
     {
-      cout << user._ename << endl;
+      cout << user.getEmail() << endl;
     }
     displayEmailMenu();
     break;
