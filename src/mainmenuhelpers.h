@@ -27,8 +27,7 @@ void addMenu() {
   int quantity;
 
   cout << "Start scanning barcodes. Type :DONE to finish scanning." << endl;
-  cin.ignore(std::numeric_limits < std::streamsize > ::max(), '\n'); // Clear the input buffer
-
+ 
   while (true) {
     cout << "Scan: ";
     getline(cin, barcode);

@@ -5,12 +5,15 @@
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 
-
 #include <iostream>
+#include <string>
+#include <regex>
+#include <chrono>
 #include <curl/curl.h>
 #include "mainmenuhelpers.h"
 #include "productDatabase.h"
 
+std::string inputExpirationDate();
 double acceptNumber(const string & prompt);
 
 // Callback function to handle response data
@@ -65,25 +68,14 @@ void UPC(const string& id, const string& barcode, productDatabase& manage) {
                     std::string name = item["title"];
                     std::string description = item["description"];
                     double price = item["lowest_recorded_price"];
-                    int quantity;
                     std::string category = item["category"];
-                    
                     std::string sku;
-                    std::string expirationDate;
 
-                    
-                    
                     if (item.contains("sku")){
                         sku = item["sku"];
                     }
                     else {
                         sku = "N/A";
-                    }
-                    if (item.contains("expiration_date")){
-                        expirationDate = item["expiration_date"];
-                    }
-                    else {
-                        expirationDate = "N/A";
                     }
                     
                     // Print the extracted information
@@ -93,9 +85,10 @@ void UPC(const string& id, const string& barcode, productDatabase& manage) {
                     std::cout << "Price: $" << price << std::endl;
                     std::cout << "Category: " << category << std::endl;
                     std::cout << "SKU: " << sku << std::endl;
-                    std::cout << "Expiration Date: " << expirationDate << std::endl;
 
-                    quantity = acceptNumber("Enter product quantity");
+                    int quantity = acceptNumber("Enter product quantity");
+                    
+                    std::string expirationDate = inputExpirationDate();
 
                     Product newProduct(id, name, description, price, quantity, category, sku, barcode, expirationDate);
                     manage.addProduct(newProduct);
@@ -113,6 +106,44 @@ void UPC(const string& id, const string& barcode, productDatabase& manage) {
         curl_easy_cleanup(curl);
     }
 }
+
+std::string inputExpirationDate() {
+    std::string expirationDate;
+
+    while (true) {
+        std::cout << "Enter expiration date (YYYY-MM-DD): ";
+        std::cin >> expirationDate;
+
+        // Define a regular expression pattern for the format "YYYY-MM-DD"
+        std::regex pattern("\\d{4}-\\d{2}-\\d{2}");
+
+        // Use regex_match to check if the input matches the pattern
+        if (std::regex_match(expirationDate, pattern)) {
+            // Parse the expiration date into a chrono::system_clock::time_point
+            std::tm tm = {};
+            std::istringstream ss(expirationDate);
+            ss >> std::get_time(&tm, "%Y-%m-%d");
+
+            if (!ss.fail()) {
+                auto expirationTime = std::chrono::system_clock::from_time_t(std::mktime(&tm));
+                auto currentTime = std::chrono::system_clock::now();
+
+                if (expirationTime >= currentTime) {
+                    break;
+                } else {
+                    std::cout << "Expiration date must be in the future." << std::endl;
+                }
+            } else {
+                std::cout << "Invalid date format. Please use YYYY-MM-DD format." << std::endl;
+            }
+        } else {
+            std::cout << "Invalid date format. Please use YYYY-MM-DD format." << std::endl;
+        }
+    }
+
+    return expirationDate;
+}
+
 
 double acceptNumber(const string & prompt) {
   string input;

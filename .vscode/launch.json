@@ -19,7 +19,7 @@
                     "ignoreFailures": true
                 }
             ],
-            "preLaunchTask": "C/C++: g++.exe build active file",
+            "preLaunchTask": "MarketMe",
             "miDebuggerPath": "C:\\msys64\\mingw64\\bin\\gdb.exe",
             "sourceFileMap": {
                 "/mnt/c": "C:\\"
