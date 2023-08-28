@@ -1,15 +1,22 @@
 [![Open in Visual Studio Code](https://classroom.github.com/assets/open-in-vscode-718a45dd9cf7e7f842a935f5ebbe5719a5e09af4491e668f4dbf3b35d5cca122.svg)](https://classroom.github.com/online_ide?assignment_repo_id=11509564&assignment_repo_type=AssignmentRepo)
 # Project-CS179 Inventory Management System (IMS) 📦
-
-# Team Name: MarketMe (Terminal base tool)
+Team Name: MarketMe (Terminal base tool)
 
 <code><img height="20" src="https://img.shields.io/badge/Powered%20by-C%2B%2B-blue?style=flat-square&logo=c%2B%2B" alt="Powered by C++" title="Powered by C++"></code>
-<code><img height="20" src="https://img.shields.io/badge/Utilizes-APIs-green?style=flat-square&logo=api-platform" alt="APIs" title="APIs"></code>
 <code><img height="20" src="https://img.shields.io/badge/Database-JSON-orange?style=flat-square&logo=json" alt="JSON" title="JSON"></code>
+<code><img height="20" src="https://img.shields.io/badge/Utilizes-UPCitemdb-red?style=flat-square&logo=barcode" alt="Utilizes UPCitemdb" title="Utilizes UPCitemdb"></code>
+<code><img height="20" src="https://img.shields.io/badge/Utilizes-GmailAPI-yellow?style=flat-square&logo=gmail" alt="Utilizes Gmail API" title="Utilizes Gmail API"></code>
+<code><img height="20" src="https://img.shields.io/badge/Utilizes-cURL%20HTTP%20Request-lightgrey?style=flat-square&logo=curl" alt="cURL HTTP Request" title="cURL HTTP Request"></code>
+<code><img height="20" src="https://img.shields.io/badge/Features-Barcode%20Scanner-purple?style=flat-square&logo=barcode" alt="Barcode Scanner" title="Barcode Scanner"></code>
+<code><img height="20" src="https://img.shields.io/badge/Features-ID%20Scanner-brown?style=flat-square&logo=id-card" alt="ID Scanner Function" title="ID Scanner Function"></code>
+<code><img height="20" src="https://img.shields.io/badge/Design-Singleton%20Pattern-darkgreen?style=flat-square" alt="Uses Singleton Design Pattern" title="Uses Singleton Design Pattern"></code>
+
 
 ## About 📝
 
 MarketMe, a dedicated team of professionals, is enthusiastically working on an **Inventory Management System (IMS)**. Our objective is to develop an effective system to manage your product data, maintain inventories, and track sales, and purchases. Our system aims to provide you with real-time insights, proactive alerts about stock levels, and an exhaustive range of other features that streamline your operations and maximize profitability.
+
+Update: The project is nearing completion. We've successfully completed a code refactoring phase and have implemented the Singleton design pattern. UI enhancements and user experience improvements are currently in progress. While an online database could simplify certain operations, we've opted to continue using JSON for its unique challenges and educational benefits.
 
 ## Team 👥
 
@@ -55,29 +62,29 @@ MarketMe's IMS is a terminal software offering several essential features:
 8. **Inventory Filtering 🔍**: Sort inventory based on popularity, alphabetical order, etc.
 9. **Sale Restrictions ⛔**: Prohibit sales on certain items based on location, customer age, etc.
 
-# User Stories Revision 2.0
+# User Stories Revision 3.0
 
-1. **Upcitemdb API Integration 🌐**
+1. **Upcitemdb API Integration 🌐** ✅
    - User Story: As a manager, I need to use the upcitemdb API to fetch product information when adding a new product into the system.
    - Priority: High 10
    - Estimated Cost: 8
 
-2. **Product Management 🛠️**
+2. **Product Management 🛠️** ✅
    - User Story: As a manager, I want to manually input, delete, and update product information in our system, ensuring that duplicate barcodes or IDs are handled appropriately.
    - Priority: High 10
    - Estimated Cost: 8
 
-3. **Barcode Integration 📸**
+3. **Barcode Integration 📸** ✅
    - User Story: As a store employee, I need to scan a product's barcode to quickly input or verify product information and handle scenarios where the barcode might not be in the system.
    - Priority: High 8
    - Estimated Cost: 5
 
-4. **Checkout System Enhancements 💰**
+4. **Checkout System with Enhancements 💰** ✅
    - User Story: As a cashier, I need the system to allow continuous product scanning, display cart details alphabetically, apply coupon codes, and update the inventory based on the transaction's success.
    - Priority: High 7
    - Estimated Cost: 5
 
-5. **Sales Report 📊**
+5. **Sales Report 📊** ✅
    - User Story: As a manager, I want to receive daily/monthly/yearly sales reports to keep track of business performance.
    - Priority: High 6
    - Estimated Cost: 4
@@ -87,12 +94,12 @@ MarketMe's IMS is a terminal software offering several essential features:
    - Priority: Medium 5
    - Estimated Cost: 4
 
-7. **Inventory Filtering and Search 🔍**
+7. **Inventory Filtering and Search 🔍** ✅
    - User Story: As a store employee, I need to filter inventory based on various criteria and search for products by ID, name, or barcode to easily manage and locate items.
    - Priority: Medium 5
    - Estimated Cost: 3
 
-8. **Sale Restrictions ⛔**
+8. **Sale Restrictions ⛔** ✅
    - User Story: As a manager, I want to set restrictions on sales of certain items based on location, customer age, etc., to comply with laws and regulations.
    - Priority: Medium 5
    - Estimated Cost: 3
@@ -109,13 +116,33 @@ MarketMe's IMS is a terminal software offering several essential features:
 
 Update: Customer Account System Integration 🌟
 
-We've expanded our software to now include basic customer account management. This new feature allows for tracking purchase history and managing customer details directly within our platform, enhancing both employee and customer experiences.
+We've expanded our software to include essential customer account management now. This new feature allows for tracking purchase history and managing customer details directly within our platform, enhancing both employee and customer experiences.
 
 ## Additional Information 📌
 
-Let's elevate your business operations with our state-of-the-art **Inventory Management System**! 💼
+Let's elevate your business operations with our state-of-the-art **Inventory Management System**! 💼 <br><br><br><br><br><br>
 
-*For any further details, feel free to reach out to our team.*
+
+
+
+
+
+
+
+## Other information
+
+
+This program requires a one-time setup of cURL. To install cURL on your system, you can use the following command in MSYS2 MINGW64:
+```bash
+pacman -S mingw-w64-x86_64-curl
+```
+For additional assistance or inquiries, please feel free to reach out to our technical support team. <br><br><br><br><br><br>
+
+
+
+
+
+
 
 
 Burndown chart:
