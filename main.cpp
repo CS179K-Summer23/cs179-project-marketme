@@ -58,6 +58,7 @@ void printLogo() {
 int main() {
   printLogo();
   std::cout << "[If you encounter any issues or have feedback, please reach out to us via email at official.marketme@gmail.com. -- MarketMe-Team]\n";
+  
   displayMainMenu(1);
   curl_global_cleanup();
   return 0;
