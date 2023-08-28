@@ -195,4 +195,42 @@ private:
     string _prefix;
 };
 
+class ExpirationDateRangeFilter : public Filter {
+public:
+    ExpirationDateRangeFilter (productDatabase& database, const string& startDate, const string& endDate)
+        : Filter(database), _startDate(startDate), _endDate(endDate) {
+    }
+
+    vector<json> apply() const override {
+        vector<json> filteredData;
+
+        auto startTime = convertToDatePoint(_startDate);
+        auto endTime = convertToDatePoint(_endDate);
+
+        for (const auto& product : _data["products"]) {
+            string itemExpiration = product["expiration"];
+            auto itemTime = convertToDatePoint(itemExpiration);
+
+            if (itemTime >= startTime && itemTime <= endTime) {
+                filteredData.push_back(product);
+            }
+        }
+
+        return filteredData;
+    }
+private:
+    string _startDate;
+    string _endDate;
+
+    static chrono::system_clock::time_point convertToDatePoint(const string& dateStr) {
+        struct std::tm tm = {};
+        sscanf(dateStr.c_str(), "%d-%d-%d", &tm.tm_year, &tm.tm_mon, &tm.tm_mday);
+        tm.tm_year -= 1900;
+        tm.tm_mon -= 1;
+
+        time_t time = mktime(&tm);
+        return chrono::system_clock::from_time_t(time);
+    }
+};
+
 #endif
