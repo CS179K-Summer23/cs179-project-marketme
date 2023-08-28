@@ -10,6 +10,7 @@
 #include <curl/curl.h>
 #include <string>
 #include <algorithm>
+#include <regex>
 #include "base64.h"
 #include "user.h"
 #include "report.h"
@@ -22,6 +23,13 @@ const string API_ENDPOINT = "https://gmail.googleapis.com/gmail/v1/users/me/mess
 size_t EmailCallback(void *contents, size_t size, size_t nmemb, void *userp) {
     // Do nothing with the response data
     return size * nmemb;
+}
+
+bool isValidEmail(const string& email) {
+    // Simple email format validation using regex
+    // You can modify this pattern to match your requirements
+    const regex emailPattern(R"([a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4})");
+    return regex_match(email, emailPattern);
 }
 
 void sendEmailWithLibcurl(const string& accessToken, const string& recipient, const string& payload, int msg) {
@@ -148,8 +156,15 @@ void subscribe(const string& accessToken, vector<User>& subscribers){
     cout << "Please input your name: ";
     cin.ignore();
     getline(cin, name);
-    cout << "Please input your email: ";
-    getline(cin, email);
+    
+    // Validate email format
+    do {
+        cout << "Please input your email: ";
+        getline(cin, email);
+        if (!isValidEmail(email)) {
+            cout << "Invalid email format. Please try again.\n";
+        }
+    } while (!isValidEmail(email));
 
     for (const auto& user : subscribers)
     {
@@ -176,10 +191,15 @@ void subscribe(const string& accessToken, vector<User>& subscribers){
 }
 
 void unsubscribe(const string& accessToken, vector<User>& subscribers){
-    string email;
-    cout << "Please input your email: ";
+    string email = "";
     cin.ignore();
-    getline(cin, email);
+    do {
+        cout << "Please input your email: ";
+        getline(cin, email);
+        if (!isValidEmail(email)) {
+            cout << "Invalid email format. Please try again.\n";
+        }
+    } while (!isValidEmail(email));
 
     auto userIter = std::find_if(subscribers.begin(), subscribers.end(), [&email](const User& user) {
         return user._email == email;
