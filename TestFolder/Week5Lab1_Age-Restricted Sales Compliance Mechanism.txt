@@ -1,0 +1,28 @@
+Test Case Group: Age-Restricted Sales Compliance Mechanism
+
+Product Classification
+1.1. Add an alcohol product to the inventory and mark it as age-restricted.
+1.2. Add a non-alcohol product to the inventory and ensure it is not marked as age-restricted.
+
+Age Verification Pop-Up
+2.1. Add an age-restricted product (e.g., alcohol) to the cart and proceed to checkout. Verify that an age verification pop-up appears.
+2.2. Add a non-age-restricted product to the cart and proceed to checkout. Verify that no age verification pop-up appears.
+
+Date of Birth Entry
+3.1. Enter a valid date (Or scan an ID) of birth that confirms the customer is OVER the legal age limit and proceed. Verify that the transaction continues.
+3.2. Enter a non-valid date (Or scan an ID) of birth that confirms the customer is BELOW the legal age limit and proceed. Verify that the transaction is halted and the age-restricted item is removed from the cart.
+
+Edge Cases
+4.1. Enter a date of birth for a customer who just turned the legal age this month. Verify that the system allows the transaction.
+4.2. Enter a date of birth for a customer who will turn the legal age next month. Verify that the system does not allow the transaction and removes the age-restricted item from the cart.
+
+Cart Behavior
+5.1. Add multiple age-restricted and non-age-restricted items to the cart. Enter a non-valid date of birth and proceed. Verify that only age-restricted items are removed from the cart.
+5.2. Add multiple age-restricted items to the cart. Enter a valid date of birth and proceed. Verify that all age-restricted items remain in the cart and the transaction continues.
+
+Error Messages and User Feedback
+6.1. Attempt a transaction with an age-restricted item but provide an invalid date of birth. Verify the clarity and accuracy of the error message displayed.
+6.2. Attempt a transaction with multiple age-restricted items but provide an invalid date of birth. Verify that a clear message is displayed indicating which items have been removed from the cart.
+
+
+The age requirement is set at 21 years, as this software is primarily designed for use in the United States where the legal age for purchasing age-restricted items like alcohol is 21.
