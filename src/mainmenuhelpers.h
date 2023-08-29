@@ -16,6 +16,8 @@ void filterPriceRange();
 void filterCategory();
 void filterQuantityRange();
 void filterPrefix();
+void filterExpiry();
+void filterExpiredProducts();
 void newInventory();
 
 void addMenu() {
@@ -373,6 +375,62 @@ void filterPrefix(){
   PrefixFilter prefixFilter(manage, prefix);
 
   vector<json> res = prefixFilter.apply();
+
+  if(res.size() == 0){
+    cout << endl;
+    cout << "No results found" << endl;
+  }
+
+  
+  int count = 1;
+  cout << endl;
+  for(auto i : res){
+    cout << count << "." << endl;
+    count++;
+    manage.viewProduct(i["id"]);
+    cout << endl;
+  }
+}
+
+void filterExpiry(){
+  cout << "Enter the first expiration date: ";
+  string firstExpiration = inputExpirationDate();
+  cout << "Enter the second expiration date: ";
+  string secondExpiration = inputExpirationDate();
+
+  if (firstExpiration > secondExpiration) {
+    cout << "Error: The first expiration date cannot be after the second expiration date." << endl;
+    return; 
+  }
+
+  productDatabase& manage = productDatabase::getInstance("data/products.json");
+
+  ExpirationDateRangeFilter expirationdatefilter(manage, firstExpiration, secondExpiration);
+
+  vector<json> res = expirationdatefilter.apply();
+
+  if(res.size() == 0){
+    cout << endl;
+    cout << "No results found" << endl;
+  }
+
+  
+  int count = 1;
+  cout << endl;
+  for(auto i : res){
+    cout << count << "." << endl;
+    count++;
+    manage.viewProduct(i["id"]);
+    cout << endl;
+  }
+}
+
+void filterExpiredProducts(){
+  productDatabase& manage = productDatabase::getInstance("data/products.json");
+
+  ExpiredProductsFilter expirederoductsfilter(manage);
+
+  vector<json> res = expirederoductsfilter.apply();
 
   if(res.size() == 0){
     cout << endl;

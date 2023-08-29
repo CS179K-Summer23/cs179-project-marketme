@@ -204,14 +204,11 @@ public:
     vector<json> apply() const override {
         vector<json> filteredData;
 
-        auto startTime = convertToDatePoint(_startDate);
-        auto endTime = convertToDatePoint(_endDate);
 
         for (const auto& product : _data["products"]) {
-            string itemExpiration = product["expiration"];
-            auto itemTime = convertToDatePoint(itemExpiration);
+            string expirationDate = product["expiration_date"];
 
-            if (itemTime >= startTime && itemTime <= endTime) {
+            if (expirationDate >= _startDate && expirationDate <= _endDate) {
                 filteredData.push_back(product);
             }
         }
@@ -221,16 +218,31 @@ public:
 private:
     string _startDate;
     string _endDate;
+};
 
-    static chrono::system_clock::time_point convertToDatePoint(const string& dateStr) {
-        struct std::tm tm = {};
-        sscanf(dateStr.c_str(), "%d-%d-%d", &tm.tm_year, &tm.tm_mon, &tm.tm_mday);
-        tm.tm_year -= 1900;
-        tm.tm_mon -= 1;
+class ExpiredProductsFilter : public Filter {
+public:
+    ExpiredProductsFilter(productDatabase& database) : Filter(database){
 
-        time_t time = mktime(&tm);
-        return chrono::system_clock::from_time_t(time);
     }
+
+    vector<json> apply() const override {
+        vector<json> filteredData;
+        auto currentTime = std::chrono::system_clock::now();
+
+         for (const auto& product : _data["products"]) {
+            tm tm = {};
+            istringstream ss(product["expiration_date"].get<string>());
+            ss >> std::get_time(&tm, "%Y-%m-%d");
+
+            auto expirationTime = std::chrono::system_clock::from_time_t(std::mktime(&tm));
+            if (expirationTime < currentTime) {
+                filteredData.push_back(product);
+            }
+        }
+        return filteredData;
+    }
+private:
 };
 
 #endif

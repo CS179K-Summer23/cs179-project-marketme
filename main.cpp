@@ -310,15 +310,10 @@ void displayFilterMenu() {
   std::cout << "3. Sort by Name Alphabetically\n";
   std::cout << "4. Filter by Quantity Range\n";
   std::cout << "5. Filter by Prefix\n";
-  std::cout << "6. Back to Product Management\n";
-  choice = acceptNumber("Please enter your choice (1-6)");
-  if (!(std::cin >> choice)) {
-    std::cout << "Invalid input. Please enter a valid number (1-6).\n";
-    std::cin.clear(); // Clear the error state
-    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Clear the input buffer
-    displayFilterMenu();
-    return;
-  }
+  std::cout << "6. Filter by Expiration Date Range\n";
+  std::cout << "7. Filter by Expired Dates\n";
+  std::cout << "8. Back to Product Management\n";
+  choice = acceptNumber("Please enter your choice (1-8)");
 
   switch (choice) {
   case 1:
@@ -341,6 +336,14 @@ void displayFilterMenu() {
     filterPrefix();
     displayFilterMenu();
   case 6:
+    filterExpiry();
+    displayFilterMenu();
+    break;  
+  case 7:
+    filterExpiredProducts();
+    displayFilterMenu();
+    break;
+  case 8:
     displayProductManagementMenu();
     break;
   default:
