@@ -58,6 +58,9 @@ class Product {
     return _category;
   }
 
+  string getExpirationDate() const {
+     return _expiration_date;
+  }
 
 
   bool validate() {
