@@ -302,6 +302,9 @@ void ReportGenerator::generateReport(int option,
     for (const auto & item: soonExpire) {
       cout << item.first << ": " << item.second << "\n";
     }
+    if(askToDeleteExpiredItems() == true){
+        deleteExpiredItems();
+    }
   } else {
     cout << "Nothing is expiring soon.\n";
   }

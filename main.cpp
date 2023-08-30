@@ -197,9 +197,10 @@ void displayProductManagementMenu() {
   std::cout << "1. Add Product(s)\n";
   std::cout << "2. Delete Product(s)\n";
   std::cout << "3. Update a product\n";
-  std::cout << "4. Advanced Filter\n";
-  std::cout << "5. Back to Main Menu\n";
-  std::cout << "Please enter your choice (1-5): ";
+  std::cout << "4. Remove Expired Products\n";
+  std::cout << "5. Advanced Filter\n";
+  std::cout << "6. Back to Main Menu\n";
+  std::cout << "Please enter your choice (1-6): ";
   
   if (!(std::cin >> choice)) {
     std::cout << "Invalid input. Please enter a valid number (1-6).\n";
@@ -224,9 +225,12 @@ void displayProductManagementMenu() {
     displayProductManagementMenu();
     break;
   case 4:
-    handleFilter();
+    removeExpiredProducts();
     break;
   case 5:
+    handleFilter();
+    break;
+  case 6:
     displayMainMenu();
     break;
   default:

@@ -240,11 +240,31 @@ Yogurt7: 2023-12-30
 [Expire Soon] Whiskey4: 2023-09-11
 [Expire Soon] Whiskey5: 2023-09-01
 [Expire Soon] Wine11: 2023-09-01
+[Expired] Banana10: 2023-08-29
+[Expired] Broccoli6: 2023-08-28
+[Expired] Cabbage8: 2023-08-12
+[Expired] Cherry6: 2023-08-18
+[Expired] Cookies12: 2023-08-12
+[Expired] Date9: 2023-08-21
+[Expired] Fig10: 2023-08-10
+[Expired] Fig9: 2023-08-29
+[Expired] Potato Chips12: 2023-08-13
+[Expired] Pretzels10: 2023-08-12
+[Expired] Pretzels11: 2023-08-14
+[Expired] Pretzels12: 2023-08-19
+[Expired] Soda11: 2023-08-12
+[Expired] Spinach6: 2023-08-28
+[Expired] Trail Mix8: 2023-08-20
+[Expired] Vodka10: 2023-08-29
+[Expired] Vodka11: 2023-08-15
+[Expired] Whiskey6: 2023-08-27
+[Expired] Wine12: 2023-08-27
+[Expired] Yogurt8: 2023-08-25
 
 Total Transactions: 2
 Average Basket Size: 1
 Discounts Applied: 2
 
-Report generated at: 2023-08-30 39628
+Report generated at: 2023-08-30 39811
 
 Note: This file was generated automatically by the system.

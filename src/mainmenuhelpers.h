@@ -485,6 +485,10 @@ void printProducts(const vector<json>& products) {
   }
 }
 
+void removeExpiredProducts(){
+  
+}
+
 void newInventory(){
   productDatabase& manage = productDatabase::getInstance("data/products.json");
 
