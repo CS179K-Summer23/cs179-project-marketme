@@ -2,6 +2,7 @@
 #define MAINMENUHELPERS_H
 
 #include <iostream>
+#include <unordered_set>
 #include "product.h"
 #include "productDatabase.h"
 #include "filter.h"
@@ -18,6 +19,7 @@ void filterQuantityRange();
 void filterPrefix();
 void filterExpiry();
 void filterExpiredProducts();
+void showCategories();
 void printProducts(const vector<json>& products);
 void newInventory();
 
@@ -268,9 +270,14 @@ void filterPriceRange(){
 }
 
 void filterCategory(){
+  showCategories();
+  cout << endl;
   string name;
   cout << "Enter a category name: ";
-  cin >> name;
+  getline(cin, name);
+
+  name.erase(0, name.find_first_not_of(" \t")); 
+  name.erase(name.find_last_not_of(" \t") + 1); 
   
   productDatabase& manage = productDatabase::getInstance("data/products.json");
 
@@ -359,6 +366,42 @@ void filterExpiredProducts(){
 
   printProducts(res);
 }
+
+void showCategories() {
+  unordered_set<string> categories;
+  productDatabase& manage = productDatabase::getInstance("data/products.json");
+  const int colWidth = 18;
+
+  json inventory = manage.getData();
+
+  for (const auto& product : inventory["products"]) {
+    categories.insert(product["category"]);
+  }
+
+  cout << "-" << string(colWidth * 6, '-') << endl;
+
+  int count = 0;
+  for (const auto& category : categories) {
+    if (count == 3) {
+      cout << "|" << endl;
+      count = 0; 
+    }
+    cout << "|" << setw(colWidth * 2 - 1) << left << category;
+      count++;
+  }
+
+  while (count != 0 && count < 3) {
+    cout << setw(colWidth * 2) << "|" ;
+    count++;
+  }
+  if (count == 3) {
+    cout << "|" << endl;
+  }
+  
+  cout << "-" << string(colWidth * 6, '-') << endl;
+}
+
+
 
 void printProducts(const vector<json>& products) {
   if(products.size() == 0){

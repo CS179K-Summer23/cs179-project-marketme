@@ -582,6 +582,28 @@
             "price": 50.0,
             "quantity": 200,
             "sku": "N/A"
+        },
+        {
+            "barcode": "051817505103",
+            "category": "Food, Beverages & Tobacco ",
+            "description": "Cacao Prepared Beverage, TraditionalWith added sugar. Each 25 g Serving Contains: 120 kcal energy (6%). The percentage of recommended daily value. Each 25 g Serving Contains: 17 g sugars (19%); 4.0 g total fat (6%); 2.5 g saturated fat (13%); 0 mg (0%). Dispose of properly. Made in Colombia.",
+            "expiration_date": "2040-12-01",
+            "id": "54",
+            "name": "Corona Chocolate",
+            "price": 2020.0,
+            "quantity": 3030,
+            "sku": "N/A"
+        },
+        {
+            "barcode": "850016784308",
+            "category": "Office Supplies ",
+            "description": "Includes: 3 x One-Zipper Pencil Bags Made Of High-Quality Black Felt Fabric Size: 8 x 4.5 Inch Large Size And Flexible Fabric Design Allows To Fit Up To 20-30 Pens And Pencils; Easily Fits One Graphing Calculator  Multiple Pens  Pencils And Erasers All At Once Easily Washable And Gets New When Dirty Thanks To The High-Quality Fabric Material Can Be Used As Pen/Pencil Bag For Office & School Use  Travel/Makeup Pouch For Girls Or Drawing Watercolor Pencil Holder For Artists And Designers",
+            "expiration_date": "2023-11-23",
+            "id": "55",
+            "name": "Mr. Pen- Pencil Case  Pencil Pouch  3 Pack  Black  Small Pencil Case  Pencil pouch Small  Pen Case  Pen Bag  Office Supplies  Canvas Pencil Case  Pencil Bags  Pen Pouch  Pencil Pouches with Zipper",
+            "price": 20.0,
+            "quantity": 30,
+            "sku": "N/A"
         }
     ]
 }

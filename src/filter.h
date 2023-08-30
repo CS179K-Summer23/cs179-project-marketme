@@ -108,7 +108,12 @@ public:
 
         for (const auto& product : _data["products"]) {
             string name = product["category"];
+            name.erase(0, name.find_first_not_of(" \t")); 
+            name.erase(name.find_last_not_of(" \t") + 1); 
+
             transform(name.begin(), name.end(), name.begin(), ::tolower);
+            // cout << "category name: " << "'" << name << "'" << endl;
+            // cout << "look for name: " << "'" << _name << "'" << endl;
             if (_name == name) {
                 filteredData.push_back(product);
             }
