@@ -32,7 +32,7 @@ vector<User> subscribers;
 ReportGenerator reportGen;
 
 void wipeScreen() {
-    for (int i = 0; i < 100; ++i) {
+    for (int i = 0; i < 50; ++i) {
         std::cout << std::endl;
     }
 }
@@ -60,7 +60,7 @@ int main() {
   curl_global_init(CURL_GLOBAL_DEFAULT);
 
   printLogo();
-  std::cout << "[If you encounter any issues or have feedback, please reach out to us via email at official.marketme@gmail.com. -- MarketMe-Team]\n";
+  std::cout << "[get customer support via email official.marketme@gmail.com]\n";
   
   displayMainMenu(1);
   curl_global_cleanup();
@@ -108,7 +108,6 @@ void displayMainMenu(int option) {
     displayCheckoutSystem();
     break;
   case 5:
-    wipeScreen();
     displayReportMenu();
   case 6:
     wipeScreen();
@@ -384,17 +383,17 @@ void displayEmailMenu() {
   switch (choice) {
   case 1:
     std::cout << "Subscribing to Newsletter...\n";
-    subscribe(access, subscribers);
+    subscribe(access);
     displayEmailMenu();
     break;
   case 2:
     std::cout << "Unsubscribing from Newsletter...\n";  
-    unsubscribe(access, subscribers);
+    unsubscribe(access);
     displayEmailMenu();
     break;
   case 3:
     std::cout << "Sending Emails...\n";
-    newsletter(access, subscribers, reportGen);
+    newsletter(access, reportGen);
     displayEmailMenu();
     break;
   case 4:
