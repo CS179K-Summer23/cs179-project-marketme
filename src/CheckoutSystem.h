@@ -1,23 +1,20 @@
 #ifndef CHECKOUTSYSTEM_H
 #define CHECKOUTSYSTEM_H
 
-#include "product.h"
-
-#include "productDatabase.h"
-
-#include "mainmenuhelpers.h"
+#define WIN32_LEAN_AND_MEAN
+#include <windows.h>
 
 #include <iostream>
-
+#include <curl/curl.h>
 #include <limits>
-
 #include <vector>
-
 #include <algorithm>
-
 #include <ctime>
-
 #include <cmath>
+
+#include "product.h"
+#include "productDatabase.h"
+#include "mainmenuhelpers.h"
 
 using namespace std;
 using json = nlohmann::json;

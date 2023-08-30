@@ -33,7 +33,6 @@ void UPC(const string& id, const string& barcode, productDatabase& manage) {
     CURLcode res;
     std::string response;
 
-    curl_global_init(CURL_GLOBAL_DEFAULT);
     curl = curl_easy_init();
     
     
