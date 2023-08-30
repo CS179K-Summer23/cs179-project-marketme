@@ -315,6 +315,9 @@ void CheckoutSystem() {
       for (const auto & code: coupons["coupons"]) {
         if (code["code"] == coupon) {
           if (isCouponValid(code, total)) {
+            if (coupon.substr(0, 7) == "SPECIAL") {
+              cout<<"The cashier is responsible for ensuring that this transaction contains only items marked with an 'expire soon' tag. If the customer is purchasing additional items, please conduct a separate checkout process for those." << endl;
+            }
             discountValue = std::min(code["max_discount"].get < double > (), total * (stoi(coupon.substr(coupon.size() - 2)) / 100.0));
             total -= discountValue;
             cout << "Discount of $" << discountValue << " applied! New total: $" << total << endl;
