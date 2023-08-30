@@ -380,19 +380,11 @@ void displayEmailMenu() {
   case 1:
     std::cout << "Subscribing to Newsletter...\n";
     subscribe(access, subscribers);
-    for (const auto& user : subscribers)
-    {
-      cout << user.getName() << endl;
-    }
     displayEmailMenu();
     break;
   case 2:
     std::cout << "Unsubscribing from Newsletter...\n";  
     unsubscribe(access, subscribers);
-    for (const auto& user : subscribers)
-    {
-      cout << user.getEmail() << endl;
-    }
     displayEmailMenu();
     break;
   case 3:

@@ -21,12 +21,12 @@ public:
     string getCurrentDate();
     bool askToDeleteExpiredItems();
     void deleteExpiredItems();
+    map<string, string> getSoonExpireItems();
 
 private:
     double calculateTotal(const json &transactions);
     vector<pair<string, int>> getTopSellingItems(const json &transactions);
     map<string, int> getLowStockItems();
-    map<string, string> getSoonExpireItems();
     int getTotalTransactions(const json &transactions);
     double getAverageBasketSize(const json &transactions);
     int getDiscountUsage(const json &transactions);
