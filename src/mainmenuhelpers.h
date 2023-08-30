@@ -347,6 +347,7 @@ void filterExpiry(){
   string firstExpiration = inputExpirationDate();
   cout << "Enter the second expiration date: ";
   string secondExpiration = inputExpirationDate();
+  cin.ignore();
 
   if (firstExpiration > secondExpiration) {
     cout << "Error: The first expiration date cannot be after the second expiration date." << endl;
