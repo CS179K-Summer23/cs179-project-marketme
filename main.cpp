@@ -17,7 +17,6 @@ void displayProductManagementMenu();
 void displaySearchMenu();
 void displayFilterMenu();
 void displayEmailMenu();
-void displayCategories();
 void handleProductManagement();
 void handleSearch();
 void handleFilter();
@@ -249,10 +248,6 @@ void displayProductManagementMenu() {
     std::cout << "Invalid choice. Please try again.\n";
     displayProductManagementMenu();
   }
-}
-
-void displayCategories(){
-  
 }
 
 void displaySearchMenu() {
