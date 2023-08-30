@@ -188,7 +188,7 @@ bool productDatabase::exists(const string & barcode) {
 void productDatabase::commitChangesToDisk() {
   ofstream outputFile(_database);
   outputFile << products_in_memory.dump(4);
-  cout << "Changes Have Been Saved!" << endl;
+  cout << "Data Saved to Hard Disk" << endl;
   outputFile.close();
 }
 

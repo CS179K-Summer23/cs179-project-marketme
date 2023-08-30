@@ -33,13 +33,13 @@ void addMenu() {
   double price;
   int quantity;
 
-  cout << "Start scanning barcodes. Type :DONE to finish scanning." << endl;
+  cout << "Start scanning barcodes. Or Press Enter finish scanning." << endl;
  
   while (true) {
     cout << "Scan: ";
     getline(cin, barcode);
 
-    while (barcode != ":DONE") {
+    while (barcode != ":DONE" && barcode != "" && barcode != "DONE") {
       cout << "Scanned barcode: " << barcode << endl;
       id = barcode;
 
@@ -68,16 +68,60 @@ void addMenu() {
 
       cout << "Scan: ";
       getline(cin, barcode);
-      if (barcode == ":DONE") {
+      if (barcode == "") {
         break; // Double-Exit the loop when done scanning
       }
     }
 
-    if (barcode == ":DONE") {
+    if (barcode == "") {
       break; // Exit the loop when done scanning
     }
   }
 }
+
+void addMenuManually() {
+  productDatabase& manage = productDatabase::getInstance("data/products.json");
+
+  string id, name, description, category, sku, expiration_date;
+  double price;
+  int quantity;
+  string barcode = "NA";
+  sku = "NA";
+
+
+  cout << "This menu acts as a supplementary option for adding products that are not found on the mainstream database. For accurate record-keeping, we encourage you to provide as much detail as possible when entering product information." << endl;
+
+
+  cout << "Enter product name: ";
+  getline(cin, name);
+
+  cout << "Enter description: ";
+  getline(cin, description);
+
+  cout << "Enter price: ";
+  cin >> price;
+  cin.ignore(); 
+
+  cout << "Enter quantity: ";
+  cin >> quantity;
+  cin.ignore();
+
+  cout << "Enter category: ";
+  getline(cin, category);
+
+  cout << "Enter expiration date (YYYY-MM-DD): ";
+  getline(cin, expiration_date);
+
+
+  Product newProduct(id, name, description, price, quantity, category, sku, barcode, expiration_date);
+
+  // we do not validate stuff here to maximize manual overwrite capabilities
+  // eg. you can input expire date as 9999-99-99 if item would not expired.
+
+  manage.addProduct(newProduct);
+  //manage.commitChangesToDisk();
+}
+
 
 void deleteProduct() {
   productDatabase& manage = productDatabase::getInstance("data/products.json");
@@ -105,7 +149,7 @@ void deleteProduct() {
     if (barcode == ":OVERWRITE" || barcode == "O" || barcode == "HELP") {
       cout << "Enter Product ID: ";
       cin >> productID;
-    } else if (barcode == ":DONE" || barcode == "D") {
+    } else if (barcode == "" || barcode == ":DONE") {
       break; // Exit the loop
     } else {
       cout << "Scanned barcode: " << barcode << endl;

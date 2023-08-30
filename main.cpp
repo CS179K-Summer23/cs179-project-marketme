@@ -27,7 +27,7 @@ void displayReportMenu();
 
 // GLOBAL VARIABLES
 // replace string with a non-expired access code from google playground
-const std::string access = "ya29.a0AfB_byA9ofPoDoC3bFbvOicq7v1Lrb-2P7BQXomEzBsfeyftp5PvS9kORUmdevPfyGZYgOQz2PMAF3Yj6fqrErPmi_6L-4BZkYopbnmFBekKdtgTFMumjlaKe1FepA130PuvZ3vlgNIO6IgHknVvmqzcWZ00ZVJO9vgZU4GgOwaCgYKAbwSARESFQHsvYlsBfOUsla_ln_9O6-ecz6raw0177"; 
+const std::string access = "ya29.a0AfB_byBWaIGNy1yQioeO0H8UG8oUqB8XTUe9tkI6aeoUwx2M0qihhK_ub1Fbdj0yjeWh2eJUQL75GTL8fEVScewMdbaZwkF7LUbRi2NR8XJV-fv707Ly5lBvlImu2ehfdbABzOYWnZSDzopaEXsJMlW05G4roPwF9FGu4GnaygaCgYKAT8SARESFQHsvYlshbYfxQKJyDOvC6bt4LpCYw0177"; 
 vector<User> subscribers;
 ReportGenerator reportGen;
 
@@ -60,7 +60,7 @@ int main() {
   curl_global_init(CURL_GLOBAL_DEFAULT);
 
   printLogo();
-  std::cout << "[get customer support via email official.marketme@gmail.com]\n";
+  std::cout << "[Get technical support via email official.marketme@gmail.com]\n";
   
   displayMainMenu(1);
   curl_global_cleanup();
@@ -154,9 +154,10 @@ void displayReportMenu() {
   
    if (!(std::cin >> choice)) {
     std::cout << "Invalid input. Please enter a valid number (1-6).\n";
+    displayReportMenu();
     std::cin.clear(); // Clear the error state
     std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Clear the input buffer
-    displayReportMenu();
+
     return;
   } 
 
@@ -191,6 +192,7 @@ void displayReportMenu() {
 }
 
 void displayProductManagementMenu() {
+  // commitChangesToDisk();
   int choice;
   std::cout << "\n=========== Product Management ===========\n";
   std::cout << "1. Add Product(s)\n";
@@ -198,7 +200,8 @@ void displayProductManagementMenu() {
   std::cout << "3. Update a product\n";
   std::cout << "4. Remove Expired Products\n";
   std::cout << "5. Advanced Filter\n";
-  std::cout << "6. Back to Main Menu\n";
+  std::cout << "6. Add Product Manually\n";
+  std::cout << "7. Back to Main Menu\n";
   std::cout << "Please enter your choice (1-6): ";
   
   if (!(std::cin >> choice)) {
@@ -213,24 +216,33 @@ void displayProductManagementMenu() {
   switch (choice) {
   case 1:
     addMenu();
+    newInventory();
     displayProductManagementMenu();
     break;
   case 2:
     deleteProduct();
+    newInventory();
     displayProductManagementMenu();
     break;
   case 3:
     updateProduct();
+    newInventory();
     displayProductManagementMenu();
     break;
   case 4:
     removeExpiredProducts();
+    newInventory();
     displayProductManagementMenu();
     break;
   case 5:
     handleFilter();
     break;
   case 6:
+    addMenuManually();
+    newInventory();
+    displayProductManagementMenu();
+    break;
+  case 7:
     displayMainMenu();
     break;
   default:
@@ -318,7 +330,7 @@ void displayFilterMenu() {
   std::cout << "\n=========== Advanced Filter ===========\n";
   std::cout << "1. Filter by Price Range\n";
   std::cout << "2. Filter by Category\n";
-  std::cout << "3. Sort by Name Alphabetically\n";
+  std::cout << "3. Sort entire inventory by Name Alphabetically\n";
   std::cout << "4. Filter by Quantity Range\n";
   std::cout << "5. Filter by Prefix\n";
   std::cout << "6. Filter by Expiration Date Range\n";
