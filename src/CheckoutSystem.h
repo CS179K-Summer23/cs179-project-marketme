@@ -11,6 +11,7 @@
 #include <algorithm>
 #include <ctime>
 #include <cmath>
+#include <cctype>
 
 #include "product.h"
 #include "productDatabase.h"
@@ -49,9 +50,66 @@ string getCurrentDate() {
   return buf;
 }
 
+bool isValidZipCode(const std::string &zipCode) {
+   return zipCode.length() == 5 && std::all_of(zipCode.begin(), zipCode.end(), ::isdigit);
+}
+
+size_t TaxCallback(void *contents, size_t size, size_t nmemb, void *userp) {
+    ((std::string *)userp)->append((char *)contents, size * nmemb);
+    return size * nmemb;
+}
 double calculateTax(double total) {
-  const double TAX_RATE = 0.07; // FIX ME WITH API
-  return total * TAX_RATE;
+  double tax = 0.00;
+  std::string zipcode;
+
+  while (true) {
+      std::cout << "Enter a valid ZIP code: ";
+      std::cin >> zipcode;
+
+      if (isValidZipCode(zipcode)) {
+          break;
+      } else {
+          std::cout << "Invalid ZIP code. Please enter a 5-digit numeric ZIP code." << std::endl;
+          std::cin.clear();
+          std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+      }
+  }
+  std::string api_key = "Bearer 6499c341e5735fd183a5a8e76ec3a674";
+  std::string api_url = "https://api.taxjar.com/v2/rates/" + zipcode;
+
+  CURL *curl = curl_easy_init();
+  CURLcode res;
+
+  if (curl) {
+      struct curl_slist *headers = NULL;
+      headers = curl_slist_append(headers, ("Authorization: " + api_key).c_str());
+
+      curl_easy_setopt(curl, CURLOPT_URL, api_url.c_str());
+      curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
+
+      std::string response_data;
+      curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, TaxCallback);
+      curl_easy_setopt(curl, CURLOPT_WRITEDATA, &response_data);
+
+      res = curl_easy_perform(curl);
+
+      if (res != CURLE_OK) {
+          std::cerr << "cURL error: " << curl_easy_strerror(res) << std::endl;
+      } else {
+          std::cout << "Response:\n" << response_data << std::endl;
+      }
+        json response = json::parse(response_data);
+        if (response.contains("rate") && response["rate"].contains("combined_rate")) {
+          std::string taxStr = response["rate"]["combined_rate"].get<std::string>();
+          tax = std::stod(taxStr);
+        }
+      curl_slist_free_all(headers);
+      curl_easy_cleanup(curl);
+  } else {
+      std::cerr << "cURL initialization failed." << std::endl;
+  }
+  
+  return total * tax;
 }
 
 bool isCouponValid(const json & coupon, double total) {

@@ -34,8 +34,6 @@ void UPC(const string& id, const string& barcode, productDatabase& manage) {
     std::string response;
 
     curl = curl_easy_init();
-    
-    
 
     if (curl) {
         // Construct the URL for the UPCItemDB API
