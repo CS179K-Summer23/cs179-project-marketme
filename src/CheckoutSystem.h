@@ -11,10 +11,11 @@
 #include <algorithm>
 #include <ctime>
 #include <cmath>
-
+#include <cctype> 
 #include "product.h"
 #include "productDatabase.h"
 #include "mainmenuhelpers.h"
+
 
 using namespace std;
 using json = nlohmann::json;
@@ -23,6 +24,14 @@ void saveTransaction(const json & transaction);
 string getCurrentDate();
 double calculateTax(double total);
 bool isCouponValid(const json & coupon, double total);
+
+bool containsIgnoreCase(const std::string& mainString, const std::string& searchString) {
+    std::string mainStringLower = mainString;
+    std::string searchStringLower = searchString;
+    std::transform(mainString.begin(), mainString.end(), mainStringLower.begin(), ::tolower);
+    std::transform(searchString.begin(), searchString.end(), searchStringLower.begin(), ::tolower);
+    return mainStringLower.find(searchStringLower) != std::string::npos;
+}
 
 void saveTransaction(const json & transaction) {
   json transactions;
@@ -205,12 +214,12 @@ void CheckoutSystem() {
 
   // Age check for alcohol
   bool containsAlcohol = false;
-  for (const auto & item: cart) {
-    if (item.first.getCategory() == "alcohol") {
-      containsAlcohol = true;
-      break;
+  for (const auto& item : cart) {
+        if (containsIgnoreCase(item.first.getCategory(), "alcohol")) {
+            containsAlcohol = true;
+            break;
+        }
     }
-  }
 
   if (containsAlcohol) {
     if (checkAge() != 1) {
