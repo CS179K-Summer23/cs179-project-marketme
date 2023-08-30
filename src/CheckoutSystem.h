@@ -136,7 +136,8 @@ int checkAge() {
   cout << "Please scan the CA DMV ID or manually enter MMYY format: ";
 
   cin >> scannedCode;
-
+  cin.ignore();
+  cin.clear();
   if (scannedCode == "0") {
     cout << "No ID provided." << endl;
     return 0; // Return 0, indicating no ID provided
