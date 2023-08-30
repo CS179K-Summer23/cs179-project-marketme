@@ -226,6 +226,7 @@ void displayProductManagementMenu() {
     break;
   case 4:
     removeExpiredProducts();
+    displayProductManagementMenu();
     break;
   case 5:
     handleFilter();

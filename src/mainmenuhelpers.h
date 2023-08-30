@@ -7,6 +7,7 @@
 #include "productDatabase.h"
 #include "filter.h"
 #include "upc.h"
+#include "report.h"
 
 using namespace std;
 
@@ -21,6 +22,7 @@ void filterExpiry();
 void filterExpiredProducts();
 void showCategories();
 void printProducts(const vector<json>& products);
+void removeExpiredProducts();
 void newInventory();
 
 void addMenu() {
@@ -254,6 +256,7 @@ void filterPriceRange(){
   cin >> min;
   cout << "Enter the maximum price: ";
   cin >> max;
+  cin.ignore();
 
   if(min > max){
     cout << "Invalid option\n\n";
@@ -308,6 +311,7 @@ void filterQuantityRange(){
   cin >> min;
   cout << "Enter the maximum quantity: ";
   cin >> max;
+  cin.ignore();
 
   if(min > max){
     cout << "Invalid option\n\n";
@@ -327,6 +331,7 @@ void filterPrefix(){
   string prefix;
   cout << "Enter the prefix: ";
   cin >> prefix;
+  cin.ignore();
 
   productDatabase& manage = productDatabase::getInstance("data/products.json");
 
@@ -450,6 +455,7 @@ void printProducts(const vector<json>& products) {
       else{
         return;
       }
+      moreItems = "";
     }
     
     count++;
@@ -486,7 +492,11 @@ void printProducts(const vector<json>& products) {
 }
 
 void removeExpiredProducts(){
-  
+  ReportGenerator report;
+
+  if(report.askToDeleteExpiredItems()){
+    report.deleteExpiredItems();
+  }
 }
 
 void newInventory(){
