@@ -10,6 +10,9 @@
 #include "src/report.h"
 #include "src/user.h"
 #include "src/upc.h"
+#include <regex>
+
+
 
 
 void displayMainMenu(int option = 0);
@@ -55,13 +58,70 @@ void printLogo() {
     cout << "=============================================" << endl;
 }
 
+bool validateEmail(string email) {
+    const regex pattern("(\\w+)(\\.|_)?(\\w*)@(\\w+)(\\.(\\w+))+");
+    return regex_match(email, pattern);
+}
 
 int main() {
   curl_global_init(CURL_GLOBAL_DEFAULT);
 
   printLogo();
   std::cout << "[If you encounter any issues or have feedback, please reach out to us via email at official.marketme@gmail.com. -- MarketMe-Team]\n";
-  
+  //Login
+  string name, email, username, password, regKey;
+  User::Role role;
+  cout << "Enter your name: ";
+  getline(cin, name);
+  cout << "Enter your email: ";
+  getline(cin, email);
+  cout << "Enter username: ";
+  getline(cin, username);
+  cout << "Enter password: ";
+  getline(cin, password);
+  cout << "Select your role: " << endl;
+  cout << "1. Manager" << endl;
+  cout << "2. Cashier" << endl;
+  int choice;
+  cin >> choice;
+  if(choice == 1) {
+      role = User::Manager;
+      cout << "Enter registration key: ";
+      cin >> regKey;
+  }
+  else if(choice == 2) {
+      role = User::Cashier;
+  }
+
+  User user(name, email, role, regKey);
+
+  if(user.getRole() == User::Undefined) {
+      cout << "Invalid registration key. Registration failed." << endl;
+      return 1;
+  }
+
+  string loginUsername, loginPassword;
+
+  cout << "\nEnter username: ";
+  cin >> loginUsername;
+
+  cout << "Enter password: ";
+  cin >> loginPassword;
+
+  if(loginUsername != username || loginPassword != password) {
+      cout << "Invalid username or password." << endl;
+      return 1;
+  }
+
+    // Validate email
+  if(!validateEmail(email)) {
+      cout << "Invalid email. Login failed." << endl;
+      return 1;
+  }
+
+  cout << "\nWelcome " << user.getName() << "!" << endl;
+
+
   displayMainMenu(1);
   curl_global_cleanup();
   return 0;
