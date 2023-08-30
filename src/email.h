@@ -224,17 +224,26 @@ void unsubscribe(const string& accessToken, vector<User>& subscribers){
     subscribers.erase(userIter);
 }
 
-void newsletter(const string& accessToken, const vector<User>& subscribers){
+void newsletter(const string& accessToken, const vector<User>& subscribers, ReportGenerator& reportGen){
     int count = 0;
-
+    map<string, string> soonExpireItems = reportGen.getSoonExpireItems();
     for (const auto& user : subscribers){
         string content = "To: " + user.getEmail() + "\r\n"
-                     "Subject: Hi " + user.getName() + "! Check out this deal!\r\n"
-                     "Content-Type: text/html\r\n" // Specify HTML content type
-                     "\r\n"
-                     "<html><body>"
-                     "<p><img src=\"https://raw.githubusercontent.com/CS179K-Summer23/cs179-project-marketme/email/data/newsletter.png\" alt=\"Newsletter\">\r\n</p>"
-                     "</body></html>";
+                        "Subject: Hi " + user.getName() + "! These items are expiring soon!\r\n"
+                        "Content-Type: text/html\r\n" // Specify HTML content type
+                        "\r\n"
+                        "<html><body>"
+                        "<p><img src=\"https://raw.githubusercontent.com/CS179K-Summer23/cs179-project-marketme/email/data/marketme.png\" alt=\"MarketMe Logo\"></p>"
+                        "<p>Here are the items that are expiring soon:</p>"
+                        "<ul>";
+
+        for (const auto& item : soonExpireItems) {
+            content += "<li>" + item.first + " - Expiration Date: " + item.second + "</li>";
+        }
+
+        content += "</ul>"
+                "<p>Use coupon code SPECIAL70 to get 70%% off on all soon-to-be expired items!</p>"
+                "</body></html>";
 
         string payload = "{ \"raw\": \"" + base64_encode(reinterpret_cast<const unsigned char*>(content.c_str()), content.length()) + "\" }";
 
