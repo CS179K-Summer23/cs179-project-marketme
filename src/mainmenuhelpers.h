@@ -327,7 +327,7 @@ void filterPrefix(){
 
   vector<json> res = prefixFilter.apply();
   
-  printProducts(res);
+  printProducts(res);  
 }
 
 void filterExpiry(){
@@ -367,24 +367,24 @@ void printProducts(const vector<json>& products) {
     return;
   }
 
-  const int colWidth = 20; // Adjust as needed
+  const int colWidth = 18; // Adjust as needed
 
   // Print the header
-  cout << "|" << setw(colWidth) << left << "Name" << "|";
+  cout << "|" << setw(colWidth * 2) << left << "Name" << "|";
   cout << setw(colWidth) << "ID" << "|";
-  cout << setw(colWidth) << "Category" << "|";
+  cout << setw(colWidth * 2) << "Category" << "|";
   cout << setw(colWidth) << "Quantity" << "|";
   cout << setw(colWidth) << "Price" << "|";
   cout << setw(colWidth) << "Expiration Date" << "|";
-  cout << setw(colWidth * 5) << "Description" << "|" << endl;
+  cout << setw(colWidth * 4) << "Description" << "|" << endl;
 
-  cout << "|" << string(colWidth, '-') << "|";
+  cout << "|" << string(colWidth * 2, '-') << "|";
+  cout << string(colWidth, '-') << "|";
+  cout << string(colWidth * 2, '-') << "|";
   cout << string(colWidth, '-') << "|";
   cout << string(colWidth, '-') << "|";
   cout << string(colWidth, '-') << "|";
-  cout << string(colWidth, '-') << "|";
-  cout << string(colWidth, '-') << "|";
-  cout << string(colWidth * 5, '-') << "|" << endl;
+  cout << string(colWidth * 4, '-') << "|" << endl;
 
   for (const auto& product : products) {
     string name = product["name"];
@@ -395,17 +395,25 @@ void printProducts(const vector<json>& products) {
     string expiration_date = product["expiration_date"];
     string description = product["description"];
 
-    if (description.length() > colWidth * 5) {
-      description = description.substr(0, colWidth * 5 - 3) + "...";
+    if(name.length() > colWidth * 2){
+      name = name.substr(0, colWidth * 2 - 3) + "...";
     }
 
-    cout << "|" << setw(colWidth) << left << name << "|";
+    if(category.length() > colWidth * 2){
+      category = category.substr(0, colWidth * 2 - 3) + "...";
+    }
+
+    if (description.length() > colWidth * 4) {
+      description = description.substr(0, colWidth * 4 - 3) + "...";
+    }
+
+    cout << "|" << setw(colWidth * 2) << left << name << "|";
     cout << setw(colWidth) << id << "|";
-    cout << setw(colWidth) << category << "|";
+    cout << setw(colWidth * 2) << category << "|";
     cout << setw(colWidth) << quantity << "|";
     cout << setw(colWidth) << price << "|";
     cout << setw(colWidth) << expiration_date << "|";
-    cout << setw(colWidth * 5) << description << "|" << endl;
+    cout << setw(colWidth * 4) << description << "|" << endl;
   }
 }
 
