@@ -1,0 +1,250 @@
+
+---- daily report ----
+
+Total Sales: $32.31
+
+Top Selling Items:
+Date3: 4 sold
+Mineral Water1: 1 sold
+
+Low Stock Items:
+No items are running low on stock.
+Items Soon to Expire:
+Apple1: 2023-12-30
+Apple2: 2023-12-30
+Apple3: 2023-12-30
+Banana1: 2023-12-30
+Banana2: 2023-12-30
+Banana3: 2023-12-30
+Banana4: 2023-12-30
+Banana5: 2023-12-30
+Banana6: 2023-12-30
+Banana7: 2023-12-30
+Banana8: 2023-12-30
+Beer1: 2023-12-30
+Beer2: 2023-12-30
+Beer3: 2023-12-30
+Beer4: 2023-12-30
+Broccoli1: 2023-12-30
+Broccoli2: 2023-12-30
+Broccoli3: 2023-12-30
+Butter1: 2023-12-30
+Butter2: 2023-12-30
+Butter3: 2023-12-30
+Butter4: 2023-12-30
+Butter5: 2023-12-30
+Butter6: 2023-12-30
+Butter7: 2023-12-30
+Butter8: 2023-12-30
+Cabbage1: 2023-12-30
+Cabbage2: 2023-12-30
+Cabbage3: 2023-12-30
+Cabbage4: 2023-12-30
+Cabbage5: 2023-12-30
+Cabbage6: 2023-12-30
+Cabbage7: 2023-12-30
+Carrot1: 2023-12-30
+Carrot2: 2023-12-30
+Carrot3: 2023-12-30
+Carrot4: 2023-12-30
+Carrot5: 2023-12-30
+Cheese1: 2023-12-30
+Cheese2: 2023-12-30
+Cheese3: 2023-12-30
+Cheese4: 2023-12-30
+Cheese5: 2023-12-30
+Cheese6: 2023-12-30
+Cherry1: 2023-12-30
+Cherry2: 2023-12-30
+Cherry3: 2023-12-30
+Cherry4: 2023-12-30
+Cherry5: 2023-12-30
+Coffee1: 2023-12-30
+Coffee2: 2023-12-30
+Coffee3: 2023-12-30
+Coffee4: 2023-12-30
+Coffee5: 2023-12-30
+Coffee6: 2023-12-30
+Coffee7: 2023-12-30
+Cookies1: 2023-12-30
+Cookies10: 2023-12-30
+Cookies2: 2023-12-30
+Cookies3: 2023-12-30
+Cookies4: 2023-12-30
+Cookies5: 2023-12-30
+Cookies6: 2023-12-30
+Cookies7: 2023-12-30
+Cookies8: 2023-12-30
+Cookies9: 2023-12-30
+Date1: 2023-12-30
+Date2: 2023-12-30
+Date3: 2023-12-30
+Date4: 2023-12-30
+Date5: 2023-12-30
+Date6: 2023-12-30
+Date7: 2023-12-30
+Date8: 2023-12-30
+Fig1: 2023-12-30
+Fig2: 2023-12-30
+Fig3: 2023-12-30
+Fig4: 2023-12-30
+Fig5: 2023-12-30
+Fig6: 2023-12-30
+Fig7: 2023-12-30
+Ice Cream1: 2023-12-30
+Ice Cream10: 2023-12-30
+Ice Cream11: 2023-12-30
+Ice Cream12: 2023-12-30
+Ice Cream13: 2023-12-30
+Ice Cream14: 2023-12-30
+Ice Cream15: 2023-12-30
+Ice Cream2: 2023-12-30
+Ice Cream3: 2023-12-30
+Ice Cream4: 2023-12-30
+Ice Cream5: 2023-12-30
+Ice Cream6: 2023-12-30
+Ice Cream7: 2023-12-30
+Ice Cream8: 2023-12-30
+Ice Cream9: 2023-12-30
+Juice1: 2023-12-30
+Juice2: 2023-12-30
+Juice3: 2023-12-30
+Juice4: 2023-12-30
+Juice5: 2023-12-30
+Juice6: 2023-12-30
+Juice7: 2023-12-30
+Lettuce1: 2023-12-30
+Lettuce2: 2023-12-30
+Lettuce3: 2023-12-30
+Lettuce4: 2023-12-30
+Lettuce5: 2023-12-30
+Lettuce6: 2023-12-30
+Lettuce7: 2023-12-30
+Milk1: 2023-12-30
+Milk2: 2023-12-30
+Milk3: 2023-12-30
+Milk4: 2023-12-30
+Mineral Water1: 2023-12-30
+Mineral Water10: 2023-12-30
+Mineral Water2: 2023-12-30
+Mineral Water3: 2023-12-30
+Mineral Water4: 2023-12-30
+Mineral Water5: 2023-12-30
+Mineral Water6: 2023-12-30
+Mineral Water7: 2023-12-30
+Mineral Water8: 2023-12-30
+Mineral Water9: 2023-12-30
+Popcorn1: 2023-12-30
+Popcorn2: 2023-12-30
+Popcorn3: 2023-12-30
+Popcorn4: 2023-12-30
+Popcorn5: 2023-12-30
+Popcorn6: 2023-12-30
+Popcorn7: 2023-12-30
+Potato Chips1: 2023-12-30
+Potato Chips10: 2023-12-30
+Potato Chips11: 2023-12-30
+Potato Chips2: 2023-12-30
+Potato Chips3: 2023-12-30
+Potato Chips4: 2023-12-30
+Potato Chips5: 2023-12-30
+Potato Chips6: 2023-12-30
+Potato Chips7: 2023-12-30
+Potato Chips8: 2023-12-30
+Potato Chips9: 2023-12-30
+Pretzels1: 2023-12-30
+Pretzels2: 2023-12-30
+Pretzels3: 2023-12-30
+Pretzels4: 2023-12-30
+Pretzels5: 2023-12-30
+Pretzels6: 2023-12-30
+Pretzels7: 2023-12-30
+Pretzels8: 2023-12-30
+Rum1: 2023-12-30
+Rum2: 2023-12-30
+Rum3: 2023-12-30
+Rum4: 2023-12-30
+Rum5: 2023-12-30
+Rum6: 2023-12-30
+Rum7: 2023-12-30
+Rum8: 2023-12-30
+Soda1: 2023-12-30
+Soda2: 2023-12-30
+Soda3: 2023-12-30
+Soda4: 2023-12-30
+Soda5: 2023-12-30
+Soda6: 2023-12-30
+Soda7: 2023-12-30
+Spinach1: 2023-12-30
+Spinach2: 2023-12-30
+Spinach3: 2023-12-30
+Spinach4: 2023-12-30
+Spinach5: 2023-12-30
+Tea1: 2023-12-30
+Tea2: 2023-12-30
+Tea3: 2023-12-30
+Tea4: 2023-12-30
+Trail Mix1: 2023-12-30
+Trail Mix2: 2023-12-30
+Trail Mix3: 2023-12-30
+Trail Mix4: 2023-12-30
+Trail Mix5: 2023-12-30
+Trail Mix6: 2023-12-30
+Trail Mix7: 2023-12-30
+Vodka1: 2023-12-30
+Vodka2: 2023-12-30
+Vodka3: 2023-12-30
+Vodka4: 2023-12-30
+Vodka5: 2023-12-30
+Vodka6: 2023-12-30
+Vodka7: 2023-12-30
+Vodka8: 2023-12-30
+Vodka9: 2023-12-30
+Whiskey1: 2023-12-30
+Whiskey2: 2023-12-30
+Whiskey3: 2023-12-30
+Wine1: 2023-12-30
+Wine10: 2023-12-30
+Wine2: 2023-12-30
+Wine3: 2023-12-30
+Wine4: 2023-12-30
+Wine5: 2023-12-30
+Wine6: 2023-12-30
+Wine7: 2023-12-30
+Wine8: 2023-12-30
+Wine9: 2023-12-30
+Yogurt1: 2023-12-30
+Yogurt2: 2023-12-30
+Yogurt3: 2023-12-30
+Yogurt4: 2023-12-30
+Yogurt5: 2023-12-30
+Yogurt6: 2023-12-30
+Yogurt7: 2023-12-30
+[Expire Soon] Banana9: 2023-09-25
+[Expire Soon] Beer5: 2023-09-20
+[Expire Soon] Beer6: 2023-09-03
+[Expire Soon] Beer7: 2023-09-01
+[Expire Soon] Broccoli4: 2023-08-31
+[Expire Soon] Broccoli5: 2023-09-23
+[Expire Soon] Butter9: 2023-09-23
+[Expire Soon] Carrot6: 2023-09-10
+[Expire Soon] Cookies11: 2023-09-01
+[Expire Soon] Fig8: 2023-09-05
+[Expire Soon] Juice8: 2023-09-02
+[Expire Soon] Milk5: 2023-09-12
+[Expire Soon] Pretzels9: 2023-09-05
+[Expire Soon] Rum9: 2023-09-13
+[Expire Soon] Soda10: 2023-09-02
+[Expire Soon] Soda8: 2023-09-03
+[Expire Soon] Soda9: 2023-09-03
+[Expire Soon] Whiskey4: 2023-09-11
+[Expire Soon] Whiskey5: 2023-09-01
+[Expire Soon] Wine11: 2023-09-01
+
+Total Transactions: 2
+Average Basket Size: 1
+Discounts Applied: 2
+
+Report generated at: 2023-08-30 39628
+
+Note: This file was generated automatically by the system.

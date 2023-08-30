@@ -15,6 +15,8 @@
 
 #include <ctime>
 
+#include "productDatabase.h"
+
 #include "../libraries/json.hpp"
 
 using namespace std;
@@ -104,14 +106,15 @@ vector < pair < string, int >> ReportGenerator::getTopSellingItems(const json & 
 
 map < string, int > ReportGenerator::getLowStockItems() {
   map < string, int > lowStockItems;
-  ifstream productsFile("data/products.json");
-  if (!productsFile.is_open()) {
-    cerr << "Failed to open products.json!" << endl;
-    return lowStockItems;
-  }
-  json productsData;
-  productsFile >> productsData;
-  productsFile.close();
+  productDatabase& manage = productDatabase::getInstance("data/products.json");
+//   ifstream productsFile("data/products.json");
+//   if (!productsFile.is_open()) {
+//     cerr << "Failed to open products.json!" << endl;
+//     return lowStockItems;
+//   }
+  json productsData = manage.getData();
+//   productsFile >> productsData;
+//   productsFile.close();
   for (const auto & product: productsData["products"]) {
     int quantity = product["quantity"].get < int > ();
     if (quantity < 5) {
@@ -123,14 +126,15 @@ map < string, int > ReportGenerator::getLowStockItems() {
 
 map < string, string > ReportGenerator::getSoonExpireItems() {
   map < string, string > soonExpireItems;
-  ifstream productsFile("data/products.json");
-  if (!productsFile.is_open()) {
-    cerr << "Failed to open products.json!" << endl;
-    return soonExpireItems;
-  }
-  json productsData;
-  productsFile >> productsData;
-  productsFile.close();
+  productDatabase& manage = productDatabase::getInstance("data/products.json");
+//   ifstream productsFile("data/products.json");
+//   if (!productsFile.is_open()) {
+//     cerr << "Failed to open products.json!" << endl;
+//     return soonExpireItems;
+//   }
+  json productsData = manage.getData();
+//   productsFile >> productsData;
+//   productsFile.close();
   string currentDate = getCurrentDate();
   tm tm1 {}, tm2 {};
   istringstream currentDateStream(currentDate);
@@ -187,15 +191,16 @@ bool ReportGenerator::askToDeleteExpiredItems() {
 }
 
 void ReportGenerator::deleteExpiredItems() {
-  ifstream productsFile("data/products.json");
-  if (!productsFile.is_open()) {
-    cerr << "Failed to open products.json!" << endl;
-    return;
-  }
+    productDatabase& manage = productDatabase::getInstance("data/products.json");
+//   ifstream productsFile("data/products.json");
+//   if (!productsFile.is_open()) {
+//     cerr << "Failed to open products.json!" << endl;
+//     return;
+//   }
 
-  json productsData;
-  productsFile >> productsData;
-  productsFile.close();
+  json productsData = manage.getData();
+//   productsFile >> productsData;
+//   productsFile.close();
 
   string currentDate = getCurrentDate();
   json updatedProducts = json::array();
@@ -213,21 +218,19 @@ void ReportGenerator::deleteExpiredItems() {
       expiration_date_stream >> get_time( & tm2, "%Y-%m-%d");
       chrono::system_clock::time_point expireTimePoint = chrono::system_clock::from_time_t(std::mktime( & tm2));
       chrono::duration < double > timeDifference = currentTimePoint - expireTimePoint;
-      if (timeDifference.count() < 0) {
-        updatedProducts.push_back(product);
+      if (timeDifference.count() > 0) {
+        manage.delProduct(product["id"]);
       }
-    } else {
-      updatedProducts.push_back(product);
-    }
+    } 
   }
 
-  ofstream outFile("data/products.json");
-  if (!outFile.is_open()) {
-    cerr << "Failed to open products.json for writing!" << endl;
-    return;
-  }
-  outFile << updatedProducts.dump(4);
-  outFile.close();
+//   ofstream outFile("data/products.json");
+//   if (!outFile.is_open()) {
+//     cerr << "Failed to open products.json for writing!" << endl;
+//     return;
+//   }
+//   outFile << updatedProducts.dump(4);
+//   outFile.close();
 
   cout << "Expired items deleted successfully.\n";
 }
@@ -331,7 +334,7 @@ void ReportGenerator::generateReport(int option,
   reportFile << "\nNote: This file was generated automatically by the system." << "\n";
   reportFile.close();
   std::cout << title << " has been generated. Please find it under " << filename << "\n";
-
+    
 }
 
 #endif // REPORTGENERATOR_H
