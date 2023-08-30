@@ -6,6 +6,7 @@
 #include <windows.h>
 
 #include <iostream>
+#include <iomanip>
 #include <cstdlib>
 #include <curl/curl.h>
 #include <string>
@@ -60,7 +61,10 @@ void sendEmailWithLibcurl(const string& accessToken, const string& recipient, co
         else if (msg == 2) {
             cout << "You have successfully unsubscribed from MarketMe newsletters." << endl;   
         }
-    } else {
+        else if (msg == 3) {
+            cout << "Receipt has been sent to your email." << endl;   
+        }
+    } else{
         cerr << "Failed to send email to " << recipient << ". Error: " << curl_easy_strerror(res) << endl;
     }
 
@@ -261,47 +265,41 @@ void newsletter(const string& accessToken, const vector<User>& subscribers, Repo
     }
 }
 
-void receipt(const string& accessToken, const vector<User>& subscribers, const json& transaction) {
-    int count = 0;
+
+string formatDecimal(double value) {
+    std::ostringstream oss;
+    oss << std::fixed << std::setprecision(2) << value;
+    return oss.str();
+}
+
+void receipt(const string& accessToken, const string& email, const json& transaction) {
     
-    for (const auto& user : subscribers){
-        string content = "To: " + user.getEmail() + "\r\n"
-                     "Subject: Thanks for shopping with us!\r\n"
-                     "Content-Type: text/html\r\n" // Specify HTML content type
-                     "\r\n"
-                     "<html><body>"
-                     "<p><img src=\"https://raw.githubusercontent.com/CS179K-Summer23/cs179-project-marketme/email/data/marketme.png\" alt=\"MarketMe Logo\"></p>"
-                     "<p>Here is your receipt:</p>"
-                     "<p>Date: " + transaction["date"].get<string>() + "</p>"
-                     "<p>Total: $" + to_string(transaction["total"].get<double>()) + "</p>"
-                     "<p>Tax: $" + to_string(transaction["tax"].get<double>()) + "</p>"
-                     "<p>Discount: $" + to_string(transaction["discount"].get<double>()) + "</p>"
-                     "<p>Operator: " + transaction["operator"].get<string>() + "</p>"
-                     "<p>Items:</p>"
-                     "<ul>";
+    string content = "To: " + email + "\r\n"
+                    "Subject: Thanks for shopping with us!\r\n"
+                    "Content-Type: text/html\r\n" // Specify HTML content type
+                    "\r\n"
+                    "<html><body>"
+                    "<p><img src=\"https://raw.githubusercontent.com/CS179K-Summer23/cs179-project-marketme/email/data/marketme.png\" alt=\"MarketMe Logo\"></p>"
+                    "<p>Here is your receipt:</p>"
+                    "<p>Date: " + transaction["date"].get<string>() + "</p>"
+                    "<p>Total: $" + formatDecimal(transaction["total"].get<double>()) + "</p>"
+                    "<p>Tax: $" + formatDecimal(transaction["tax"].get<double>()) + "</p>"
+                    "<p>Discount: $" + formatDecimal(transaction["discount"].get<double>()) + "</p>"
+                    "<p>Operator: " + transaction["operator"].get<string>() + "</p>"
+                    "<p>Items:</p>"
+                    "<ul>";
 
-        for (const auto& item : transaction["items"]) {
-            content += "<li>" + item["name"].get<string>() + " - Quantity: " + to_string(item["quantity"].get<int>())
-                       + ", Price per Item: $" + to_string(item["price_per_item"].get<double>()) 
-                       + ", Total Price: $" + to_string(item["total_price"].get<double>()) + "</li>";
-        }
+for (const auto& item : transaction["items"]) {
+    content += "<li>" + item["name"].get<string>() + " - Quantity: " + to_string(item["quantity"].get<int>())
+                + ", Price per Item: $" + formatDecimal(item["price_per_item"].get<double>()) 
+                + ", Total Price: $" + formatDecimal(item["total_price"].get<double>()) + "</li>";
+}
 
-        content += "</ul></body></html>";
+    content += "</ul></body></html>";
 
-        string payload = "{ \"raw\": \"" + base64_encode(reinterpret_cast<const unsigned char*>(content.c_str()), content.length()) + "\" }";
+    string payload = "{ \"raw\": \"" + base64_encode(reinterpret_cast<const unsigned char*>(content.c_str()), content.length()) + "\" }";
 
-        sendEmailWithLibcurlCount(accessToken, user.getEmail(), payload, count);
-    }
-    
-    if (subscribers.empty()){
-        cout << "Oops! There are no subscribers in the system yet." << endl;
-    }
-    else if (count == 0) {
-        cout << "Error: Sending emails was unsuccessful." << endl;
-    }
-    else {    
-        cout << "Successfully sent " + to_string(count) + " email(s)!" << endl;
-    }
+    sendEmailWithLibcurl(accessToken, email, payload, 3);
 }
 
 #endif

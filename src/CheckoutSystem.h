@@ -75,7 +75,7 @@ double calculateTax(double total) {
 
   while (true) {
       std::cout << "Enter a valid ZIP code: ";
-      std::cin >> zipcode;
+      getline(cin, zipcode);
 
       if (isValidZipCode(zipcode)) {
           break;
@@ -351,13 +351,15 @@ void CheckoutSystem(const string& accessToken, const vector<User>& subscribers) 
 
   double tax = calculateTax(total);
   tax = std::ceil(tax * 100) / 100.0; // Always round up
-  cout << "Tax: $" << tax << endl;
+  cout << "Tax: $" << std::fixed << std::setprecision(2) << tax << endl; // Format to 2 decimal points
   total += tax;
   total = std::ceil(total * 100) / 100.0; // Always round up
-  cout << "Final Total (after tax and promotions): $" << total << endl;
+  cout << "Final Total (after tax and promotions): $" << std::fixed << std::setprecision(2) << total << endl; 
 
   cout << "Amount Paid In Full? (Y/N): ";
   getline(cin, coupon);
+  cin.ignore();
+  cin.clear();
 
   if (coupon == "Y" || coupon == "y") {
     for (const auto & item: cart) {
@@ -374,7 +376,7 @@ void CheckoutSystem(const string& accessToken, const vector<User>& subscribers) 
     json transaction;
     transaction["date"] = getCurrentDate();
     transaction["total"] = total;
-    transaction["tax"] = round(calculateTax(total) * 100) / 100.0;
+    transaction["tax"] = round(tax * 100) / 100.0;
     transaction["discount"] = discountValue;
     transaction["operator"] = "Default Operator";
 
@@ -390,8 +392,20 @@ void CheckoutSystem(const string& accessToken, const vector<User>& subscribers) 
     }
     transaction["items"] = itemList;
 
-    receipt(accessToken, subscribers, transaction);
+    string email = "";
+    cin.ignore();
+    do {
+        cout << "Please input your email: ";
+        getline(cin, email);
+        if (!isValidEmail(email)) {
+            cout << "Invalid email format. Please try again.\n";
+        }
+    } while (!isValidEmail(email));
+
+    receipt(accessToken, email, transaction);
     saveTransaction(transaction);
+    cout << "Thank you for shopping with us. Press Enter to continue..." << endl;
+    cin.get();
   } else {
     cout << "Transaction Failed! Inventory unchanged!" << endl;
   }
