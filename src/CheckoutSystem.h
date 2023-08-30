@@ -213,7 +213,7 @@ void CheckoutSystem(const string& accessToken, const vector<User>& subscribers) 
   cin.ignore(numeric_limits < streamsize > ::max(), '\n');
   getline(cin, barcode);
 
-  while (barcode != ":DONE" && barcode != ":D") {
+  while (barcode != ":DONE" && barcode != ":D" && barcode != "" && barcode != "DONE" && barcode != "D") {
     productId = manage.getProductIDByBarcode(barcode);
 
     if (productId.empty()) {
@@ -261,7 +261,7 @@ void CheckoutSystem(const string& accessToken, const vector<User>& subscribers) 
       }
     }
 
-    cout << "Scan or enter product details (or type :DONE or :D to finish): ";
+    cout << "Scan or enter product details (Press Enter To finish): ";
     getline(cin, barcode);
 
   }
@@ -295,7 +295,7 @@ void CheckoutSystem(const string& accessToken, const vector<User>& subscribers) 
     }
   }
 
-  cin.ignore();
+  // cin.ignore();
   // Age check for alcohol
 
   // Coupon code
@@ -358,8 +358,6 @@ void CheckoutSystem(const string& accessToken, const vector<User>& subscribers) 
 
   cout << "Amount Paid In Full? (Y/N): ";
   getline(cin, coupon);
-  cin.ignore();
-  cin.clear();
 
   if (coupon == "Y" || coupon == "y") {
     for (const auto & item: cart) {
@@ -395,7 +393,7 @@ void CheckoutSystem(const string& accessToken, const vector<User>& subscribers) 
     string email = "";
     cin.ignore();
     do {
-        cout << "Please input your email: ";
+        cout << "Please input your email if you want a receipt : ";
         getline(cin, email);
         if (!isValidEmail(email)) {
             cout << "Invalid email format. Please try again.\n";
