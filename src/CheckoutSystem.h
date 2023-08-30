@@ -11,7 +11,6 @@
 #include <algorithm>
 #include <ctime>
 #include <cmath>
-#include <cctype>
 
 #include "product.h"
 #include "productDatabase.h"
