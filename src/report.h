@@ -126,15 +126,8 @@ map < string, int > ReportGenerator::getLowStockItems() {
 
 map < string, string > ReportGenerator::getSoonExpireItems() {
   map < string, string > soonExpireItems;
-  productDatabase& manage = productDatabase::getInstance("data/products.json");
-//   ifstream productsFile("data/products.json");
-//   if (!productsFile.is_open()) {
-//     cerr << "Failed to open products.json!" << endl;
-//     return soonExpireItems;
-//   }
+  productDatabase & manage = productDatabase::getInstance("data/products.json");
   json productsData = manage.getData();
-//   productsFile >> productsData;
-//   productsFile.close();
   string currentDate = getCurrentDate();
   tm tm1 {}, tm2 {};
   istringstream currentDateStream(currentDate);
@@ -146,6 +139,11 @@ map < string, string > ReportGenerator::getSoonExpireItems() {
     if (product.find("expiration_date") != product.end()) {
       string expirationDate = product["expiration_date"].get < string > ();
       istringstream expirationDateStream(expirationDate);
+      if (!(expirationDateStream >> get_time( & tm2, "%Y-%m-%d"))) {
+        cerr << "Failed to parse expiration date for product " << product["name"].get < string > () << endl;
+        continue;
+      }
+
       time_t currentTime = mktime( & tm1);
       time_t expireTime = mktime( & tm2);
       double secondsInAMonth = 30 * 24 * 60 * 60;
