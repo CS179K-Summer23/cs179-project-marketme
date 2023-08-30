@@ -36,6 +36,13 @@ bool containsIgnoreCase(const std::string& mainString, const std::string& search
     return mainStringLower.find(searchStringLower) != std::string::npos;
 }
 
+void removeFromCart(vector<pair<Product, int>>& cart, const string& productId) {
+    auto it = remove_if(cart.begin(), cart.end(), [&](const pair<Product, int>& item) {
+        return item.first._id == productId;
+    });
+    cart.erase(it, cart.end());
+}
+
 void saveTransaction(const json & transaction) {
   json transactions;
   ifstream inFile("data/transactions.json");
