@@ -195,4 +195,54 @@ private:
     string _prefix;
 };
 
+class ExpirationDateRangeFilter : public Filter {
+public:
+    ExpirationDateRangeFilter (productDatabase& database, const string& startDate, const string& endDate)
+        : Filter(database), _startDate(startDate), _endDate(endDate) {
+    }
+
+    vector<json> apply() const override {
+        vector<json> filteredData;
+
+
+        for (const auto& product : _data["products"]) {
+            string expirationDate = product["expiration_date"];
+
+            if (expirationDate >= _startDate && expirationDate <= _endDate) {
+                filteredData.push_back(product);
+            }
+        }
+
+        return filteredData;
+    }
+private:
+    string _startDate;
+    string _endDate;
+};
+
+class ExpiredProductsFilter : public Filter {
+public:
+    ExpiredProductsFilter(productDatabase& database) : Filter(database){
+
+    }
+
+    vector<json> apply() const override {
+        vector<json> filteredData;
+        auto currentTime = std::chrono::system_clock::now();
+
+         for (const auto& product : _data["products"]) {
+            tm tm = {};
+            istringstream ss(product["expiration_date"].get<string>());
+            ss >> std::get_time(&tm, "%Y-%m-%d");
+
+            auto expirationTime = std::chrono::system_clock::from_time_t(std::mktime(&tm));
+            if (expirationTime < currentTime) {
+                filteredData.push_back(product);
+            }
+        }
+        return filteredData;
+    }
+private:
+};
+
 #endif

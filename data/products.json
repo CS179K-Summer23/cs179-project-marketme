@@ -4,7 +4,7 @@
             "barcode": "1",
             "category": "Snacks",
             "description": "Mix of nuts and dried fruits.",
-            "expiration_date": "12-12-30",
+            "expiration_date": "2012-12-30",
             "id": "101",
             "name": "Trail Mix",
             "price": 4.43,
@@ -15,7 +15,7 @@
             "barcode": "2",
             "category": "Beverages",
             "description": "Soothing tea leaves.",
-            "expiration_date": "12-12-30",
+            "expiration_date": "2012-12-30",
             "id": "102",
             "name": "Tea",
             "price": 8.83,
@@ -26,7 +26,7 @@
             "barcode": "3",
             "category": "Dairy",
             "description": "Rich dairy butter.",
-            "expiration_date": "12-12-30",
+            "expiration_date": "2012-12-30",
             "id": "103",
             "name": "Butter",
             "price": 5.49,
@@ -37,7 +37,7 @@
             "barcode": "4",
             "category": "Dairy",
             "description": "Fresh milk.",
-            "expiration_date": "12-12-30",
+            "expiration_date": "2012-12-30",
             "id": "104",
             "name": "Milk",
             "price": 4.62,
@@ -538,6 +538,50 @@
             "price": 4.88,
             "quantity": 364,
             "sku": "SKU-1049"
+        },
+        {
+            "barcode": "798382170823",
+            "category": "Toys & Games ",
+            "description": "NA",
+            "expiration_date": "2024-02-23",
+            "id": "50",
+            "name": "Shooting Target Electric Toy Gun Score Automatic Restore Accessory For Nerf...",
+            "price": 30.0,
+            "quantity": 40,
+            "sku": "N/A"
+        },
+        {
+            "barcode": "816247020035",
+            "category": "Sporting Goods ",
+            "description": "TRIUMPH 0315-01-001 THREAT DOWN HUMANOID",
+            "expiration_date": "2024-03-11",
+            "id": "51",
+            "name": "TRIUMPH 0315-01-001 THREAT DOWN HUMANOID",
+            "price": 20.0,
+            "quantity": 300,
+            "sku": "N/A"
+        },
+        {
+            "barcode": "695087730263",
+            "category": "Electronics ",
+            "description": "The one of its kind Corona can speaker is made for all the Beer lovers out there. With the unique and authentic design of its very own Corona Beer can, now you can Show off to your friends while listening to some of your favorite songs.",
+            "expiration_date": "2024-03-11",
+            "id": "52",
+            "name": "Corona Bluetooth Can Speaker",
+            "price": 30.0,
+            "quantity": 40,
+            "sku": "N/A"
+        },
+        {
+            "barcode": "080660956053",
+            "category": "Food, Beverages & Tobacco ",
+            "description": "Brewed and bottled in Mexico since 1925, Corona Extra is now the number one-selling imported beer in the United States. With a refreshing, smooth taste balanced between heavier European imports and lighter domestic beers, Corona is an even-keeled cerveza with fruity-honey aromas and a touch of malt. The flavor is crisp, clean, and well balanced between hops and malt, with a superior taste profile from superior ingredients-the finest-quality blend of filtered water, malted barley, hops, corn, and yeast. Enj...",
+            "expiration_date": "2025-09-12",
+            "id": "53",
+            "name": "Corona Extra Beer Bottles 12 oz, 6 pk",
+            "price": 50.0,
+            "quantity": 200,
+            "sku": "N/A"
         }
     ]
 }

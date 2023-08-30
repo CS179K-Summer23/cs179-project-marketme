@@ -28,10 +28,10 @@ public:
       const string & change);
   void delProduct(const string & id);
   void viewProduct(const string & id);
-  bool exists(const string & id);
+  bool exists(const string & barcode);
   string getProductIDByBarcode(const string & barcode) const;
   int getProductQuantityByID(const string & id) const;
-  Product getProductDetailsByID(const string & id) const;
+  Product getProductDetailsByID(const string & barcode) const;
   void commitChangesToDisk();
   json getData() const;
 
@@ -49,9 +49,9 @@ public:
 
 productDatabase* productDatabase::instancePtr = nullptr;
 
-Product productDatabase::getProductDetailsByID(const string & id) const {
+Product productDatabase::getProductDetailsByID(const string & barcode) const {
     for (const auto & product: products_in_memory["products"]) {
-      if (product["id"] == id) {
+      if (product["barcode"] == barcode) {
         return Product(
           product["id"].get<string>(),
           product["name"].get<string>(),
@@ -65,7 +65,7 @@ Product productDatabase::getProductDetailsByID(const string & id) const {
         );
       }
     }
-    throw runtime_error("Product with ID '" + id + "' does not exist in the database");
+    throw runtime_error("Product with barcode '" + barcode + "' does not exist in the database");
 }
 
 int productDatabase::getProductQuantityByID(const string & id) const {
@@ -176,9 +176,9 @@ void productDatabase::delProduct(const string & id) {
   }
 }
 
-bool productDatabase::exists(const string & id) {
+bool productDatabase::exists(const string & barcode) {
   for (const auto & product: products_in_memory["products"]) {
-    if (product["id"] == id) {
+    if (product["barcode"] == barcode) {
       return true;
     }
   }

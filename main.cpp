@@ -41,7 +41,7 @@ void printLogo() {
 |  \     /  \ /      \ |       \ |  \  /  \|        \|        \      |  \     /  \|        \
 | $$\   /  $$|  $$$$$$\| $$$$$$$\| $$ /  $$| $$$$$$$$ \$$$$$$$$      | $$\   /  $$| $$$$$$$$
 | $$$\ /  $$$| $$__| $$| $$__| $$| $$/  $$ | $$__       | $$         | $$$\ /  $$$| $$__    
-| $$$$\  $$$$| $$    $$| $$    $$| $$  $$  | $$  \      | $$         | $$$$\  $$$$| $$  \   
+| $$$$\  $$$$| $$    $$| $$    $$| $$  $$  | $$  \      | $$         | $$$$\  $$$$| $$  \
 | $$\$$ $$ $$| $$$$$$$$| $$$$$$$\| $$$$$\  | $$$$$      | $$         | $$\$$ $$ $$| $$$$$   
 | $$ \$$$| $$| $$  | $$| $$  | $$| $$ \$$\ | $$_____    | $$         | $$ \$$$| $$| $$_____ 
 | $$  \$ | $$| $$  | $$| $$  | $$| $$  \$$\| $$     \   | $$         | $$  \$ | $$| $$     \
@@ -58,6 +58,7 @@ void printLogo() {
 int main() {
   printLogo();
   std::cout << "[If you encounter any issues or have feedback, please reach out to us via email at official.marketme@gmail.com. -- MarketMe-Team]\n";
+  
   displayMainMenu(1);
   curl_global_cleanup();
   return 0;
@@ -108,6 +109,7 @@ void displayMainMenu(int option) {
     displayReportMenu();
   case 6:
     wipeScreen();
+    newInventory();
     std::cout << "Exiting the system...\n";
     reportGen.generateReport(1);
     reportEmail(access, reportGen);
@@ -308,15 +310,10 @@ void displayFilterMenu() {
   std::cout << "3. Sort by Name Alphabetically\n";
   std::cout << "4. Filter by Quantity Range\n";
   std::cout << "5. Filter by Prefix\n";
-  std::cout << "6. Back to Product Management\n";
-  choice = acceptNumber("Please enter your choice (1-6)");
-  if (!(std::cin >> choice)) {
-    std::cout << "Invalid input. Please enter a valid number (1-6).\n";
-    std::cin.clear(); // Clear the error state
-    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Clear the input buffer
-    displayFilterMenu();
-    return;
-  }
+  std::cout << "6. Filter by Expiration Date Range\n";
+  std::cout << "7. Filter by Expired Dates\n";
+  std::cout << "8. Back to Product Management\n";
+  choice = acceptNumber("Please enter your choice (1-8)");
 
   switch (choice) {
   case 1:
@@ -339,6 +336,14 @@ void displayFilterMenu() {
     filterPrefix();
     displayFilterMenu();
   case 6:
+    filterExpiry();
+    displayFilterMenu();
+    break;  
+  case 7:
+    filterExpiredProducts();
+    displayFilterMenu();
+    break;
+  case 8:
     displayProductManagementMenu();
     break;
   default:
@@ -370,7 +375,7 @@ void displayEmailMenu() {
     subscribe(access, subscribers);
     for (const auto& user : subscribers)
     {
-      cout << user._ename << endl;
+      cout << user.getName() << endl;
     }
     displayEmailMenu();
     break;
@@ -379,7 +384,7 @@ void displayEmailMenu() {
     unsubscribe(access, subscribers);
     for (const auto& user : subscribers)
     {
-      cout << user._ename << endl;
+      cout << user.getEmail() << endl;
     }
     displayEmailMenu();
     break;

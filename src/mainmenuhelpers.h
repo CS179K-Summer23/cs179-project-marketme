@@ -16,6 +16,9 @@ void filterPriceRange();
 void filterCategory();
 void filterQuantityRange();
 void filterPrefix();
+void filterExpiry();
+void filterExpiredProducts();
+void printProducts(const vector<json>& products);
 void newInventory();
 
 void addMenu() {
@@ -36,7 +39,7 @@ void addMenu() {
       cout << "Scanned barcode: " << barcode << endl;
       id = barcode;
 
-      if (manage.exists(id)) {
+      if (manage.exists(barcode)) {
         int currentQuantity = manage.getProductQuantityByID(id);
         manage.updateProduct(id, "quantity", to_string(currentQuantity + 1)); // Add 1 to the current quantity
         cout << "Product inventory updated. Total quantity: " << currentQuantity + 1 << endl;
@@ -57,6 +60,7 @@ void addMenu() {
       } else {
         UPC(id, barcode, manage);
       }
+
 
       cout << "Scan: ";
       getline(cin, barcode);
@@ -260,20 +264,7 @@ void filterPriceRange(){
 
   vector<json> res = priceFilter.apply();
 
-  if(res.size() == 0){
-    cout << endl;
-    cout << "No results found" << endl;
-  }
-
-  int count = 1;
-  cout << endl;
-  for(auto i : res){
-    cout << count << "." << endl;
-    count++;
-    manage.viewProduct(i["id"]);
-    cout << endl;
-  }
-
+  printProducts(res);
 }
 
 void filterCategory(){
@@ -287,19 +278,7 @@ void filterCategory(){
 
   vector<json> res = categoryFilter.apply();
 
-  if(res.size() == 0){
-    cout << endl;
-    cout << "No results found" << endl;
-  }
-
-  int count = 1;
-  cout << endl;
-  for(auto i : res){
-    cout << count << "." << endl;
-    count++;
-    manage.viewProduct(i["id"]);
-    cout << endl;
-  }
+  printProducts(res);
 }
 
 void filterName(){
@@ -310,21 +289,8 @@ void filterName(){
   NameFilter nameFilter(manage);
 
   vector<json> res = nameFilter.apply();
-
-  if(res.size() == 0){
-    cout << endl;
-    cout << "No results found" << endl;
-  }
-
   
-  int count = 1;
-  cout << endl;
-  for(auto i : res){
-    cout << count << "." << endl;
-    count++;
-    manage.viewProduct(i["id"]);
-    cout << endl;
-  }
+  printProducts(res);
 }
 
 void filterQuantityRange(){
@@ -347,19 +313,7 @@ void filterQuantityRange(){
 
   vector<json> res = quantityFilter.apply();
 
-  if(res.size() == 0){
-    cout << endl;
-    cout << "No results found" << endl;
-  }
-
-  int count = 1;
-  cout << endl;
-  for(auto i : res){
-    cout << count << "." << endl;
-    count++;
-    manage.viewProduct(i["id"]);
-    cout << endl;
-  }
+  printProducts(res);
 }
 
 void filterPrefix(){
@@ -372,20 +326,94 @@ void filterPrefix(){
   PrefixFilter prefixFilter(manage, prefix);
 
   vector<json> res = prefixFilter.apply();
+  
+  printProducts(res);  
+}
 
-  if(res.size() == 0){
-    cout << endl;
-    cout << "No results found" << endl;
+void filterExpiry(){
+  cout << "Enter the first expiration date: ";
+  string firstExpiration = inputExpirationDate();
+  cout << "Enter the second expiration date: ";
+  string secondExpiration = inputExpirationDate();
+
+  if (firstExpiration > secondExpiration) {
+    cout << "Error: The first expiration date cannot be after the second expiration date." << endl;
+    return; 
   }
 
-  
-  int count = 1;
-  cout << endl;
-  for(auto i : res){
-    cout << count << "." << endl;
-    count++;
-    manage.viewProduct(i["id"]);
+  productDatabase& manage = productDatabase::getInstance("data/products.json");
+
+  ExpirationDateRangeFilter expirationdatefilter(manage, firstExpiration, secondExpiration);
+
+  vector<json> res = expirationdatefilter.apply();
+
+  printProducts(res);
+}
+
+void filterExpiredProducts(){
+  productDatabase& manage = productDatabase::getInstance("data/products.json");
+
+  ExpiredProductsFilter expirederoductsfilter(manage);
+
+  vector<json> res = expirederoductsfilter.apply();
+
+  printProducts(res);
+}
+
+void printProducts(const vector<json>& products) {
+  if(products.size() == 0){
     cout << endl;
+    cout << "No results found" << endl;
+    return;
+  }
+
+  const int colWidth = 18; // Adjust as needed
+
+  // Print the header
+  cout << "|" << setw(colWidth * 2) << left << "Name" << "|";
+  cout << setw(colWidth) << "ID" << "|";
+  cout << setw(colWidth * 2) << "Category" << "|";
+  cout << setw(colWidth) << "Quantity" << "|";
+  cout << setw(colWidth) << "Price" << "|";
+  cout << setw(colWidth) << "Expiration Date" << "|";
+  cout << setw(colWidth * 4) << "Description" << "|" << endl;
+
+  cout << "|" << string(colWidth * 2, '-') << "|";
+  cout << string(colWidth, '-') << "|";
+  cout << string(colWidth * 2, '-') << "|";
+  cout << string(colWidth, '-') << "|";
+  cout << string(colWidth, '-') << "|";
+  cout << string(colWidth, '-') << "|";
+  cout << string(colWidth * 4, '-') << "|" << endl;
+
+  for (const auto& product : products) {
+    string name = product["name"];
+    string id = product["id"];
+    string category = product["category"];
+    int quantity = product["quantity"];
+    double price = product["price"];
+    string expiration_date = product["expiration_date"];
+    string description = product["description"];
+
+    if(name.length() > colWidth * 2){
+      name = name.substr(0, colWidth * 2 - 3) + "...";
+    }
+
+    if(category.length() > colWidth * 2){
+      category = category.substr(0, colWidth * 2 - 3) + "...";
+    }
+
+    if (description.length() > colWidth * 4) {
+      description = description.substr(0, colWidth * 4 - 3) + "...";
+    }
+
+    cout << "|" << setw(colWidth * 2) << left << name << "|";
+    cout << setw(colWidth) << id << "|";
+    cout << setw(colWidth * 2) << category << "|";
+    cout << setw(colWidth) << quantity << "|";
+    cout << setw(colWidth) << price << "|";
+    cout << setw(colWidth) << expiration_date << "|";
+    cout << setw(colWidth * 4) << description << "|" << endl;
   }
 }
 

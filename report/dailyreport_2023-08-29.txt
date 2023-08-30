@@ -1,0 +1,17 @@
+
+---- daily report ----
+
+Total Sales: $0
+
+Top Selling Items:
+
+Low Stock Items:
+No items are running low on stock.
+
+Total Transactions: 0
+Average Basket Size: nan
+Discounts Applied: 0
+
+Report generated at: 2023-08-29 15387
+
+Note: This file was generated automatically by the system.

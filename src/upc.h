@@ -13,8 +13,11 @@
 #include "mainmenuhelpers.h"
 #include "productDatabase.h"
 
+using namespace std;
+
 std::string inputExpirationDate();
 double acceptNumber(const string & prompt);
+string category(const string& description);
 
 // Callback function to handle response data
 size_t UPCCallback(void *contents, size_t size, size_t nmemb, void *userp) {
@@ -67,8 +70,10 @@ void UPC(const string& id, const string& barcode, productDatabase& manage) {
                     // Extract fields from the item
                     std::string name = item["title"];
                     std::string description = item["description"];
-                    double price = item["lowest_recorded_price"];
-                    std::string category = item["category"];
+                    double lowPrice = item["lowest_recorded_price"];
+                    double highPrice = item["highest_recorded_price"];
+                    std::string itemcategory = item["category"];
+                    string newCategory = category(itemcategory);
                     std::string sku;
 
                     if (item.contains("sku")){
@@ -82,15 +87,31 @@ void UPC(const string& id, const string& barcode, productDatabase& manage) {
                     std::cout << "Found item!" << std::endl;
                     std::cout << "Item Name: " << name << std::endl;
                     std::cout << "Description: " << description << std::endl;
-                    std::cout << "Price: $" << price << std::endl;
-                    std::cout << "Category: " << category << std::endl;
-                    std::cout << "SKU: " << sku << std::endl;
-
-                    int quantity = acceptNumber("Enter product quantity");
+                    std::cout << "Price Range: $" << lowPrice << " - $" << highPrice << std::endl;
+                    std::cout << "Category: " << newCategory << std::endl;
+                    std::cout << "SKU: " << sku << std::endl << std::endl;
                     
+                    double price = 0.0;
+                    const json& offers = item["offers"];
+                    if (!offers.empty()) {
+                        const json& offer = offers[0]; // first offer
+                        if (offer.contains("price")) {
+                            price = offer["price"];
+                            std::cout << "Suggested retail price: $" << price << std::endl;
+                        }
+                        else{
+                            std::cout << "No suggested retail price found." << std::endl;
+                        }
+                    }
+                    else{
+                        std::cout << "No suggested retail price found." << std::endl;
+                    }
+                    price = acceptNumber("Enter product price");
+                    int quantity = (int)acceptNumber("Enter product quantity");
                     std::string expirationDate = inputExpirationDate();
+                    cin.ignore();
 
-                    Product newProduct(id, name, description, price, quantity, category, sku, barcode, expirationDate);
+                    Product newProduct(id, name, description, price, quantity, newCategory, sku, barcode, expirationDate);
                     manage.addProduct(newProduct);
                 }
                 
@@ -165,6 +186,16 @@ double acceptNumber(const string & prompt) {
   }
 
   return number;
+}
+
+string category(const string& itemcategory){
+    int counter = 0;
+    string ans = "";
+    while (counter < itemcategory.length() && itemcategory[counter] != '>') {
+        ans += itemcategory[counter];
+        counter++;
+    }
+    return ans;
 }
 
 #endif //UPC_H
