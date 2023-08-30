@@ -15,6 +15,8 @@
 
 #include <algorithm>
 
+#include "productDatabase.h"
+
 #include "../libraries/json.hpp"
 
 using namespace std;
@@ -109,6 +111,7 @@ map < string, int > ReportGenerator::getLowStockItems() {
   map < string, int > lowStockItems;
 
   // json reading
+  
   ifstream productsFile("data/products.json");
   if (!productsFile.is_open()) {
     cerr << "Failed to open products.json!" << endl;

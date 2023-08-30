@@ -11,6 +11,7 @@
 #include "src/user.h"
 #include "src/upc.h"
 
+using namespace std;
 
 void displayMainMenu(int option = 0);
 void displayProductManagementMenu();
@@ -197,8 +198,7 @@ void displayProductManagementMenu() {
   std::cout << "1. Add Product(s)\n";
   std::cout << "2. Delete Product(s)\n";
   std::cout << "3. Update a product\n";
-  std::cout << "4. Advanced Filter\n";
-  std::cout << "5. Back to Main Menu\n";
+  std::cout << "4. Back to Main Menu\n";
   std::cout << "Please enter your choice (1-5): ";
   
   if (!(std::cin >> choice)) {
@@ -224,19 +224,12 @@ void displayProductManagementMenu() {
     displayProductManagementMenu();
     break;
   case 4:
-    handleFilter();
-    break;
-  case 5:
     displayMainMenu();
     break;
   default:
     std::cout << "Invalid choice. Please try again.\n";
     displayProductManagementMenu();
   }
-}
-
-void displayCategories(){
-  
 }
 
 void displaySearchMenu() {
@@ -246,7 +239,8 @@ void displaySearchMenu() {
     std::cout << "1. Search by Product ID\n";
     std::cout << "2. Search by Product Name\n";
     std::cout << "3. Scan Barcode\n";
-    std::cout << "4. Back to Main Menu\n";
+    std::cout << "4. Advanced Filter\n";
+    std::cout << "5. Back to Main Menu\n";
     std::cout << "Please enter your choice (1-4): ";
     
     if (!(std::cin >> choice)) {
@@ -280,6 +274,10 @@ void displaySearchMenu() {
             results = productSearch.searchByBarcode(searchQuery);
             break;
         case 4:
+            wipeScreen();
+            displayFilterMenu();
+        case 5:
+            wipeScreen();
             displayMainMenu();
             return;
         default:
@@ -319,7 +317,7 @@ void displayFilterMenu() {
   std::cout << "5. Filter by Prefix\n";
   std::cout << "6. Filter by Expiration Date Range\n";
   std::cout << "7. Filter by Expired Dates\n";
-  std::cout << "8. Back to Product Management\n";
+  std::cout << "8. Back to Search Menu\n";
   choice = acceptNumber("Please enter your choice (1-8)");
 
   switch (choice) {
@@ -351,7 +349,8 @@ void displayFilterMenu() {
     displayFilterMenu();
     break;
   case 8:
-    displayProductManagementMenu();
+    wipeScreen();
+    displaySearchMenu();
     break;
   default:
     std::cout << "Invalid choice. Please try again.\n";
