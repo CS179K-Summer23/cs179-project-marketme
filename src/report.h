@@ -118,17 +118,21 @@ map<string, string> ReportGenerator::getSoonExpireItems() {
     productsFile >> productsData;
     productsFile.close();
     string currentDate = getCurrentDate();
+    tm tm1{}, tm2{};
+    istringstream currentDateStream(currentDate);
+    if (!(currentDateStream >> get_time(&tm1, "%Y-%m-%d"))) {
+        cerr << "Failed to parse current date!" <<endl;
+        return soonExpireItems;
+    }
     for (const auto &product : productsData["products"]) {
         if (product.find("expiration_date") != product.end()) {
             string expirationDate = product["expiration_date"].get<string>();
-            struct tm tm1, tm2;
-            strptime(currentDate.c_str(), "%Y-%m-%d", &tm1);
-            strptime(expirationDate.c_str(), "%Y-%m-%d", &tm2);
+            istringstream expirationDateStream(expirationDate);
             time_t currentTime = mktime(&tm1);
             time_t expireTime = mktime(&tm2);
             double secondsInAMonth = 30 * 24 * 60 * 60;
             if (difftime(expireTime, currentTime) <= secondsInAMonth) {
-                soonExpireItems[product["name"].get<string>()] = expirationDate;
+                soonExpireItems[product["name"].get<std::string>()] = expirationDate;
             }
         }
     }
