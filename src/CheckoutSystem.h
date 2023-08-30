@@ -300,6 +300,7 @@ void CheckoutSystem(const string& accessToken, const vector<User>& subscribers) 
 
   // Coupon code
   int retryCount = 0;
+  bool emailempty = false;
   cout << "Enter coupon code (or press Enter to skip): ";
   string coupon;
   getline(cin, coupon);
@@ -391,10 +392,11 @@ void CheckoutSystem(const string& accessToken, const vector<User>& subscribers) 
     transaction["items"] = itemList;
 
     string email = "";
-    cin.ignore();
+    //cin.ignore();
     do {
         cout << "Please input your email if you want a receipt : ";
         getline(cin, email);
+        if(email.empty()){emailempty=true; break;}
         if (!isValidEmail(email)) {
             cout << "Invalid email format. Please try again.\n";
         }
