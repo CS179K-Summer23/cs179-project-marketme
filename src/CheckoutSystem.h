@@ -104,14 +104,12 @@ double calculateTax(double total) {
 
       if (res != CURLE_OK) {
           std::cerr << "cURL error: " << curl_easy_strerror(res) << std::endl;
-      } else {
-          std::cout << "Response:\n" << response_data << std::endl;
+      } 
+      json response = json::parse(response_data);
+      if (response.contains("rate") && response["rate"].contains("combined_rate")) {
+        std::string taxStr = response["rate"]["combined_rate"].get<std::string>();
+        tax = std::stod(taxStr);
       }
-        json response = json::parse(response_data);
-        if (response.contains("rate") && response["rate"].contains("combined_rate")) {
-          std::string taxStr = response["rate"]["combined_rate"].get<std::string>();
-          tax = std::stod(taxStr);
-        }
       curl_slist_free_all(headers);
       curl_easy_cleanup(curl);
   } else {
