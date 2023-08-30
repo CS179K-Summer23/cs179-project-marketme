@@ -80,7 +80,7 @@ void displayMainMenu(int option) {
   std::cout << "4. Checkout System\n";
   std::cout << "5. Report Generator\n"; // New Function!
   std::cout << "6. Exit\n";
-  std::cout << "Please enter your choice (1-5): ";
+  std::cout << "Please enter your choice (1-6): ";
   
   if (!(std::cin >> choice)) {
     std::cout << "Invalid input. Please enter a valid number (1-6).\n";
@@ -153,7 +153,7 @@ void displayReportMenu() {
   std::cout << "Please enter your choice (1-7): ";
   
    if (!(std::cin >> choice)) {
-    std::cout << "Invalid input. Please enter a valid number (1-6).\n";
+    std::cout << "Invalid input. Please enter a valid number (1-7).\n";
     displayReportMenu();
     std::cin.clear(); // Clear the error state
     std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Clear the input buffer
@@ -202,10 +202,10 @@ void displayProductManagementMenu() {
   std::cout << "5. Advanced Filter\n";
   std::cout << "6. Add Product Manually\n";
   std::cout << "7. Back to Main Menu\n";
-  std::cout << "Please enter your choice (1-6): ";
+  std::cout << "Please enter your choice (1-7): ";
   
   if (!(std::cin >> choice)) {
-    std::cout << "Invalid input. Please enter a valid number (1-6).\n";
+    std::cout << "Invalid input. Please enter a valid number (1-7).\n";
     std::cin.clear(); // Clear the error state
     std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Clear the input buffer
     displayProductManagementMenu();
@@ -264,10 +264,10 @@ void displaySearchMenu() {
     std::cout << "3. Scan Barcode\n";
     std::cout << "4. Advanced Filters\n";
     std::cout << "5. Back to Main Menu\n";
-    std::cout << "Please enter your choice (1-4): ";
+    std::cout << "Please enter your choice (1-5): ";
     
     if (!(std::cin >> choice)) {
-      std::cout << "Invalid input. Please enter a valid number (1-6).\n";
+      std::cout << "Invalid input. Please enter a valid number (1-5).\n";
       std::cin.clear(); // Clear the error state
       std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Clear the input buffer
       displaySearchMenu();
@@ -389,7 +389,7 @@ void displayEmailMenu() {
   std::cout << "Please enter your choice (1-4): ";
   
   if (!(std::cin >> choice)) {
-    std::cout << "Invalid input. Please enter a valid number (1-6).\n";
+    std::cout << "Invalid input. Please enter a valid number (1-4).\n";
     std::cin.clear(); // Cle ar the error state
     std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Clear the input buffer
     displayEmailMenu();
