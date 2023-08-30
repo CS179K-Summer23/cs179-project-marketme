@@ -1,0 +1,1 @@
+This location serves as the repository for all reports. Reports are automatically generated when requested within the system. Note that if you generate the same report more than once, the previous version will be overwritten. Additionally, the system automatically produces a daily report each time the program is exited.
