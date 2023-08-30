@@ -168,7 +168,7 @@ void subscribe(const string& accessToken, vector<User>& subscribers){
 
     for (const auto& user : subscribers)
     {
-        if (user._email == email)
+        if (user.getEmail() == email)
         {
             cout << "You're already subscribed!" << endl;
             return;
@@ -202,7 +202,7 @@ void unsubscribe(const string& accessToken, vector<User>& subscribers){
     } while (!isValidEmail(email));
 
     auto userIter = std::find_if(subscribers.begin(), subscribers.end(), [&email](const User& user) {
-        return user._email == email;
+        return user.getEmail() == email;
     });
 
     if (userIter == subscribers.end()) {
@@ -211,7 +211,7 @@ void unsubscribe(const string& accessToken, vector<User>& subscribers){
     }
 
     string content = "To: " + email + "\r\n"
-                     "Subject: We'll miss you, " + userIter->_ename + "!\r\n"
+                     "Subject: We'll miss you, " + userIter->getName() + "!\r\n"
                      "Content-Type: text/html\r\n"
                      "\r\n"
                      "<html><body>"
@@ -228,8 +228,8 @@ void newsletter(const string& accessToken, const vector<User>& subscribers){
     int count = 0;
 
     for (const auto& user : subscribers){
-        string content = "To: " + user._email + "\r\n"
-                     "Subject: Hi " + user._ename + "! Check out this deal!\r\n"
+        string content = "To: " + user.getEmail() + "\r\n"
+                     "Subject: Hi " + user.getName() + "! Check out this deal!\r\n"
                      "Content-Type: text/html\r\n" // Specify HTML content type
                      "\r\n"
                      "<html><body>"
@@ -238,7 +238,7 @@ void newsletter(const string& accessToken, const vector<User>& subscribers){
 
         string payload = "{ \"raw\": \"" + base64_encode(reinterpret_cast<const unsigned char*>(content.c_str()), content.length()) + "\" }";
 
-        sendEmailWithLibcurlCount(accessToken, user._email, payload, count);
+        sendEmailWithLibcurlCount(accessToken, user.getEmail(), payload, count);
     }
     
     if (subscribers.empty()){
