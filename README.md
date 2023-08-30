@@ -58,7 +58,7 @@ MarketMe's IMS is a terminal software offering several essential features (Updat
 
 3. **Barcode Scanning for Streamlined Product Identification 📸**: Incorporate a barcode scanning feature to simplify and accelerate product identification in various operational tasks such as inventory management and checkout processes.
 
-4. **Gmail API-Driven Alert and Notification System 🔔**: Utilize Gmail API for sending automated alerts concerning sales fluctuations, low inventory levels, and impending product expiration dates. This system also enables the generation of analytical sales reports for data-driven decision-making.
+4. **Gmail API-Driven Alert and Notification System 🔔**: Utilize Gmail API for sending alerts concerning sales fluctuations, low inventory levels, and impending product expiration dates. This system also enables the generation of analytical sales reports for data-driven decision-making.
 
 5. **Subscriber Newsletter with Intelligent Recommendations 🗞️**: Dispatch a regular newsletter that provides subscribers with updates and intelligently recommends clearance items or products nearing their expiration dates, which are offered at discounted rates.
 
@@ -98,7 +98,7 @@ MarketMe's IMS is a terminal software offering several essential features (Updat
    - Estimated Cost: 4
 
 6. **Alert System 🔔** ✅
-   - User Story: As a manager, I want the system to automatically alert me via email about sales/price changes, low stock, and approaching product expiration dates.
+   - User Story: As a manager, I want the system to alert me via email about sales/price changes, low stock, and approaching product expiration dates.
    - Priority: Medium 5
    - Estimated Cost: 4
 
