@@ -18,6 +18,7 @@ void filterQuantityRange();
 void filterPrefix();
 void filterExpiry();
 void filterExpiredProducts();
+void printProducts(const vector<json>& products);
 void newInventory();
 
 void addMenu() {
@@ -263,20 +264,7 @@ void filterPriceRange(){
 
   vector<json> res = priceFilter.apply();
 
-  if(res.size() == 0){
-    cout << endl;
-    cout << "No results found" << endl;
-  }
-
-  int count = 1;
-  cout << endl;
-  for(auto i : res){
-    cout << count << "." << endl;
-    count++;
-    manage.viewProduct(i["id"]);
-    cout << endl;
-  }
-
+  printProducts(res);
 }
 
 void filterCategory(){
@@ -290,19 +278,7 @@ void filterCategory(){
 
   vector<json> res = categoryFilter.apply();
 
-  if(res.size() == 0){
-    cout << endl;
-    cout << "No results found" << endl;
-  }
-
-  int count = 1;
-  cout << endl;
-  for(auto i : res){
-    cout << count << "." << endl;
-    count++;
-    manage.viewProduct(i["id"]);
-    cout << endl;
-  }
+  printProducts(res);
 }
 
 void filterName(){
@@ -313,21 +289,8 @@ void filterName(){
   NameFilter nameFilter(manage);
 
   vector<json> res = nameFilter.apply();
-
-  if(res.size() == 0){
-    cout << endl;
-    cout << "No results found" << endl;
-  }
-
   
-  int count = 1;
-  cout << endl;
-  for(auto i : res){
-    cout << count << "." << endl;
-    count++;
-    manage.viewProduct(i["id"]);
-    cout << endl;
-  }
+  printProducts(res);
 }
 
 void filterQuantityRange(){
@@ -350,19 +313,7 @@ void filterQuantityRange(){
 
   vector<json> res = quantityFilter.apply();
 
-  if(res.size() == 0){
-    cout << endl;
-    cout << "No results found" << endl;
-  }
-
-  int count = 1;
-  cout << endl;
-  for(auto i : res){
-    cout << count << "." << endl;
-    count++;
-    manage.viewProduct(i["id"]);
-    cout << endl;
-  }
+  printProducts(res);
 }
 
 void filterPrefix(){
@@ -375,21 +326,8 @@ void filterPrefix(){
   PrefixFilter prefixFilter(manage, prefix);
 
   vector<json> res = prefixFilter.apply();
-
-  if(res.size() == 0){
-    cout << endl;
-    cout << "No results found" << endl;
-  }
-
   
-  int count = 1;
-  cout << endl;
-  for(auto i : res){
-    cout << count << "." << endl;
-    count++;
-    manage.viewProduct(i["id"]);
-    cout << endl;
-  }
+  printProducts(res);
 }
 
 void filterExpiry(){
@@ -409,20 +347,7 @@ void filterExpiry(){
 
   vector<json> res = expirationdatefilter.apply();
 
-  if(res.size() == 0){
-    cout << endl;
-    cout << "No results found" << endl;
-  }
-
-  
-  int count = 1;
-  cout << endl;
-  for(auto i : res){
-    cout << count << "." << endl;
-    count++;
-    manage.viewProduct(i["id"]);
-    cout << endl;
-  }
+  printProducts(res);
 }
 
 void filterExpiredProducts(){
@@ -432,19 +357,55 @@ void filterExpiredProducts(){
 
   vector<json> res = expirederoductsfilter.apply();
 
-  if(res.size() == 0){
+  printProducts(res);
+}
+
+void printProducts(const vector<json>& products) {
+  if(products.size() == 0){
     cout << endl;
     cout << "No results found" << endl;
+    return;
   }
 
-  
-  int count = 1;
-  cout << endl;
-  for(auto i : res){
-    cout << count << "." << endl;
-    count++;
-    manage.viewProduct(i["id"]);
-    cout << endl;
+  const int colWidth = 20; // Adjust as needed
+
+  // Print the header
+  cout << "|" << setw(colWidth) << left << "Name" << "|";
+  cout << setw(colWidth) << "ID" << "|";
+  cout << setw(colWidth) << "Category" << "|";
+  cout << setw(colWidth) << "Quantity" << "|";
+  cout << setw(colWidth) << "Price" << "|";
+  cout << setw(colWidth) << "Expiration Date" << "|";
+  cout << setw(colWidth * 5) << "Description" << "|" << endl;
+
+  cout << "|" << string(colWidth, '-') << "|";
+  cout << string(colWidth, '-') << "|";
+  cout << string(colWidth, '-') << "|";
+  cout << string(colWidth, '-') << "|";
+  cout << string(colWidth, '-') << "|";
+  cout << string(colWidth, '-') << "|";
+  cout << string(colWidth * 5, '-') << "|" << endl;
+
+  for (const auto& product : products) {
+    string name = product["name"];
+    string id = product["id"];
+    string category = product["category"];
+    int quantity = product["quantity"];
+    double price = product["price"];
+    string expiration_date = product["expiration_date"];
+    string description = product["description"];
+
+    if (description.length() > colWidth * 5) {
+      description = description.substr(0, colWidth * 5 - 3) + "...";
+    }
+
+    cout << "|" << setw(colWidth) << left << name << "|";
+    cout << setw(colWidth) << id << "|";
+    cout << setw(colWidth) << category << "|";
+    cout << setw(colWidth) << quantity << "|";
+    cout << setw(colWidth) << price << "|";
+    cout << setw(colWidth) << expiration_date << "|";
+    cout << setw(colWidth * 5) << description << "|" << endl;
   }
 }
 
