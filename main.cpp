@@ -27,7 +27,7 @@ void displayReportMenu();
 
 // GLOBAL VARIABLES
 // replace string with a non-expired access code from google playground
-const std::string access = "ya29.a0AfB_byA9ofPoDoC3bFbvOicq7v1Lrb-2P7BQXomEzBsfeyftp5PvS9kORUmdevPfyGZYgOQz2PMAF3Yj6fqrErPmi_6L-4BZkYopbnmFBekKdtgTFMumjlaKe1FepA130PuvZ3vlgNIO6IgHknVvmqzcWZ00ZVJO9vgZU4GgOwaCgYKAbwSARESFQHsvYlsBfOUsla_ln_9O6-ecz6raw0177"; 
+const std::string access = "ya29.a0AfB_byBWaIGNy1yQioeO0H8UG8oUqB8XTUe9tkI6aeoUwx2M0qihhK_ub1Fbdj0yjeWh2eJUQL75GTL8fEVScewMdbaZwkF7LUbRi2NR8XJV-fv707Ly5lBvlImu2ehfdbABzOYWnZSDzopaEXsJMlW05G4roPwF9FGu4GnaygaCgYKAT8SARESFQHsvYlshbYfxQKJyDOvC6bt4LpCYw0177"; 
 vector<User> subscribers;
 ReportGenerator reportGen;
 
