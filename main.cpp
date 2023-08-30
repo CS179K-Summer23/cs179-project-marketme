@@ -17,6 +17,7 @@ void displayProductManagementMenu();
 void displaySearchMenu();
 void displayFilterMenu();
 void displayEmailMenu();
+void displayCategories();
 void handleProductManagement();
 void handleSearch();
 void handleFilter();
@@ -250,6 +251,10 @@ void displayProductManagementMenu() {
   }
 }
 
+void displayCategories(){
+  
+}
+
 void displaySearchMenu() {
     int choice;
     std::string searchQuery;
@@ -257,7 +262,8 @@ void displaySearchMenu() {
     std::cout << "1. Search by Product ID\n";
     std::cout << "2. Search by Product Name\n";
     std::cout << "3. Scan Barcode\n";
-    std::cout << "4. Back to Main Menu\n";
+    std::cout << "4. Advanced Filters\n";
+    std::cout << "5. Back to Main Menu\n";
     std::cout << "Please enter your choice (1-4): ";
     
     if (!(std::cin >> choice)) {
@@ -291,6 +297,9 @@ void displaySearchMenu() {
             results = productSearch.searchByBarcode(searchQuery);
             break;
         case 4:
+            handleFilter();
+            break;
+        case 5:
             displayMainMenu();
             return;
         default:
@@ -381,7 +390,7 @@ void displayEmailMenu() {
   
   if (!(std::cin >> choice)) {
     std::cout << "Invalid input. Please enter a valid number (1-6).\n";
-    std::cin.clear(); // Clear the error state
+    std::cin.clear(); // Cle ar the error state
     std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Clear the input buffer
     displayEmailMenu();
     return;
