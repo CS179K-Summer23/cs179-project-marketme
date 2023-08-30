@@ -429,8 +429,32 @@ void printProducts(const vector<json>& products) {
   cout << string(colWidth, '-') << "|";
   cout << string(colWidth * 4, '-') << "|" << endl;
 
+  int count = 0;
+  int countItems = 1;
+  string moreItems = "";
+
   for (const auto& product : products) {
-    string name = product["name"];
+    if(count >= 15){
+      cout << "|" << string(colWidth * 2, '-') << "|";
+      cout << string(colWidth, '-') << "|";
+      cout << string(colWidth * 2, '-') << "|";
+      cout << string(colWidth, '-') << "|";
+      cout << string(colWidth, '-') << "|";
+      cout << string(colWidth, '-') << "|";
+      cout << string(colWidth * 4, '-') << "|" << endl;
+      getline(cin, moreItems);
+      if(moreItems.empty()){
+        count = 0;
+        continue;
+      }
+      else{
+        return;
+      }
+    }
+    
+    count++;
+    string name = to_string(countItems) + ". ";
+    name += product["name"];
     string id = product["id"];
     string category = product["category"];
     int quantity = product["quantity"];
@@ -457,6 +481,7 @@ void printProducts(const vector<json>& products) {
     cout << setw(colWidth) << price << "|";
     cout << setw(colWidth) << expiration_date << "|";
     cout << setw(colWidth * 4) << description << "|" << endl;
+    countItems++;
   }
 }
 
