@@ -242,8 +242,51 @@ void newsletter(const string& accessToken, const vector<User>& subscribers, Repo
         }
 
         content += "</ul>"
-                "<p>Use coupon code SPECIAL70 to get 70%% off on all soon-to-be expired items!</p>"
+                "<p>Use coupon code SPECIAL70 to get 70% off on all soon-to-be expired items!</p>"
                 "</body></html>";
+
+        string payload = "{ \"raw\": \"" + base64_encode(reinterpret_cast<const unsigned char*>(content.c_str()), content.length()) + "\" }";
+
+        sendEmailWithLibcurlCount(accessToken, user.getEmail(), payload, count);
+    }
+    
+    if (subscribers.empty()){
+        cout << "Oops! There are no subscribers in the system yet." << endl;
+    }
+    else if (count == 0) {
+        cout << "Error: Sending emails was unsuccessful." << endl;
+    }
+    else {    
+        cout << "Successfully sent " + to_string(count) + " email(s)!" << endl;
+    }
+}
+
+void receipt(const string& accessToken, const vector<User>& subscribers, const json& transaction) {
+    int count = 0;
+    
+    for (const auto& user : subscribers){
+        string content = "To: " + user.getEmail() + "\r\n"
+                     "Subject: Thanks for shopping with us!\r\n"
+                     "Content-Type: text/html\r\n" // Specify HTML content type
+                     "\r\n"
+                     "<html><body>"
+                     "<p><img src=\"https://raw.githubusercontent.com/CS179K-Summer23/cs179-project-marketme/email/data/marketme.png\" alt=\"MarketMe Logo\"></p>"
+                     "<p>Here is your receipt:</p>"
+                     "<p>Date: " + transaction["date"].get<string>() + "</p>"
+                     "<p>Total: $" + to_string(transaction["total"].get<double>()) + "</p>"
+                     "<p>Tax: $" + to_string(transaction["tax"].get<double>()) + "</p>"
+                     "<p>Discount: $" + to_string(transaction["discount"].get<double>()) + "</p>"
+                     "<p>Operator: " + transaction["operator"].get<string>() + "</p>"
+                     "<p>Items:</p>"
+                     "<ul>";
+
+        for (const auto& item : transaction["items"]) {
+            content += "<li>" + item["name"].get<string>() + " - Quantity: " + to_string(item["quantity"].get<int>())
+                       + ", Price per Item: $" + to_string(item["price_per_item"].get<double>()) 
+                       + ", Total Price: $" + to_string(item["total_price"].get<double>()) + "</li>";
+        }
+
+        content += "</ul></body></html>";
 
         string payload = "{ \"raw\": \"" + base64_encode(reinterpret_cast<const unsigned char*>(content.c_str()), content.length()) + "\" }";
 

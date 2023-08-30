@@ -27,7 +27,7 @@ void displayReportMenu();
 
 // GLOBAL VARIABLES
 // replace string with a non-expired access code from google playground
-const std::string access = "ya29.a0AfB_byA5bIMJA1Zo7Y2fku5vVcj8RLCNDaUXS5QH5btcrxX273mpgHQGcSIkRFbLiU1tsRzlVScNhNH9Bu_VttcdxzKbJtcspukC6MZn1-t5vONGD04OOmrUs27lkXlNmXuGLvip5t_wXgmNMn7VGrudcHlVybhR92WXc6rlaCgYKAYMSARESFQHsvYls0vGnxHnOxNQDuNehlqTm9A0175"; 
+const std::string access = "ya29.a0AfB_byCJKNyCKv1i0MP9VmuF0AAot69GsQ3CYYZjuops6bjB-Azy9QIvFHlUY01Z8DLrSpAMFygaAR4rfyvnV57ht0nwuJScT-QWGCDg07FHE8w0EJYCjJJ5JxCWj-xgINi3ebq9DKEUmfsUmRNTNQl3Kukz_rKW5RTAzR6LaCgYKAW8SARESFQHsvYlsUOon-hzAPbUOlDt-7C1qfA0175"; 
 vector<User> subscribers;
 ReportGenerator reportGen;
 
@@ -389,7 +389,7 @@ void displayEmailMenu() {
     break;
   case 3:
     std::cout << "Sending Emails...\n";
-    newsletter(access, subscribers);
+    newsletter(access, subscribers, reportGen);
     displayEmailMenu();
     break;
   case 4:
@@ -418,6 +418,6 @@ void handleEmailOperations() {
 }
 
 void displayCheckoutSystem() {
-  CheckoutSystem();
+  CheckoutSystem(access, subscribers);
   displayMainMenu();
 }

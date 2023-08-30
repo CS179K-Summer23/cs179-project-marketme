@@ -15,6 +15,8 @@
 #include "product.h"
 #include "productDatabase.h"
 #include "mainmenuhelpers.h"
+#include "email.h"
+#include "user.h"
 
 #include <cctype> 
 
@@ -199,7 +201,7 @@ void displayCart(const vector < pair < Product, int >> & cart) {
   cout << "-----------------------------------------------------------\n";
 }
 
-void CheckoutSystem() {
+void CheckoutSystem(const string& accessToken, const vector<User>& subscribers) {
   //productDatabase manage("data/products.json");
   productDatabase &manage = productDatabase::getInstance("data/products.json");
   string barcode, productId;
@@ -388,6 +390,7 @@ void CheckoutSystem() {
     }
     transaction["items"] = itemList;
 
+    receipt(accessToken, subscribers, transaction);
     saveTransaction(transaction);
   } else {
     cout << "Transaction Failed! Inventory unchanged!" << endl;
