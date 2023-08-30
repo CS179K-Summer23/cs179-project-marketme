@@ -92,7 +92,7 @@ class ProductSearch {
     std::string loweredQuery = toLower(name);
     for (const auto & product: _data["products"]) {
       std::string loweredProductName = toLower(product["name"]);
-      if (edit_distance(loweredQuery, loweredProductName) <= 1) {
+      if (edit_distance(loweredQuery, loweredProductName) <= 2) { // 2 threshold 
         results.push_back(product);
       }
     }
