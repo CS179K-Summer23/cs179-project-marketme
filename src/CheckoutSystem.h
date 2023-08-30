@@ -281,17 +281,24 @@ void CheckoutSystem(const string& accessToken, const vector<User>& subscribers) 
 
   if (containsAlcohol) {
     if (checkAge() != 1) {
+      double newTotal = 0.0;
       for (const auto & item: cart) {
         if (item.first.getCategory() == "alcohol") {
           total -= item.first.getPrice() * item.second; // Subtracting the price of each alcohol item
         }
       }
-      cart.erase(remove_if(cart.begin(), cart.end(), [](const pair < Product, int > & item) {
-        return item.first.getCategory() == "alcohol";
+      cart.erase(remove_if(cart.begin(), cart.end(), [](const pair<Product, int>& item) {
+        return containsIgnoreCase(item.first.getCategory(), "alcohol");
       }), cart.end());
+
       cout << "Alcohol items removed from cart due to age restriction." << endl;
       displayCart(cart);
-      cout << "\n Your New Total: $" << total << endl;
+      for (const auto& item : cart) {
+            newTotal += item.first.getPrice() * item.second;
+      }
+      cout << "\n Your New Total: $" << newTotal << endl;
+      total = newTotal;
+      cin.ignore();
     }
   }
 
