@@ -12,14 +12,47 @@
 #include <string>
 #include <algorithm>
 #include <regex>
+#include <fstream>
 #include "base64.h"
 #include "user.h"
 #include "report.h"
+#include "../libraries/json.hpp"
 
 using namespace std;
+using json = nlohmann::json;
 
 const string COMMAND_BASE = "curl -X POST -H \"Authorization: Bearer ";
 const string API_ENDPOINT = "https://gmail.googleapis.com/gmail/v1/users/me/messages/send";
+
+void saveSubscribers(const vector<User>& subscribers) {
+    json j;
+    for (const auto& user : subscribers) {
+        j.push_back({{"name", user.getName()}, {"email", user.getEmail()}});
+    }
+    ofstream file("data/subscribers.json");
+    if (file.is_open()) {
+        file << j.dump(4);
+        file.close();
+    } else {
+        cerr << "Could not open data/subscribers.json for writing." << endl;
+    }
+}
+
+vector<User> loadSubscribers() {
+    vector<User> subscribers;
+    ifstream file("data/subscribers.json");
+    if (file.is_open()) {
+        json j;
+        file >> j;
+        for (const auto& elem : j) {
+            subscribers.push_back(User(elem["name"], elem["email"]));
+        }
+        file.close();
+    } else {
+        cerr << "Could not open data/subscribers.json for reading." << endl;
+    }
+    return subscribers;
+}
 
 size_t EmailCallback(void *contents, size_t size, size_t nmemb, void *userp) {
     // Do nothing with the response data
@@ -154,7 +187,8 @@ void reportEmail(const string& accessToken, ReportGenerator report) {
     curl_easy_cleanup(curl);
 }
 
-void subscribe(const string& accessToken, vector<User>& subscribers){
+void subscribe(const string& accessToken){
+    vector<User> subscribers = loadSubscribers();
     string name = "";
     string email = "";
     cout << "Please input your name: ";
@@ -180,6 +214,7 @@ void subscribe(const string& accessToken, vector<User>& subscribers){
     }
 
     subscribers.push_back(User(name, email));
+    saveSubscribers(subscribers);
     
     string content = "To: " + email + "\r\n"
                      "Subject: Welcome, " + name + "!\r\n"
@@ -194,7 +229,8 @@ void subscribe(const string& accessToken, vector<User>& subscribers){
     sendEmailWithLibcurl(accessToken, email, payload, 1);
 }
 
-void unsubscribe(const string& accessToken, vector<User>& subscribers){
+void unsubscribe(const string& accessToken){
+    vector<User> subscribers = loadSubscribers();
     string email = "";
     cin.ignore();
     do {
@@ -226,11 +262,13 @@ void unsubscribe(const string& accessToken, vector<User>& subscribers){
 
     sendEmailWithLibcurl(accessToken, email, payload, 2);
     subscribers.erase(userIter);
+    saveSubscribers(subscribers);
 }
 
-void newsletter(const string& accessToken, const vector<User>& subscribers, ReportGenerator& reportGen){
+void newsletter(const string& accessToken, ReportGenerator& reportGen){
     int count = 0;
     map<string, string> soonExpireItems = reportGen.getSoonExpireItems();
+    vector<User> subscribers = loadSubscribers();
     for (const auto& user : subscribers){
         string content = "To: " + user.getEmail() + "\r\n"
                         "Subject: Hi " + user.getName() + "! These items are expiring soon!\r\n"
