@@ -294,6 +294,15 @@ void ReportGenerator::generateReport(int option,
     }
   }
 
+  if (!soonExpire.empty()) {
+    cout << "Items Soon to Expire:\n";
+    for (const auto & item: soonExpire) {
+      cout << item.first << ": " << item.second << "\n";
+    }
+  } else {
+    cout << "Nothing is expiring soon.\n";
+  }
+
   cout << "\nTotal Transactions: " << getTotalTransactions(filteredTransactions) << "\n";
   cout << "Average Basket Size: " << getAverageBasketSize(filteredTransactions) << "\n";
   cout << "Discounts Applied: " << getDiscountUsage(filteredTransactions) << "\n";
