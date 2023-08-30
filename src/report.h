@@ -189,16 +189,20 @@ void ReportGenerator::deleteExpiredItems() {
     string currentDate = getCurrentDate();
     json updatedProducts = json::array();
 
+    tm tm1{};
+    istringstream current_date_stream(currentDate);
+    current_date_stream >> get_time(&tm1, "%Y-%m-%d");
+    chrono::system_clock::time_point currentTimePoint = chrono::system_clock::from_time_t(std::mktime(&tm1));
+
     for (const auto &product : productsData["products"]) {
         if (product.find("expiration_date") != product.end()) {
             string expirationDate = product["expiration_date"].get<string>();
-            struct tm tm1, tm2;
-            strptime(currentDate.c_str(), "%Y-%m-%d", &tm1);
-            strptime(expirationDate.c_str(), "%Y-%m-%d", &tm2);
-            time_t currentTime = mktime(&tm1);
-            time_t expireTime = mktime(&tm2);
-
-            if (difftime(currentTime, expireTime) < 0) {
+            tm tm2{};
+            istringstream expiration_date_stream(expirationDate);
+            expiration_date_stream >> get_time(&tm2, "%Y-%m-%d");
+            chrono::system_clock::time_point expireTimePoint = chrono::system_clock::from_time_t(std::mktime(&tm2));
+            chrono::duration<double> timeDifference = currentTimePoint - expireTimePoint;
+            if (timeDifference.count() < 0) {
                 updatedProducts.push_back(product);
             }
         } else {
